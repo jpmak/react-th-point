@@ -1,0 +1,295 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>商品列表</title>
+    <meta content="商品列表" name="keywords">
+    <meta content="商品列表" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" type="text/css" href="{WapCss}main.css">
+    <link rel="stylesheet" type="text/css" href="{WapCss}point/base.css">
+    <link rel="stylesheet" type="text/css" href="{WapCss}point/jf.css">
+</head>
+
+<body>
+    <div class="js-search-box">
+        <div class="th-search-container on-focus th-nav-list" style="position: relative;">
+            <div class="th-search-box">
+                <div class="th-search-shadow"></div>
+                <a class="class th-nav-back" href="javascript:history.go(-1);"> </a>
+                <a class="backbtn"></a>
+                <a class="search-btn" style="width:.7rem; display:inline-block;" >搜索</a>
+                <div class="wbox search-bar" style="width:75%;">
+                    <i class="th-search-iconbtn"></i>
+                    <div id="del" class="delete" onclick="del()"></div>
+                    <div class="wbox-flex">
+                        <input id="searchInput"  class="th-search-form" type="text" placeholder="搜索商品关键字" autocomplete="off" value="<?=$keyword?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="search-wrap">
+            <?php if( !empty($search_history) ){  ?>
+            <div class="search-keywords bor-b">
+                <div class="search-keywords-name">
+                    <span>历史记录 <i class="delbtn" style="display: none;"></i></span>
+                </div>
+                <div class="search-keywords-list ">
+                    <?php $num=0; foreach($search_history as $k => $v){ ?>
+                    <?php 
+                        $num++;
+                        if($num<9){
+                    ?>
+                    <li>
+                        <a>
+                            <?=$v?>
+                        </a>
+                    </li>
+                    <?php }} ?>
+                </div>
+                <?php } ?>
+            </div>
+            <div class="search-keywords">
+                <div class="search-keywords-name" style="display: none;">
+                    <span>热门记录</span>
+                </div>
+                <div class="search-keywords-list ">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--分类搜索-->
+    <div class="w result-wp">
+        <div class="result-sort">
+            <li class="cur">综合</li>
+            <li class="volume">兑换排行</li>
+            <li class="arrow price">香蕉</li>
+            <li class="icons-list ver-icon"></li>
+        </div>
+        <div class="app-pd-list hor-list">
+            <ul>
+            </ul>
+        </div>
+        <div class="load-tip"></div>
+    </div>
+</body>
+
+</html>
+<script src="{WapJs}zzjCookie.js"></script>
+<script src="{WapJs}tool.js"></script>
+<script src="{WapJs}ptsWebView1.2.js"></script>
+<script src="{WapJs}Base64.js"></script>
+<script src="{WapJs}jweixin-1.0.0.js"></script>
+<script src="{WapJs}wxClass.js"></script>
+<script src="{WapJs}httpUrlAction.js"></script>
+<script src="{WapJs}ptsAjax.js"></script>
+<script src="{WapJs}jquery-1.10.1.min.js"></script>
+<script src="{WapJs}jq.lazyload.js"></script>
+<script>
+Load.show();
+var page_state = 1;
+var page = 0;
+var volume = '';
+var keyword = <?php echo empty($keyword) ? '""' : '"'.$keyword.'"';?>;
+var price = '';
+var skey = '';
+
+
+var winH = $(window).height();
+$(window).scroll(function() {
+    var pageH = $(document.body).height();
+    var scrollT = $(window).scrollTop();
+    var rate = (pageH - winH - scrollT) / winH;
+    if (page_state == 1) {
+        console.log(pageH);
+        console.log(rate);
+        console.log(page);
+        if (rate < 0.01) {
+            page++;
+            page_state = 0;
+            search_goods();
+            $('.load-tip').show().html('<i class="r-gif"></i><span>正在载入</span>');
+        }
+    }
+});
+</script>
+<script>
+search_goods();
+
+function search_goods() {
+    ptsAjax({
+        'url': urlRoot + '?g=WapSite&c=Exchange&a=search_goods',
+        'type': 'json',
+        'Thread': true,
+        'data': {
+            'keyword': keyword,
+            'volume': volume,
+            'by': price,
+            'page': page,
+            'cate_id': <?=empty($cate_id) ? 0 : $cate_id;?>
+        },
+        'complete': function() {
+            Load.hide();
+        },
+        'error': function() {
+            alert('网络连接失败！');
+        },
+        success: function(data, textStatus, xhr) {
+            var searchHtml = '';
+            if (data.status) {
+                for (var i = 0; i < data.goods_list.length; i++) {
+                    searchHtml += '<li><a href="Exchange-goods-' + data.goods_list[i].item_id + '.html"><div class="info-img"><div><img alt=""class="lazy"data-original="' + data.goods_list[i].list_image + '"></div></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a></li>'
+                }
+                if (page == 0) {
+                    $('.app-pd-list ul').html(searchHtml);
+                } else {
+                    $('.app-pd-list ul').append(searchHtml);
+                    page_state = 1;
+                    $('.load-tip').hide();
+                }
+                Load.hide();
+            } else {
+
+                if (page > 0) {
+                    $('.load-tip').show().html("没有更多数据了");
+                } else {
+                    var liHtml = '';
+                    liHtml += '<div class="none-data"></div>';
+                    page_state == 0;
+                    $('.app-pd-list ul').html(liHtml);
+                }
+                Load.hide();
+            }
+            $("img.lazy").show().lazyload({
+                placeholder: "/../public/wapsite/images/point/f-bg.gif",
+                effect: "fadeIn",
+                skip_invisible: false,
+                threshold: 100,
+            });
+        }
+    });
+}
+// $('.price').click(function() {
+//       if (price == 'asc') {
+//           price = 'desc'
+//       } else {
+//           price = 'asc'
+//       }
+//   search_goods();
+//   })
+function search_cache() {
+    ptsAjax({
+        'url': urlRoot + '?g=WapSite&c=Exchange&a=search_cache',
+        'type': 'json',
+        'Thread': true,
+        'data': {
+            'kd': skey,
+
+        },
+        'complete': function() {
+            Load.hide();
+        },
+        'error': function() {
+            alert('网络连接失败！');
+        },
+        success: function(data, textStatus, xhr) {
+            if (data.status) {
+                window.location.href = "Exchange-search.html";
+            }
+
+
+        }
+    });
+}
+$(function() {
+
+    $('.result-sort li').not('.icons-list').on('click', function() {
+        var liindex = $('.result-sort li').index(this);
+        $(this).addClass('cur').siblings().removeClass('cur');
+
+        if (liindex == 2) {
+            if ($('.result-sort li.arrow').hasClass('asc') || price == 'asc') {
+                $('.result-sort li.arrow').removeClass('asc').addClass('desc');
+                price = 'desc';
+            } else {
+                $('.result-sort li.arrow').removeClass('desc').addClass('asc');
+                price = 'asc';
+            }
+        }
+
+        search_goods();
+    });
+
+
+    // $('.result-sort li.arrow').on('click', function() { if ($('.result-sort li.arrow').hasClass('asc')) { $(this).removeClass('asc').addClass('desc'); } else { $(this).removeClass('desc').addClass('asc'); } });
+
+    $('.result-sort li.icons-list').on('click', function() {
+        if ($('.result-sort li.icons-list').hasClass('ver-icon')) {
+            $('.result-sort li.icons-list').removeClass('ver-icon');
+            $('.result-sort li.icons-list').addClass('hor-icon');
+        } else {
+            $('.result-sort li.icons-list').addClass('ver-icon');
+            $('.result-sort li.icons-list').removeClass('hor-icon');
+        }
+        if ($('.app-pd-list').hasClass('hor-list')) {
+            $('.app-pd-list').removeClass('hor-list');
+        } else {
+            $('.app-pd-list').addClass('hor-list');
+        }
+    });
+});
+
+// js-search
+$('#searchInput').on('click', function() {
+    $('#js-list,.class,.result-wp').hide();
+    $('.search-wrap,.th-search-box .backbtn').show();
+    $('.th-active,.th-active body').css("overflow", 'auto');
+
+});
+$('.th-search-box .backbtn').on('click', function() {
+    del();
+    $('#searchInput').blur();
+    $('#js-list,.class,.result-wp').show();
+    $('.search-wrap,.th-search-box .backbtn').hide();
+
+
+});
+$('#searchInput').on('keyup', function(e) {
+    $('.search-bar input').css('width', '80%');
+    var uVal = $("#searchInput").val();
+    if (uVal !== "") {
+        if (e.keyCode == 13) {
+            skey = uVal;
+            search_cache();
+        }
+        $('#del').show();
+    } else {
+        $('#del').hide();
+    }
+});
+
+function del() {
+    $('#searchInput').val("").focus();
+    $('#del').hide();
+    $('.search-bar input').css('width', '100%');
+};
+$('a.search-btn').on('click', function() {
+    var sVal = $("#searchInput").val();
+    if (sVal !== '') {
+        skey = sVal;
+        search_cache();
+    }
+});
+$('.search-keywords-list li a').on('click', function() {
+    var hVal = $(this).html();
+    skey = hVal;
+    search_cache();
+});
+</script>
+<script>
+<?=$fx_weixin?>
+</script>

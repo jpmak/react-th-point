@@ -1,0 +1,310 @@
+<!doctype html>
+<html class="showscroll">
+
+<head>
+    <meta charset="utf-8">
+    <title>产品详情</title>
+    <meta content="产品详情" name="keywords">
+    <meta content="产品详情" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" type="text/css" href="{WapCss}swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="{WapCss}main.css">
+    <link rel="stylesheet" type="text/css" href="{WapCss}point/base.css">
+    <link rel="stylesheet" type="text/css" href="{WapCss}point/jf.css">
+</head>
+<body class="pdb120 th-block">
+    <header>
+        <div class="th-nav wbox ">
+            <div class="th-nav-back">
+                <a href="javascript:history.go(-1);">返回</a>
+            </div>
+            <div class="th-nav-title of bg">产品详情</div>
+            <div class="th-nav-right tr">
+            </div>
+        </div>
+    </header>
+    <!--分类搜索-->
+    <?php if( !empty($goods) ) { ?>
+    <div class="produt-show">
+        <div class="slider">
+            <div class="page">
+                <div class="big_img_wrapper">
+                    <div class="swiper-wrapper">
+                        <?php foreach($goods['main_image'] as $k => $v){ ?>
+                        <div class="swiper-slide">
+                            <img class="swiper-lazy" data-src="<?=$v?>" alt="<?=$k?>">
+                        </div>
+                        <?php } ?>
+                    </div>
+                    <div class="swiper-pagination big-img-pagination"></div>
+                </div>
+                <!-- big_img_wrapper end-->
+            </div>
+        </div>
+        <div class="w ">
+            <div class="product-main">
+                <div class="product-price">
+                    <span class="num"><em><?=$goods['item_price']?></em></span ><span class="unit">积分</span>
+                </div>
+                <div class="product-tit">
+                    <h1><?=$goods['goods_name'].' '.$goods['item_name']?></h1>
+                </div>
+                <div class="product-pay-way">
+                    <p class="statement">选择你要使用的积分类型</p>
+                    <ul class="way-wp wbox">
+                        <li v="balance_point"><i class="round"></i><span><?= Lang::get('balance_point') ?></span></li>
+                        <li v="travel_point"><i class="round" ></i><span><?= Lang::get('travel_point') ?></span></li>
+                        <li v="point"><i class="round" ></i><span><?= Lang::get('point') ?></span></li>
+                    </ul>
+                </div>
+                <div class="product-count">
+                    <p class="remaining">剩余库存:<em><?=empty($goods['stock'])?'缺货':$goods['stock'];?></em></p>
+                    <p class="courier">服务由<span class="name">通惠</span>发货并提供售后服务</p>
+                </div>
+                <div class="scroll-up">下拉查看图文详情</div>
+            </div>
+          
+        </div>
+          <div class="post-body"></div>
+        <div class="cover-mask">
+        </div>
+        <section class="product-cover" style="<?=empty($saleProp) ? 'height:40%;':'';?>">
+            <div class="wbox-flex">
+                <div class="product-icon cover-close">
+                    <a class="close"></a>
+                </div>
+                <div class="cover-head wbox">
+                    <div class="img-box "><img src="<?=$goods['main_image'][0]?>" alt=""></div>
+                    <div class="product wbox-flex">
+                        <p class="num">¥<em><?=$goods['item_price']?></em><span>积分</span></p>
+                        <p class="remaining">剩余库存: <em id="stock"><?=empty($goods['stock'])?'缺货':$goods['stock'];?></em></p>
+                        <p class="select"><?=empty($goods['item_name'])?'请选择':$goods['item_name']?></p>
+                    </div>
+                </div>
+                <?php if(!empty($saleProp)){ ?>
+                <div class="cover-body wbox-flex">
+                    <ul class="select-list">
+                    <?php foreach($saleProp as $sale){ ?>
+                        <li>
+                            <h2><?=$sale['prop_name']?></h2>
+                            <div class="items">
+                            <?php foreach($sale['props'] as $itemId => $v){ ?>
+                            <?php if( !empty($itemStock[$itemUrl[$itemId]]) && empty($itemStock[$itemUrl[$itemId]]['offsale']) ){ ?>
+                                <a href="javascript:void(0);" data-value="<?=$itemUrl[$itemId];?>" class="<?=empty($itemStock[$itemUrl[$itemId]]['stock'])?'':'value-a'?> <?=in_array($itemId,$item)?'cur':'';?>" data-stock="<?=$itemStock[$itemUrl[$itemId]]['stock']?>" onclick="update_value(<?=$itemUrl[$itemId];?>)"><?=$v?></a>
+                            <?php }} ?>
+                        </li>
+                    <?php } ?>
+                    </ul>
+                </div>
+                <?php }else{ ?>
+                <div style="text-align:center; color:#ccc;">无可选属性</div>
+                <?php } ?>
+                <div class="fix-box product-payup">
+                    <div class="pay-item">
+                        <div class="wbox-flex tc exchange-submit">
+                            <a class="th-btn th-btn-assertive ">确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="fix-box product-payup">
+            <div class="pay-item">
+                <div class="wbox-flex tc">
+                    <a class="th-btn th-btn-assertive ">立即兑换</a>
+                </div>
+            </div>
+        </div>
+
+    <?php }else{ ?>
+  <div class="produt-show">
+  <img style=" width:2.5rem; margin:2rem auto 0; display: block;" src="http://dev.thgo8.com/public/wapsite/images/noGoods.png">
+  <div style="color: #333;fone-size:.48rem;margin-top: 10px; text-align:center;">商品已下架或删除了</div>
+      </div>
+    <?php } ?>
+</body>
+</html>
+<script src="{WapJs}zzjCookie.js"></script>
+<script src="{WapJs}tool.js"></script>
+<script src="{WapJs}ptsWebView1.2.js"></script>
+<script src="{WapJs}Base64.js"></script>
+<script src="{WapJs}jweixin-1.0.0.js"></script>
+<script src="{WapJs}wxClass.js"></script>
+<script src="{WapJs}httpUrlAction.js"></script>
+<script src="{WapJs}ptsAjax.js"></script>
+<script src="{WapJs}jquery-1.10.1.min.js"></script>
+<script src="{WapJs}jq.lazyload.js"></script>
+<script src="{Js}layer/layer.js"></script>
+<script src="{WapJs}swiper.jquery.min.js"></script>
+<script>
+var mess_state = 1;
+var upItem = <?=$item_id?>;
+function get_goods_mess() {
+    ptsAjax({
+        'url': urlRoot + '?g=WapSite&c=Exchange&a=get_goods_mess',
+        'type': 'json',
+        'Thread': true,
+        'data': {
+            'id': <?=$goods['goods_id']?>,
+        },
+        'complete': function() {
+            Load.hide();
+        },
+        'error': function() {
+            alert('网络连接失败！');
+        },
+        success: function(data, textStatus, xhr) {
+            var contHtml = '';
+
+            if (data.status) {
+                $('.scroll-up').hide();
+
+                $('.post-body').html(data.mess);
+                $("img.lazy").lazyload({
+                    placeholder: "/../public/wapsite/images/point/f-bg.gif",
+
+                    effect: "fadeIn",
+
+                });
+
+            } else {
+                $('.product-cont').html('暂时没有数据');
+            }
+
+        }
+    });
+}
+
+$(function() {
+
+    var swiper = new Swiper('.big_img_wrapper', {
+        pagination: '.big-img-pagination',
+        paginationClickable: true,
+        centeredSlides: true,
+        lazyLoading: true, // 滚动加载
+        spaceBetween: -20,
+        slidesPerView: 1.34,
+        // loop: true,
+    });
+    //选择积分方式
+    $('.way-wp li').on('click', function() {
+        $(this).addClass('cur').siblings().removeClass('cur');
+    });
+    //弹出分类选择
+    $('.cover-body').height($('.product-cover').height() - $('.cover-head').height());
+
+    $('.product-payup').on('click', function() {
+        $('.product-cover').addClass('cover-toggle').show();
+        $('.cover-mask').addClass('cover-mask-toggle').show();
+        $('html').addClass('hidescroll');
+
+    });
+
+    $('.close,.cover-mask').on('click', function() {
+        $('.product-cover').removeClass('cover-toggle').hide();
+        $('.cover-mask').removeClass('cover-mask-toggle').hide();
+        $('html').removeClass('hidescroll');
+    });
+
+
+    $('.select-list .items .value-a').on('click', function() {
+        $(this).addClass('cur').siblings().removeClass('cur');
+    });
+})
+
+//选择属性更新属性列表
+function update_value(obj){
+    upItem = obj;
+    ptsAjax({
+        'url': urlRoot + '?g=WapSite&c=Exchange&a=get_goods_prop',
+        'type': 'json',
+        'Thread': true,
+        'data': {'id': upItem},
+        'complete': function() {
+            Load.hide();
+        },
+        'error': function() {
+            alert('网络连接失败！');
+        },
+        success: function(data, textStatus, xhr) {
+            //更新名字显示
+            $('.product-tit h1').html(data.goods.goods_ads+' '+data.goods.item_name);
+            $('.select').html(data.goods.item_name);
+            //更新价格、库存
+            $('.num em').html(data.goods.item_price);
+            $('.remaining em').html(data.goods.stock);
+            //更新属性排列、选中
+            $('.select-list').html(data.propHtml);
+        }
+    });
+}
+
+// 兑换
+$(".exchange-submit").click(function(){
+    if(!confirm('是否确认兑换')){
+        return false;
+    }
+    var stock = $("#stock").html();
+    if(stock == 0 || stock == ''){
+        layer.msg('没库存了', {
+           skin: 'layui-layer-huise'
+        });
+        return false;
+    }
+    var p_type = $(".cur").attr('v');
+    if(p_type == null || p_type == ''){
+        layer.msg('请选择兑换积分类型', {
+           skin: 'layui-layer-huise'
+        });
+        return false;
+    }
+    ptsAjax({
+        'url': urlRoot + '?g=WapSite&c=Exchange&a=commit_exchange',
+        'type': 'json',
+        'Thread': true,
+        'data': {'item_id': upItem,'p_type':p_type},
+        'complete': function() {
+            Load.hide();
+        },
+        'error': function() {
+            alert('网络连接失败！');
+        },
+        success: function(data, textStatus, xhr) {
+            if(data.OK){
+                location = 'Exchange-getOrderInfo-'+upItem+'.html';
+            }else{
+                layer.msg(data.msg, {
+                   skin: 'layui-layer-huise'
+                });
+                if(data.url!=''){
+                    setTimeout(function(){
+                        location = data.url
+                    },1500);
+                }
+                return false;
+            }
+        }
+    });
+});
+
+var winH = $(window).height();
+$(window).scroll(function() {
+    var pageH = $(document.body).height();
+    var scrollT = $(window).scrollTop();
+    var rate = (pageH - winH - scrollT) / winH;
+    if (mess_state == 1) {
+        if (rate < 0.01) {
+            mess_state = 0;
+            get_goods_mess()
+
+
+        }
+    }
+});
+</script>
+<script>
+<?=$fx_weixin?>
+</script>

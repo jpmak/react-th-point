@@ -1,0 +1,271 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>确认订单</title>
+    <meta content="确认订单" name="keywords">
+    <meta content="确认订单" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" type="text/css" href="{WapCss}main.css">
+    <link rel="stylesheet" type="text/css" href="{WapCss}point/base.css">
+    <link rel="stylesheet" type="text/css" href="{WapCss}point/jf.css">
+    <link rel="stylesheet" type="text/css" href="{WapCss}point/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="{WapCss}edialog_password.css">
+    <style>
+    .ordersAdd-box .swiper-container {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .ordersAdd-box .swiper-container .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="th-nav wbox ">
+            <div class="th-nav-back">
+                <a href="javascript:history.go(-1);">返回</a>
+            </div>
+            <div class="th-nav-title of bg">确认订单</div>
+            <a class="th-nav-right tr" href="User-addAddress.html">
+               新增地址
+            </a>
+        </div>
+    </header>
+    <!--地址选择-->
+    <div class="ordersAdd-box">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <?php if( !empty($address_all) ){?>
+                <?php foreach($address_all as $k => $v){ ?>
+                <div class="swiper-slide cart-group <?=empty($v['status'])?'':'cur';?>" data-id="<?=$v['address_id']?>">
+                        <div class="cart-group-item">
+                            <div class="item-icon"></div>
+                            <div class="delivery-lite-info">
+                                <div class="impor-info wbox">
+                                    <span class="ad-name wbox-flex tl"><?=$v['consignee']?></span>
+                                    <span class="ad-tel wbox-flex tr"><?=$v['mobile']?></span>
+                                </div>
+                                <div class="impor-info-det">
+                                    <span><?=$v['address']?></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cart-group-choose wbox bts1">
+                            <div class="wbox-flex tl"><i class="round"></i><span class="add-name">当前收货地址</span></div>
+                            <div class="wbox-flex tr"> <a href="User-editAddress-<?=$v['address_id']?>.html"><span class="blueCor">编辑</span> </a></div>
+                        </div>
+                    </div>
+                    <?php } ?>
+                    <?php }else{ ?>
+                    <div class="swiper-slide cart-group">
+                        <a href="User-addAddress.html">
+                            <div class="cart-group-item add-null"><i class="add-icon"></i><span class="add-name redCor">添加新地址</span></div>
+                        </a>
+                    </div>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+        <!--分类搜索-->
+        <div class="w">
+            <div class="ordersList pdb120">
+                <ul>
+                    <li>
+                        <a href="">
+                            <div class="info-img">
+                                <div>
+                                    <img alt="" class="lazy" src="/../public/wapsite/images/point/f-bg.gif" data-original="<?=$goods_info['main_image'][0]?>?>">
+                                </div>
+                            </div>
+                            <div class="info-bar">
+                                <div class="pro-wp">
+                                    <div class="pro-title">
+                                        <?=$goods_info['goods_name']?>
+                                    </div>
+                                    <div class="e-numb">
+                                        <span class="e-price"><em><?=$goods_info['item_price']?></em>积分</span>
+                                        <span class="e-num"><i>1</i></span>
+                                    </div>
+                                </div>
+                                <div class="info-attr">
+                                    <span class="attr"><?=$goods_info['item_name']?></span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="fix-box bts1">
+            <div class="wbox order-book-tip cart-footer">
+                <div class="order-list-total-pay wbox-flex tr">
+                    <p><span class="name">总计：</span><span class="price"><?=$goods_info['item_price']?></span><span class="name"> 积分</span><span class="add">&nbsp&nbsp+&nbsp&nbsp</span><span class="name">运费：</span><span class="price">¥<em><?=$fee?></em></span></p>
+                </div>
+                <a href="javascript:void(0);" class="th-btn th-btn-assertive tc w120" >支付运费</a>
+            </div>
+        </div>
+    </div>
+    <!-- 弹出支付密码 -->
+    <!-- <span id="" class="help-block ">支付密码</span> -->
+    <div class="dialog_password" style="height:4rem;">
+        <div class="name" style="border-bottom:1px solid #ccc;">
+            <span style="color:#ED0E47;">兑换积分类型为：<?=Lang::get($p_type)?></span><br />
+            <span style="color:#ED0E47;">共需支付运费：¥<?=$fee?> <?=Lang::get('money')?></span>
+        </div>
+        <div class="name">
+            <span>请核对信息后输入支付密码</span>
+        </div>
+        <div id="payPassword_container" class="alieditContainer clearfix" data-busy="0">
+            <div class="i-block" data-error="i_error">
+                <div class="i-block six-password">
+                    <input class="i-text sixDigitPassword" id="payPassword_rsainput" type="tel" autocomplete="off" required="required" value="" name="payPassword_rsainput" data-role="sixDigitPassword" tabindex="" maxlength="6" minlength="6" aria-required="true">
+                    <div tabindex="0" class="sixDigitPassword-box">
+                        <i style="border-color: transparent;" class=""><b style="visibility: hidden;"></b></i>
+                        <i><b style="visibility: hidden;"></b></i>
+                        <i><b style="visibility: hidden;"></b></i>
+                        <i><b style="visibility: hidden;"></b></i>
+                        <i><b style="visibility: hidden;"></b></i>
+                        <i><b style="visibility: hidden;"></b></i>
+                        <span style=" left: 0px; visibility: hidden;" id="cardwrap" data-role="cardwrap"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a id="paybtn" href="javascript:submit('<?=empty($csrf)?'':$csrf;?>');"  class="js-pay-btn pay-btn-pink pay-btn-dark">支付</a>
+        <div style="clear:both;" ></div>
+    </div>
+    <div class="dialog_overlay dark" style="opacity:0.5;"></div>
+    <!-- 弹出支付密码 end -->
+</body>
+</html>
+<script src="{WapJs}zzjCookie.js"></script>
+<script src="{WapJs}tool.js"></script>
+<script src="{WapJs}ptsWebView1.2.js"></script>
+<script src="{WapJs}Base64.js"></script>
+<script src="{WapJs}jweixin-1.0.0.js"></script>
+<script src="{WapJs}wxClass.js"></script>
+<script src="{WapJs}httpUrlAction.js"></script>
+<script src="{WapJs}ptsAjax.js"></script>
+<script src="{WapJs}jquery-1.10.1.min.js"></script>
+<script src="{WapJs}swiper.min.js"></script>
+<script src="{Js}layer/layer.js"></script>
+<script src="{WapJs}jq.lazyload.js"></script>
+<script src="{WapJs}jquery-validate.js"></script>
+<script src="{WapJs}edialog-password.js"></script>
+<script>
+$(document).ready(function() {
+    $("img.lazy").show().lazyload({
+        placeholder: "/../public/wapsite/images/point/f-bg.gif",
+        effect: "fadeIn",
+        skip_invisible: false,
+        threshold: 100,
+
+    });
+    //切换
+
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        slidesPerView: 'auto',
+        centeredSlides: true,
+        paginationClickable: true,
+        spaceBetween: 20,
+        // loop: true,
+    });
+
+    $('.swiper-wrapper .cart-group').on('click', function() {
+        $(this).addClass('cur').siblings().removeClass('cur');
+    });
+
+    $('.th-btn-assertive').click(function(){
+        if($('.cur').attr('data-id') == null || $('.cur').attr('data-id') == '' ){
+            layer.msg('请选择地址', {
+               skin: 'layui-layer-huise'
+            });
+            return false;
+        }
+        if(!confirm('是否确认提交订单')){
+            return false;
+        }
+        $(".dialog_overlay,.dialog_password").toggle();
+    })
+
+    $('.dialog_overlay').click(function(){
+        hides();
+    });
+    $(".i-text").keyup(function() {
+        var len = this.value.length;
+        if (len == 6) {
+            $(".js-pay-btn").removeClass('pay-btn-dark');
+        } else {
+            $(".js-pay-btn").addClass('pay-btn-dark');
+        }
+    });
+});
+function hides(){
+    $('#cardwrap').css('left','0rem');
+    $('.sixDigitPassword-box i').removeClass('active');
+    $('.sixDigitPassword-box i b').css('visibility','hidden');
+    $(".dialog_overlay,.dialog_password").toggle();
+    $('#payPassword_rsainput').val('');
+}
+//提交订单并支付
+function submit(obj){
+    var add_id = $('.cur').attr('data-id');
+    if(add_id == null || add_id == ''){
+        layer.msg('请选择地址', {
+           skin: 'layui-layer-huise'
+        });
+        hides();
+        return false;
+    }
+    var payPwd = $(".i-text").val();
+    if(payPwd.length<6){
+        layer.msg('请填写完整的支付密码', {
+           skin: 'layui-layer-huise'
+        });
+        return false;
+    }
+    ptsAjax({
+        'url': urlRoot + '?g=WapSite&c=Exchange&a=exchangeOrder',
+        'type': 'json',
+        'Thread': true,
+        'data': {
+            'address_id': add_id,
+            'payPwd' : payPwd
+        },
+        'complete': function() {
+            Load.hide();
+        },
+        'error': function() {
+            alert('网络连接失败！');
+        },
+        success: function(data, textStatus, xhr) {
+            layer.msg(data.msg, {
+               skin: 'layui-layer-huise'
+            });
+            if(data.error==1){
+                hides();
+                return false;
+            }else{
+               setTimeout(function(){
+                 location = 'Exchange-orderList.html';
+               },1500); 
+            }
+        }
+    });
+}
+
+
+</script>
+<script>
+<?=$fx_weixin?>
+</script>

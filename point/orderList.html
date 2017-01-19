@@ -1,0 +1,265 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>订单列表</title>
+    <meta content="订单列表" name="keywords">
+    <meta content="订单列表" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" type="text/css" href="{WapCss}main.css">
+    <link rel="stylesheet" type="text/css" href="{WapCss}point/base.css">
+    <link rel="stylesheet" type="text/css" href="{WapCss}point/jf.css">
+    <style>
+        .ordersList li .info-attr{padding-top:0;}
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="th-nav wbox ">
+            <div class="th-nav-back">
+                <a href="javascript:location='Exchange-index.html';">返回</a>
+            </div>
+            <div class="th-nav-title of bg">订单列表</div>
+            <div class="th-nav-right tr">
+   
+            </div>
+        </div>
+    </header>
+    <!--分类搜索-->
+    <div class="w">
+        <div class="result-sort five-li w20 cf ">
+            <ul class="title-lists">
+                <li data-type="cur">全部</li>
+                <li data-type="unpaid">待付款</li>
+                <li data-type="paid">待发货</li>
+                <li data-type="ems">已发货</li>
+                <li data-type="finshed" >已完成</li>
+            </ul>
+            <p><b></b></p>
+        </div>
+        <div id="orders_lists_box">            
+            <?php foreach($orders as $order){ ?>
+            <div class="ordersList" data-number="<?=$order['exchange_order_number']?>" style="margin:0 0 .1rem 0; padding:0 0 0 0; border-bottom:1px solid #dedede;">
+                <ul class="order-pro-list order-box">
+                    <li style="margin-bottom:0;">
+                        <div class="cart-title wbox" style="border-bottom:1px solid #dedede;">
+                            <div class="cart-dp-title wbox-flex">订单号:<?=$order['exchange_order_number']?><span class="orderState" style="float:right;"><?=$order['cur_state'];?></span></div>
+                        </div>
+                        <a href="Exchange-orderProp-<?=$order['exchange_order_number']?>.html" class="pro-list" style="background:#fff;" >
+                            <div class="info-img">
+                                <div>
+                                    <img alt="" class="lazy" src="/../public/wapsite/images/point/f-bg.gif" data-original="<?=$order['goods_image']?>">
+                                </div>
+                            </div>
+                            <div class="info-bar">
+                                <div class="pro-wp">
+                                    <div class="pro-title"><?=$order['goods_name']?></div>
+                                    <div class="e-numb">
+                                        <span class="e-price"><em><?=$order['t_beans']?></em>积分</span>
+                                        <span class="e-num"><i><?=$order['goods_qty']?></i></span>
+                                    </div>
+                                </div>
+                                <div class="info-attr">
+                                    <span class="attr"><?=$order['prop_value']?></span>
+                                </div>
+                                <div class="info-attr">
+                                    <span>$order['created']</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <div class="order-book-tip wbox" style="padding:.2rem .2rem; background:#fff; width:7.1rem;">
+                    <div class="order-list-total-pay  wbox-flex">
+                        <p><span class="name">运费：</span><span class="price">¥<?=$order['shipping_cost']?></span></p>
+                    </div>
+                    <div class="wbox">
+                    <?php if(empty($order['paid']) && $order['status'] != 2 ){ ?>
+                        <div class="wbox-flex tr"><a href="Exchange-orderProp-'.$order['exchange_order_number'].'.html" class="th-btn th-btn-assertive th-btn-outline">去支付</a></div>
+                    <?php } ?>
+                    </div>
+                </div>
+            </div>
+            <?php } ?>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="{WapJs}zzjCookie.js"></script>
+<script src="{WapJs}tool.js"></script>
+<script src="{WapJs}ptsWebView1.2.js"></script>
+<script src="{WapJs}Base64.js"></script>
+<script src="{WapJs}jweixin-1.0.0.js"></script>
+<script src="{WapJs}wxClass.js"></script>
+<script src="{WapJs}httpUrlAction.js"></script>
+<script src="{WapJs}ptsAjax.js"></script>
+<script src="{WapJs}jquery-1.10.1.min.js"></script>
+<script src="{WapJs}jq.lazyload.js"></script>
+<script src="{Js}layer/layer.js"></script>
+<script>
+$(document).ready(function() {
+    $("img.lazy").show().lazyload({
+        placeholder: "/../public/wapsite/images/point/f-bg.gif",
+        effect: "fadeIn",
+        skip_invisible: false,
+        threshold: 100,
+
+    });
+    //切换
+    $('.result-sort.five-li li').click(function() {
+        var liindex = $('.result-sort.five-li li').index(this);
+        $(this).addClass('on').siblings().removeClass('on');
+        var liWidth = $('.result-sort.five-li li').width();
+        $('.result-sort.five-li p').stop(false, true).animate({
+            'left': liindex * liWidth + 'px'
+        }, 300);
+        page = 1;
+        state_type = $(this).attr('data-type');
+        get_order(state_type);
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    $('.result-sort li').on('click', function() {
+        $(this).addClass('cur').siblings().removeClass('cur');
+    });
+
+    $('.result-sort li.arrow').on('click', function() {
+        if ($('.result-sort li.arrow').hasClass('desc')) {
+            $(this).removeClass('desc').addClass('asc');
+        } else {
+            $(this).removeClass('asc').addClass('desc');
+        }
+    });
+    $('.result-sort li.icons-list').on('click', function() {
+        if ($('.result-sort li.icons-list').hasClass('ver-icon')) {
+            $('.result-sort li.icons-list').removeClass('ver-icon');
+            $('.result-sort li.icons-list').addClass('hor-icon');
+        } else {
+            $('.result-sort li.icons-list').addClass('ver-icon');
+            $('.result-sort li.icons-list').removeClass('hor-icon');
+        }
+        if ($('.app-pd-list').hasClass('hor-list')) {
+            $('.app-pd-list').removeClass('hor-list');
+        } else {
+            $('.app-pd-list').addClass('hor-list');
+        }
+    });
+
+});
+var mess_state = 1;
+var page = 1;
+var state_type = '';
+function get_order(obj){
+    state = obj
+    ptsAjax({
+        'url': urlRoot + '?g=WapSite&c=Exchange&a=orderList',
+        'type': 'json',
+        'Thread': true,
+        'data': {
+            'page': page,
+            'state' : state
+        },
+        'complete': function() {
+            Load.hide();
+        },
+        'error': function() {
+            alert('网络连接失败！');
+        },
+        success: function(data, textStatus, xhr) {
+            if(data.status){
+                    var listHtml = '';
+                    var payBtn = '';
+                    for(var i = 0;i<data.list.length;i++){
+                        payBtn = '';
+                        if(data.list[i].paid==0 && data.list[i].finished != 2){
+                            payBtn += '<div class="wbox-flex tr"><a href="Exchange-orderProp-'+data.list[i].exchange_order_number+'.html" class="th-btn th-btn-assertive th-btn-outline">去支付</a></div>';
+                        }else{
+                            payBtn = '';
+                        }
+                        if(data.list[i].finished==0 && data.list[i].finished != 2){
+                            payBtn += '<div class="wbox-flex tr"><a href="javascript:void(0);" onclick="finished(\''+data.list[i].exchange_order_number+'\',this)" class="th-btn th-btn-assertive th-btn-outline">确认收货</a></div>';
+                        }
+                        listHtml += '<div class="ordersList" data-number="'+data.list[i].exchange_order_number+'" style="margin:0 0 .1rem 0; padding:0 0 0 0; border-bottom:1px solid #dedede;"><ul class="order-pro-list order-box"><li style="margin-bottom:0;"><div class="cart-title wbox" style="border-bottom:1px solid #dedede;"><div class="cart-dp-title wbox-flex">订单号:'+data.list[i].exchange_order_number+'<span class="orderState" style="float:right;">'+data.list[i].cur_state+'</span></div></div><a href="Exchange-orderProp-'+data.list[i].exchange_order_number+'.html" class="pro-list" style="background:#fff;" ><div class="info-img"><div><img alt="" class="lazy" src="/../public/wapsite/images/point/f-bg.gif" data-original="'+data.list[i].goods_image+'"></div></div><div class="info-bar"><div class="pro-wp"><div class="pro-title">'+data.list[i].goods_name+'</div><div class="e-numb"><span class="e-price"><em>'+data.list[i].t_beans+'</em>积分</span><span class="e-num"><i>'+data.list[i].goods_qty+'</i></span></div></div><div class="info-attr"><span class="attr">'+data.list[i].prop_value+'</span></div><div class="info-attr"><span>'+data.list[i].created+'</span></div></div></a></li></ul><div class="order-book-tip wbox" style="padding:.2rem .2rem; background:#fff; width:7.1rem;"><div class="order-list-total-pay  wbox-flex"><p><span class="name">运费：</span><span class="price">¥'+data.list[i].shipping_cost+'</span></p></div><div class="wbox">'+payBtn+'</div></div></div>';
+                    }
+                if(page == 1){
+                    $('#orders_lists_box').html(listHtml);
+                }else{
+                    $('#orders_lists_box').append(listHtml);
+                }
+                mess_state = 1;
+            }else{
+                if(page == 1){
+                    $('#orders_lists_box').html('<div class="none-data"></div>');
+                }else{
+                    layer.msg('没有更多订单了', {
+                       skin: 'layui-layer-huise'
+                    });
+                }
+            }
+            $("img.lazy").show().lazyload({
+                placeholder: "/../public/wapsite/images/point/f-bg.gif",
+                effect: "fadeIn",
+                skip_invisible: false,
+                threshold: 100,
+            });
+        }
+    });
+}
+var winH = $(window).height();
+$(window).scroll(function() {
+    var pageH = $(document.body).height();
+    var scrollT = $(window).scrollTop();
+    var rate = (pageH - winH - scrollT) / winH;
+    if (mess_state == 1) {
+        if (rate < 0.01) {
+            page++;
+            mess_state = 0;
+            get_order(state_type);
+        }
+    }
+});
+
+//确认收货
+function finished(number,obj){
+    if( !confirm('是否确认收货') ){
+        return false;
+    }
+    ptsAjax({
+        'url': urlRoot + '?g=WapSite&c=Exchange&a=finish_order',
+        'type': 'json',
+        'Thread': true,
+        'data': {
+            'order_number' : number,
+        },
+        'complete': function() {
+            Load.hide();
+        },
+        'error': function() {
+            alert('网络连接失败！');
+        },
+        success: function(data, textStatus, xhr) {
+            if(data.OK){
+                layer.msg('收货成功', {
+                   skin: 'layui-layer-huise'
+                });
+                $('.ordersList[data-number="'+number+'"]').remove();
+            }else{
+                layer.msg(data.error, {
+                   skin: 'layui-layer-huise'
+                });
+            }
+        }
+    });
+}
+</script>
+<script>
+<?=$fx_weixin?>
+</script>
