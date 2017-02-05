@@ -43,7 +43,7 @@ header.js-header {
       top: .15rem;
       left: -.1rem; }
   .th-search-box a.sorts {
-    background: url(../../images/point/duihuan_fenlei.png) no-repeat;
+    background: url("../images/duihuan_fenlei.png") no-repeat;
     background-size: .44rem .52rem; }
   .th-search-box a.backbtn {
     position: absolute;
@@ -52,7 +52,7 @@ header.js-header {
     top: .3rem;
     width: .42rem;
     height: .42rem;
-    background: url(../../images/point/duihuan_guanbi.png) no-repeat;
+    background: url("../images/duihuan_guanbi.png") no-repeat;
     background-size: .44rem .42rem;
     transition: right .6s; }
   .th-search-box a.search-btn {
@@ -117,7 +117,7 @@ header.js-header {
   margin: .18rem .15rem;
   width: .24rem;
   height: .24rem;
-  background: url(../../images/point/duihuan_sousuo.png) no-repeat;
+  background: url("../images/duihuan_sousuo.png") no-repeat;
   background-size: .24rem .24rem;
   transition: all 0.6s ease 0s; }
 
@@ -150,7 +150,7 @@ header.js-header {
       line-height: .48rem;
       color: #999; }
       .search-wrap .search-keywords-name span .delbtn {
-        background: url(../../images/point/del.png) no-repeat;
+        background: url("../images/del.png") no-repeat;
         background-size: contain;
         width: .2rem;
         height: .3rem;
