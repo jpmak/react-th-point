@@ -1,6 +1,7 @@
 user_info();
 sales_volume();
 get_cate_list();
+
 $(function() {
     get_index_Banner();
     $('a.search-btn').on('click', function() {
@@ -29,14 +30,14 @@ var skey = '';
 //商品一级分类
 function get_cate_list() {
     cate_list_Html = '';
-    ptsAjax({
-        'url': urlRoot + '?g=WapSite&c=Exchange&a=get_cate_list',
-        'type': 'json',
-        'Thread': true,
-        'complete': function() {
+    $.ajax({
+        url: 'get_cate_list',
+        type: 'POST',
+        dataType: 'json',
+        complete: function() {
             Load.hide();
         },
-        'error': function() {
+        error: function() {
             alert('网络连接失败！');
         },
         success: function(data, textStatus, xhr) {
@@ -124,20 +125,21 @@ function cate_list_state(obj) {
     get_cate_goods();
 }
 //商品分类对应商品
-function get_cate_goods() {
 
-    ptsAjax({
-        'url': urlRoot + '?g=WapSite&c=Exchange&a=get_cate_goods',
-        'type': 'json',
-        'Thread': true,
-        'data': {
-            'cate_id': cate_list_type,
-            'page': page
-        },
-        'complete': function() {
+
+
+function get_cate_goods() {
+  $.ajax({
+        url: 'get_cate_goods',
+        type: 'POST',
+        dataType: 'json',
+        complete: function() {
             Load.hide();
         },
-        'error': function() {
+        complete: function() {
+            Load.hide();
+        },
+        error: function() {
             alert('网络连接失败！');
         },
         success: function(data, textStatus, xhr) {
@@ -211,14 +213,14 @@ $(window).scroll(function() {
 });
 
 //排行榜
+
 function sales_volume() {
     scrollerHtml = '';
-
-    ptsAjax({
-        'url': urlRoot + '?g=WapSite&c=Exchange&a=sales_volume',
-        'type': 'json',
-        'Thread': true,
-        'complete': function() {
+  $.ajax({
+        url: 'sales_volume',
+        type: 'POST',
+        dataType: 'json',
+        complete: function() {
             Load.hide();
         },
         'error': function() {
@@ -256,16 +258,19 @@ function sales_volume() {
         }
     });
 }
+
+
 //获取积分参数
+
 function user_info() {
-    ptsAjax({
-        'url': urlRoot + '?g=WapSite&c=Exchange&a=user_info',
-        'type': 'json',
-        'Thread': true,
-        'complete': function() {
+      $.ajax({
+        url: 'user_info',
+        type: 'POST',
+        dataType: 'json',
+        complete: function() {
             Load.hide();
         },
-        'error': function() {
+        error: function() {
             alert('网络连接失败！');
         },
         success: function(data, textStatus, xhr) {
@@ -279,18 +284,20 @@ function user_info() {
     });
 }
 
+
+//获取积分商城banner
 function get_index_Banner() {
     bannerHtml = '';
     bann_foo1_html = '';
     bann_foo2_html = '';
-    ptsAjax({
-        'url': urlRoot + '?g=WapSite&c=Exchange&a=get_index_Banner',
-        'type': 'json',
-        'Thread': true,
-        'complete': function() {
+    $.ajax({
+        url: 'get_index_Banner',
+        type: 'POST',
+        dataType: 'json',
+        complete: function() {
             Load.hide();
         },
-        'error': function() {
+        error: function() {
             alert('网络连接失败！');
         },
         success: function(data, textStatus, xhr) {
@@ -356,18 +363,21 @@ function get_index_Banner() {
     });
 }
 // get_index_Banner()
+
 function search_cache() {
-    ptsAjax({
-        'url': urlRoot + '?g=WapSite&c=Exchange&a=search_cache',
-        'type': 'json',
-        'Thread': true,
-        'data': {
+
+      $.ajax({
+        url: 'search_cache',
+        type: 'POST',
+        dataType: 'json',
+         data: {
             'kd': skey,
         },
-        'complete': function() {
+        complete: function() {
             Load.hide();
         },
-        'error': function() {
+
+        erro: function() {
             alert('网络连接失败！');
         },
         success: function(data, textStatus, xhr) {
@@ -380,7 +390,7 @@ function search_cache() {
     });
 }
 
- $(document).ready(function() {
+$(document).ready(function() {
     $("img.lazy").show().lazyload({
         placeholder: "/../public/wapsite/images/point/f-bg.gif",
         skip_invisible: false,
@@ -421,7 +431,7 @@ function loaded() {
         eventPassthrough: true,
         // scrollX: false,
         // scrollY: true,
-        preventDefault: false   
+        preventDefault: false
     });
     //     myScroll = new IScroll('#app-scroller', {
     //     eventPassthrough: true,
@@ -430,7 +440,7 @@ function loaded() {
     //     preventDefault: false
     // });
 }
-   // window.addEventListener("DOMContentLoaded",loaded,false);
+// window.addEventListener("DOMContentLoaded",loaded,false);
 //brand导航栏
 // $(function () {
 //     var nav_w = $(".app-scroller li").first().width();
@@ -500,7 +510,7 @@ $('#searchInput').on('keyup', function(e) {
     $('.search-bar input').css('width', '80%');
     var uVal = $("#searchInput").val();
     if (uVal !== "") {
-         if (e.keyCode == 13) {
+        if (e.keyCode == 13) {
             skey = uVal;
             search_cache();
         }
@@ -523,8 +533,9 @@ $('.th-search-box a.backbtn').on('click', function() {
     $('.th-search-box a.class').show();
     $('.th-search-box a.backbtn').hide();
 });
+
 function del() {
-        $('#searchInput').val("").focus();
-        $('#del').hide();
-        $('.search-bar input').css('width', '100%');
+    $('#searchInput').val("").focus();
+    $('#del').hide();
+    $('.search-bar input').css('width', '100%');
 };
