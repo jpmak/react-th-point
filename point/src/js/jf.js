@@ -133,6 +133,11 @@ function get_cate_goods() {
         url: 'get_cate_goods',
         type: 'POST',
         dataType: 'json',
+         data: {
+            'cate_id': cate_list_type,
+            'page': page
+        },
+
         complete: function() {
             Load.hide();
         },
@@ -187,7 +192,7 @@ function get_cate_goods() {
             //     }
             // }
             $(".app-pd-list img.lazy").show().lazyload({
-                placeholder: "/../public/wapsite/images/point/f-bg.gif",
+                placeholder: "/src/images/f-bg.gif",
                 skip_invisible: false,
                 effect: "fadeIn",
                 threshold: 0,
@@ -354,7 +359,7 @@ function get_index_Banner() {
                 });
             }
             $("img.lazy").show().lazyload({
-                placeholder: "/../public/wapsite/images/point/f-bg.gif",
+                placeholder: "/src/images/f-bg.gif",
                 skip_invisible: false,
                 effect: "fadeIn",
                 threshold: 50,
@@ -392,7 +397,7 @@ function search_cache() {
 
 $(document).ready(function() {
     $("img.lazy").show().lazyload({
-        placeholder: "/../public/wapsite/images/point/f-bg.gif",
+        placeholder: "/src/images/f-bg.gif",
         skip_invisible: false,
         effect: "fadeIn",
         threshold: 50,
