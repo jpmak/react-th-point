@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <div class="s">sessionStorage</div>
+    <div class="l" style="display: none;">localStorage</div>
+</body>
+<script>
+var index = index || {};
+console.log(sessionStorage);
+sessionStorage.session = 2;
+localStorage.local = 2
+
+ index.setData = function(a, b) {
+    if (window.localStorage) {
+        localStorage.setItem(a, b)
+    }
+};
+
+
+document.cookie="popped=yes"
+function get_cookie(Name) {
+   var search = Name + "="//查询检索的值
+   var returnvalue = "";//返回值
+   if (document.cookie.length > 0) {
+     sd = document.cookie.indexOf(search);
+     if (sd!= -1) {
+        sd += search.length;
+        end = document.cookie.indexOf(";", sd);
+        if (end == -1)
+         end = document.cookie.length;
+         //unescape() 函数可对通过 escape() 编码的字符串进行解码。
+        returnvalue=unescape(document.cookie.substring(sd, end))
+      }
+   } 
+   return returnvalue;
+}
+//使用方式：
+get_cookie("popped");
+
+function a() {
+
+    index.setData("zoom",  1);
+
+
+    // 	if(sessionStorage.pagecount == 2){
+    // $('.s').show();
+    // 	}
+    // 		if(localStorage.page == 3){
+    // $('.l').show();
+    // 	}
+    // body...
+
+}
+function Window_Load(){
+       setCookie("name","111"); //临时cookie
+       setCookie("age","222",24 * 7);  //保存7天
+       setCookie("address","333",24,"/"); //保存1天,path为根目录
+        
+       //设定cookie为安全的(secure=true),只能在HTTPS或与其他安全协议
+       //连接在一起的时候才被传输
+       setCookie("phone","444",24,"/",".",false);
+       alert(document.cookie);
+       alert(getCookie("age"));
+        
+       //删除名称为"age"的cookie
+       removeCookie("age") 
+       alert(document.cookie);
+       //删除名称为"address"的cookie,因为设置时设定的path,所以删除
+       //时也需要传入对应path
+       removeCookie("address","/") 
+       alert(document.cookie);  
+      }
+a();
+
+console.log(localStorage.key(3));
+
+var username=document.cookie.split(";")[0].split("=")[1];
+//JS操作cookies方法!
+//写cookies
+
+
+</script>
+
+</html>
