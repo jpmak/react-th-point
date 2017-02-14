@@ -46,8 +46,8 @@ function get_cate_list() {
             if (data.status) {
                 var sales_top = '';
                 for (var i = 0; i < data.cate_list.length; i++) {
-                 
-                    cate_list_Html += '<li onclick="cate_list_state(' + data.cate_list[i].cate_id + ')"><a><span>' + data.cate_list[i].cate_name + '</span></a></li>'
+
+                    cate_list_Html += '<li onclick="cate_list_state(' + data.cate_list[i].cate_id + ')"><a><span>' + data.cate_list[i].cate_name + '</span></a></li>';
                 }
                 cate_list_state(data.cate_list[0].cate_id);
                 $('.choose-items-wp').append(cate_list_Html);
@@ -57,9 +57,9 @@ function get_cate_list() {
                     var nav_w = $(".app-scroller li").first().width();
                     var fl_w = $(".app-scroller").width();
                     var flb_w = $(".app-scroller-wrap").width();
-                  $(".choose-items-wp p").width(nav_w);
-             $(".app-scroller li").on("click", function() {
-            
+                    $(".choose-items-wp p").width(nav_w);
+                    $(".app-scroller li").on("click", function() {
+
                         Load.show();
                         nav_w = $(this).width();
                         $(".choose-items-wp p").stop(true);
@@ -130,11 +130,11 @@ function cate_list_state(obj) {
 
 
 function get_cate_goods() {
-  $.ajax({
+    $.ajax({
         url: 'get_cate_goods',
         type: 'POST',
         dataType: 'json',
-         data: {
+        data: {
             'cate_id': cate_list_type,
             'page': page
         },
@@ -142,9 +142,7 @@ function get_cate_goods() {
         complete: function() {
             Load.hide();
         },
-        complete: function() {
-            Load.hide();
-        },
+
         error: function() {
             alert('网络连接失败！');
         },
@@ -154,10 +152,10 @@ function get_cate_goods() {
                 Load.hide();
                 var sales_top = '';
                 for (var i = 0; i < data.goods_list.length; i++) {
-                    cate_listHtml += '  <li><a href="Exchange-goods-' + data.goods_list[i].item_id + '.html"><div class="info-img"><img alt="" class="lazy" data-original="' + data.goods_list[i].list_image + '"></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a></li>'
+                    cate_listHtml += '  <li><a href="Exchange-goods-' + data.goods_list[i].item_id + '.html"><div class="info-img"><img alt="" class="lazy" data-original="' + data.goods_list[i].list_image + '"></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a></li>';
                 }
                 // 
-                if (page == 0) {
+                if (page === 0) {
                     $('.app-pd-list ul').html(cate_listHtml);
 
                 } else {
@@ -168,7 +166,7 @@ function get_cate_goods() {
 
                 Load.hide();
             } else {
-                if (page == 0) {
+                if (page === 0) {
                     var liHtml = '';
                     liHtml += '<div class="none-data"></div>';
                     $('.app-pd-list ul').html(liHtml);
@@ -222,7 +220,7 @@ $(window).scroll(function() {
 
 function sales_volume() {
     scrollerHtml = '';
-  $.ajax({
+    $.ajax({
         url: 'sales_volume',
         type: 'POST',
         dataType: 'json',
@@ -250,7 +248,7 @@ function sales_volume() {
                             sales_top = '';
                             break;
                     }
-                    scrollerHtml += '<li><a href="Exchange-goods-' + data.goods_list[i].item_id + '.html"><div class="info-img"><div class="top ' + sales_top + '"></div><img alt="" class="lazy"   data-original="' + data.goods_list[i].list_image + '"></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a> </li>'
+                    scrollerHtml += '<li><a href="Exchange-goods-' + data.goods_list[i].item_id + '.html"><div class="info-img"><div class="top ' + sales_top + '"></div><img alt="" class="lazy"   data-original="' + data.goods_list[i].list_image + '"></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a> </li>';
                 }
                 $('#sales-wrapper #scroller ul').html(scrollerHtml);
                 $("img.lazy").show().lazyload({
@@ -269,7 +267,7 @@ function sales_volume() {
 //获取积分参数
 
 function user_info() {
-      $.ajax({
+    $.ajax({
         url: 'user_info',
         type: 'POST',
         dataType: 'json',
@@ -311,18 +309,18 @@ function get_index_Banner() {
                 var href = '';
                 for (var i = 0; i < data.bann_top.advList.length; i++) {
 
-                    if (data.bann_top.advList[i].adv_url != '') {
+                    if (data.bann_top.advList[i].adv_url !== '') {
                         href = 'href="' + data.bann_top.advList[i].adv_url + '"';
                     } else {
                         href = '';
                     }
-                    bannerHtml += '<div class="swiper-slide"><a ' + href + '><img class="swiper-lazy"  data-src="' + data.bann_top.advList[i].adv_img + '"  ></a></div>'
+                    bannerHtml += '<div class="swiper-slide"><a ' + href + '><img class="swiper-lazy"  data-src="' + data.bann_top.advList[i].adv_img + '"  ></a></div>';
                 }
                 $('.swiper-wrapper').html(bannerHtml);
 
                 var bann_foo1_href = '';
                 if (data.bann_foo1.advList.length > 0) {
-                    if (data.bann_foo1.advList[0].adv_url != '') {
+                    if (data.bann_foo1.advList[0].adv_url !== '') {
                         bann_foo1_href = 'href="' + data.bann_foo2.advList[0].adv_url + '"';
                     } else {
                         bann_foo2_href = '';
@@ -335,7 +333,7 @@ function get_index_Banner() {
                 }
                 var bann_foo2_href = '';
                 if (data.bann_foo2.advList.length > 0) {
-                    if (data.bann_foo2.advList[0].adv_url != '') {
+                    if (data.bann_foo2.advList[0].adv_url !== '') {
                         bann_foo2_href = 'href="' + data.bann_foo2.advList[0].adv_url + '"';
                     } else {
                         bann_foo2_href = '';
@@ -372,11 +370,11 @@ function get_index_Banner() {
 
 function search_cache() {
 
-      $.ajax({
+    $.ajax({
         url: 'search_cache',
         type: 'POST',
         dataType: 'json',
-         data: {
+        data: {
             'kd': skey,
         },
         complete: function() {
@@ -415,7 +413,7 @@ function loaded() {
 
         preventDefault: false
     });
- 
+
 }
 
 // js-search
@@ -461,4 +459,4 @@ function del() {
     $('#searchInput').val("").focus();
     $('#del').hide();
     $('.search-bar input').css('width', '100%');
-};
+}
