@@ -26,7 +26,7 @@
 				break;
 			default:
 				e[t] = e[e[t]]
-		}
+}
 		return e
 }([function(e, t, n) {
 		"use strict";

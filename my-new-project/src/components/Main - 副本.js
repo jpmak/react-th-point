@@ -1,4 +1,5 @@
-require('styles/swiper.min.css');
+require('normalize.css/normalize.css');
+require('styles/App.css');
 
 import React from 'react';
 
@@ -10,7 +11,7 @@ class AppComponent extends React.Component {
 
 			<div className="index">
         <img src={yeomanImage} alt="Yeoman Generator" />
-		<div className="notice"> <code>sr1111c/components/Main.js</code> to get started!</div>
+		<div className="notice"> <code>/components/Main.js</code> to get started!</div>
       </div>
 		);
 	}
