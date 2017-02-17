@@ -11,9 +11,8 @@ var TopNav = React.createClass({
             </div>
             <div className="th-nav-title of bg">{this.props.titleName}</div>
             <div className="th-nav-right tr">
-            
-            <a className={{this.props.icon}} href={{this.props.icon-link}}> </a>
-               {/*  <a className="jf-record-icon" href="Exchange-orderList.html"> </a>*/}
+            <a className={this.props.icon} href={this.props.icon_link}> </a>
+               {/*  <a className="jf-record-icon" href=""> </a>*/}
             </div>
         </div>
 		);
