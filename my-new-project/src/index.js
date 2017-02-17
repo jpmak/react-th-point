@@ -1,4 +1,4 @@
-require('styles/base.scss');
+require('styles/base.scss')
 
 import 'core-js/fn/object/assign';
 import React from 'react';
@@ -8,12 +8,9 @@ import TopNav from './components/TopNav';
 import SwiperBanner from './components/SwiperBanner';
 
 // Render the main component into the dom
-ReactDOM.render(<TopNav />, document.getElementById('headnav'));
+ReactDOM.render( < TopNav titleName = "兑换商城" icon="jf-record-icon" icon-link="Exchange-orderList.html" / > , document.getElementById('headnav'));
 // ReactDOM.render(<AppComponent />, document.getElementById('app'));
 // ReactDOM.render(<SwiperBanner />, document.getElementById('banner'));
 
-ReactDOM.render(
-	<SwiperBanner />,
-	document.getElementById('banner')
-);
+ReactDOM.render( < SwiperBanner / > , document.getElementById('banner'));
 // ReactDOM.render(<Banner />, document.getElementById('banner'));

@@ -5,6 +5,7 @@
     $redColor:#ED0E47;
     $blueColor:#0066ff;
     $grayColor:#878787;
+    $bg:'../images/';
     .f32 {
         font-size: .32rem;
     }
@@ -71,7 +72,7 @@
     
     .big-img-pagination {
         .swiper-pagination-bullet-active {
-            background: url(../../images/point/duihuan_yuandian.png) no-repeat;
+            background: url($bg+'duihuan_yuandian.png') no-repeat;
             width: .22rem;
             height: .22rem;
             margin-top: -1rem;
@@ -149,7 +150,7 @@
                     color: $redColor;
                     .round {
                         border: 1px solid $redColor;
-                        background: url(../../images/point/c-ok.png) no-repeat;
+                        background: url($bg+'c-ok.png') no-repeat;
                         background-size: .23rem .23rem;
                     }
                 }
@@ -349,7 +350,7 @@
         top: -1rem;
         width: .5rem;
         height: 1.4rem;
-        background: url(../../images/point/cover-close.png) no-repeat;
+        background: url($bg+'cover-close.png') no-repeat;
         background-size: .5rem 1.4rem;
         a.close {
             display: block;

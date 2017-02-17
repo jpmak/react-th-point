@@ -2,10 +2,12 @@
 //-----------------------------------
 // header顶部样式 
 @charset "UTF-8";
+/*header顶部条样式*/
+@import 'h_tit';
 $yellowColor: #F5A623;
 $borderColor: #DEDEDE;
     $redColor:#ED0E47;
-$lazzyBg:url(../../images/point/loadbg.png) no-repeat 50% 50%;
+$lazzyBg:url(../images/loadbg.png) no-repeat 50% 50%;
 $bg:'../images/';
 .mt20 {
     margin-top: .2rem
@@ -115,7 +117,7 @@ a.th-btn.th-btn-assertive.th-btn-outline {
     .banner {
         width: 7.5rem;
         height: 1.28rem;
-        // background: url($bg+'Combined.jpg') no-repeat;
+        /* background: url($bg+'Combined.jpg') no-repeat;*/
         background-size: 7.5rem 1.28rem;
     }
     .banner-bottom {
