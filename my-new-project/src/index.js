@@ -15,4 +15,7 @@ ReactDOM.render( < TopNav titleName = "兑换商城"
 // ReactDOM.render(<AppComponent />, document.getElementById('app'));
 // ReactDOM.render(<SwiperBanner />, document.getElementById('banner'));
 
-ReactDOM.render( < SwiperBanner / > , document.getElementById('banner'));
+ ReactDOM.render( < SwiperBanner message="网络出错"/ > , document.getElementById('banner'));
+
+
+ 

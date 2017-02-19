@@ -20,46 +20,27 @@ var BannerHtml = React.createClass({
                     data: null
                 };
             },
-          componentDidMount: function() {
-
-        $.get("get_index_Banner", function(value) {
-            // console.log(bann_top.advList[0].adv_img);
-            if (this.isMounted()) {
-                this.setState({
-                 loading: false,
-                  data: value
-                });
-
-            }
-            var swiper1 = new Swiper('.swiper1', {
-                pagination: '.swiper-pagination1',
-                preloadImages: false,
-                lazyLoading: true, // 滚动加载
-                paginationClickable: true,
-                spaceBetween: 0,
-                centeredSlides: true,
-                autoplay: 2500,
-                autoplayDisableOnInteraction: false,
-                loop: true,
-                observer: true, //修改swiper自己或子元素时，自动初始化swiper
-                observeParents: true, //修改swiper的父元素时，自动初始化swiper
-            });
-            $("img.lazy").show().lazyload({
-                placeholder: "/src/images/f-bg.gif",
-                skip_invisible: false,
-                effect: "fadeIn",
-                threshold: 50,
-            });
-        }.bind(this));
-    },
+            componentDidMount() {
+                $.getJSON('get_index_Banner' ).then(
+                    value => this.setState({
+                        loading: false,
+                        data: value
+                    }),
+                    // error => this.setState({
+                    //     loading: false,
+                    //     error: error
+                    // })
+                    );
+                     
+            },
             render: function() {
                 if (this.state.loading) {
                     return <span > Loading... </span>;
                 } 
                 // else if (this.state.error !== null) {
                 //     return <span > Error: { this.state.error.message } </span>;
-                // }
-                 else {
+                // } 
+                else {
                     var repos = this.state.data.bann_top.advList;
                     var repoList = repos.map(function(repo, index) {
                         return ( <div className = "swiper-slide"
