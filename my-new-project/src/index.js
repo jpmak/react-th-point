@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import TopNav from './components/TopNav';
 import SearchBox from './components/SearchBox';
 import SwiperBanner from './components/SwiperBanner';
-
+import Record from './components/Record';
 // Render the main component into the dom
 ReactDOM.render( < TopNav titleName = "兑换商城"
 	icon = "jf-record-icon"
@@ -17,3 +17,4 @@ ReactDOM.render( < TopNav titleName = "兑换商城"
 // ReactDOM.render(<SwiperBanner />, document.getElementById('banner'));
 ReactDOM.render( < SearchBox / > , document.getElementById('search'));
 ReactDOM.render( < SwiperBanner / > , document.getElementById('banner'));
+ReactDOM.render( < Record source="/json/user_info.json" handhref="Exchange-exchangeLog.html"/ > , document.getElementById('record'));
