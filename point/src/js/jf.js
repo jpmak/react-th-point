@@ -33,7 +33,7 @@ var skey = '';
 function get_cate_list() {
     cate_list_Html = '';
     $.ajax({
-        url: 'get_cate_list',
+        url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_list',
         type: 'POST',
         dataType: 'json',
         complete: function() {
@@ -131,7 +131,7 @@ function cate_list_state(obj) {
 
 function get_cate_goods() {
     $.ajax({
-        url: 'get_cate_goods',
+        url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_goods',
         type: 'POST',
         dataType: 'json',
         data: {
@@ -221,7 +221,7 @@ $(window).scroll(function() {
 function sales_volume() {
     scrollerHtml = '';
     $.ajax({
-        url: 'sales_volume',
+        url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=sales_volume',
         type: 'POST',
         dataType: 'json',
         complete: function() {
@@ -268,7 +268,7 @@ function sales_volume() {
 
 function user_info() {
     $.ajax({
-        url: 'user_info',
+        url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=user_info',
         type: 'POST',
         dataType: 'json',
         complete: function() {
@@ -295,7 +295,7 @@ function get_index_Banner() {
     bann_foo1_html = '';
     bann_foo2_html = '';
     $.ajax({
-        url: 'get_index_Banner',
+        url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner',
         type: 'POST',
         dataType: 'json',
         complete: function() {
@@ -371,7 +371,7 @@ function get_index_Banner() {
 function search_cache() {
 
     $.ajax({
-        url: 'search_cache',
+        url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_cache',
         type: 'POST',
         dataType: 'json',
         data: {

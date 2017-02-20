@@ -1,5 +1,5 @@
 // require('styles/h_tit.scss');
-require('styles/jf.scss');
+// require('styles/jf.scss');
 import React from 'react';
 
 var TopNav = React.createClass({

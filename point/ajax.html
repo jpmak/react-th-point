@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>ajax</title>
+    <meta content="兑换商城" name="keywords">
+    <meta content="兑换商城" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no" />
+    <script src="https://www.thgo8.com/public/wapsite/js/jquery-1.10.1.min.js"></script>
+</head>
+
+<body>
+</body>
+<script>
+$(function() {
+            bannerHtml = '';
+            bann_foo1_html = '';
+            bann_foo2_html = '';
+            $.ajax({
+                url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner',
+                type: 'POST',
+                dataType: 'json',
+                complete: function() {
+                    Load.hide();
+                },
+                error: function() {
+                    alert('网络连接失败！');
+                },
+                success: function(data) {
+console.log(data);
+                    if (data.status) {
+                        var href = '';
+                        for (var i = 0; i < data.bann_top.advList.length; i++) {
+
+                            if (data.bann_top.advList[i].adv_url !== '') {
+                                href = 'href="' + data.bann_top.advList[i].adv_url + '"';
+                            } else {
+                                href = '';
+                            }
+                            bannerHtml += '<div class="swiper-slide"><a ' + href + '><img class="swiper-lazy"  data-src="' + data.bann_top.advList[i].adv_img + '"  ></a></div>';
+                        }
+                        $('.swiper-wrapper').html(bannerHtml);
+
+                        var bann_foo1_href = '';
+                        if (data.bann_foo1.advList.length > 0) {
+                            if (data.bann_foo1.advList[0].adv_url !== '') {
+                                bann_foo1_href = 'href="' + data.bann_foo2.advList[0].adv_url + '"';
+                            } else {
+                                bann_foo2_href = '';
+                            }
+                            bann_foo1_html += '<a ' + bann_foo1_href + '><img class="img-banner" src="' + data.bann_foo1.advList[0].adv_img + '"></a>';
+
+                            $('#js-banner').html(bann_foo1_html);
+                        } else {
+                            $('#js-banner').remove();
+                        }
+                        var bann_foo2_href = '';
+                        if (data.bann_foo2.advList.length > 0) {
+                            if (data.bann_foo2.advList[0].adv_url !== '') {
+                                bann_foo2_href = 'href="' + data.bann_foo2.advList[0].adv_url + '"';
+                            } else {
+                                bann_foo2_href = '';
+                            }
+                            bann_foo2_html += '<a ' + bann_foo2_href + '><img class="lazy" src="' + data.bann_foo2.advList[0].adv_img + '"></a>';
+                            $('#js-banner-2').html(bann_foo2_html);
+                        } else {
+                            $('#js-banner-2').remove();
+                        }
+                        var swiper1 = new Swiper('.swiper1', {
+                            pagination: '.swiper-pagination1',
+                            preloadImages: false,
+                            lazyLoading: true, // 滚动加载
+                            paginationClickable: true,
+                            spaceBetween: 0,
+                            centeredSlides: true,
+                            autoplay: 2500,
+                            autoplayDisableOnInteraction: false,
+                            loop: true,
+                            observer: true, //修改swiper自己或子元素时，自动初始化swiper
+                            observeParents: true, //修改swiper的父元素时，自动初始化swiper
+                        });
+                    }
+                    $("img.lazy").show().lazyload({
+                        placeholder: "/src/images/f-bg.gif",
+                        skip_invisible: false,
+                        effect: "fadeIn",
+                        threshold: 50,
+                    });
+                }
+            });
+        });
+</script>
+
+</html>

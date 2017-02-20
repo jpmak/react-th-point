@@ -6,7 +6,7 @@ var SwiperBanner = React.createClass({
     render: function() {
         return ( < div className = "jf-floor-banner" >
             < div className = "swiper-container swiper1" >
-            < BannerHtml />
+ < BannerHtml / >
             <div className = "swiper-pagination swiper-pagination1" > </div></div></div >
         );
     }
