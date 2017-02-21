@@ -8,18 +8,93 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
 <body>
-    <header id="headnav">
+    <header id="headnav" >
     </header>
 <div class="w">
 <div id="search"></div>
+<div id="scroll-wrapper">
 <div id="banner"></div>
+<div id="record"></div>
+  <div class="fl-space"></div>
+  <div class="jf-bsell-box">
+	
+ <div id="js_banner" class="banner">
+  <div id="SalesWrapper" class="banner">
+
+ </div>
+
+
+  </div>
+<div id="banner-2"></div>
+</div>
 </div>
 <script>__REACT_DEVTOOLS_GLOBAL_HOOK__ = parent.__REACT_DEVTOOLS_GLOBAL_HOOK__</script>
 <script src="https://www.thgo8.com/public/wapsite/js/jquery-1.10.1.min.js"></script>
 <script src="https://www.thgo8.com/public/wapsite/js/swiper.jquery.min.js"></script>
 
 <!-- <script src="http://rap.taobao.org/rap.plugin.js?projectId=12933"></script> -->
+<script>
+$(function () {
+    $('a.search-btn').on('click', function() {
+        var sVal = $("#searchInput").val();
+        if (sVal !== '') {
+            skey = sVal;
+            search_cache();
+        }
+    });
 
+    $('.search-keywords-list li a').on('click', function() {
+        var hVal = $(this).html();
+        skey = hVal;
+        search_cache();
+    });
+
+
+// js-search
+$('.on-blur .search-bar').on('click', function() {
+    $('#headnav').addClass('js-header');
+    $('#scroll-wrapper').hide();
+    $('.on-blur').removeClass('on-blur').addClass('on-focus');
+    $('.search-wrap').show();
+    $('.th-search-box a.class').hide();
+    $('.th-search-box a.backbtn').show();
+});
+
+$('#searchInput').on('keyup', function(e) {
+    $('.search-bar input').css('width', '80%');
+    var uVal = $("#searchInput").val();
+    if (uVal !== "") {
+        if (e.keyCode == 13) {
+            skey = uVal;
+            search_cache();
+        }
+        $('#del').show();
+    } else {
+        $('#del').hide();
+    }
+});
+$('.th-search-box a.backbtn').on('click', function() {
+    del();
+    $('#searchInput').blur();
+    $('header').removeClass('js-header');
+    $('.on-focus').removeClass('on-focus').addClass('on-blur');
+    // $('.search-bar input').val('');
+    $('#scroll-wrapper').show();
+    $('.search-wrap').hide();
+    $('.th-search-box a.class').show();
+    $('.th-search-box a.backbtn').hide();
+});
+
+function del() {
+    $('#searchInput').val("").focus();
+    $('#del').hide();
+    $('.search-bar input').css('width', '100%');
+}
+
+})
+
+
+</script>
 
 <script type="text/javascript" src="/assets/app.js"></script>
 

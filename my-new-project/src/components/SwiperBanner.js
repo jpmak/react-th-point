@@ -9,6 +9,32 @@ var SwiperBanner = React.createClass({
         );
     }
 })
+
+// var js_banner = React.createClass({
+//     getInitialState: function() {
+//         return {
+//             adv_url: '',
+//             adv_img: ''
+//         };
+//     },
+//     componentDidMount: function() {
+
+//         $.get("http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner", function(data) {
+//             var repos_2 = this.state.data.bann_foo1.advList[0];
+//             // console.log(bann_top.advList[0].adv_img);
+//             if (this.isMounted()) {
+//                 this.setState({
+//                     adv_img: linklenght.adv_img,
+//                     adv_url: linklenght.adv_url
+//                 });
+
+//             }
+//         }.bind(this));
+//     },
+//     render: function() {
+//         return (<a href={ repos_2.adv_url }><img class="img-banner" src={ repos_2.adv_img }/></a>);
+//     }
+// })
 var BannerHtml = React.createClass({
     getInitialState: function() {
         return {
@@ -46,7 +72,7 @@ var BannerHtml = React.createClass({
         if (this.state.loading) {
             return <span > Loading... </span>;
         } else {
-            const repos = this.state.data.bann_top.advList;
+            var repos = this.state.data.bann_top.advList;
             var repoList = repos.map(function(repo, index) {
                 return (<div className = "swiper-slide"
                             key = { index } > <a href = { repo.adv_url } > <img className = "swiper-lazy"
@@ -58,8 +84,40 @@ var BannerHtml = React.createClass({
 
         }
     }
-
-
 })
 
-export default SwiperBanner;
+
+var Js_banner = React.createClass({
+    getInitialState: function() {
+        return {
+            imgsrc: '',
+            banner_href: ''
+        };
+    },
+
+    componentDidMount: function() {
+        $.getJSON("http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner", function(data) {
+            var repos_2 = data.bann_foo1.advList[0];
+
+            if (this.isMounted()) {
+                this.setState({
+                    imgsrc: repos_2.adv_img,
+                    banner_href: repos_2.adv_url
+                });
+            }
+        }.bind(this));
+    },
+    render: function() {
+
+        // var repos_2 = this.state.data.bann_foo1.advList[0];
+        return (
+            <a href={this.state.banner_href}><img class="img-banner" src={this.state.imgsrc}/></a>
+        );
+    }
+})
+
+
+export {
+    SwiperBanner,
+    Js_banner
+};

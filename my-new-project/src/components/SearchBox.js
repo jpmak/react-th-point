@@ -2,7 +2,7 @@ import React from 'react';
 var SearchBox = React.createClass({
     render: function() {
         return (
-        <div className="th-search-container on-blur" style={{'display': 'block'}}>
+            <div className="th-search-container on-blur" style={{'display': 'block'}}>
             <div className="th-search-box">
                 <div className="th-search-shadow"></div>
 <SortsBtn Sorthref="Exchange-category.html"/>
