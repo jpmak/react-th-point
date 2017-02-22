@@ -9,10 +9,15 @@ import TopNav from './components/TopNav';
 import SearchBox from './components/SearchBox';
 import {
 	SwiperBanner,
-	Js_banner
+	Js_banner,
+	Js_banner_2
 } from './components/SwiperBanner';
 import Record from './components/Record';
 import SalesWrapper from './components/SalesWrapper';
+import {
+	JsCate,
+	JsPrduct
+} from './components/JsCate';
 // import Js_banner from './components/Js_banner';
 // Render the main component into the dom
 ReactDOM.render( < TopNav titleName = "兑换商城"
@@ -22,7 +27,10 @@ ReactDOM.render( < TopNav titleName = "兑换商城"
 // ReactDOM.render(<SwiperBanner />, document.getElementById('banner'));
 ReactDOM.render( < SearchBox / > , document.getElementById('search'));
 ReactDOM.render( < SwiperBanner / > , document.getElementById('banner'));
-ReactDOM.render( < Record source = "/json/user_info.json"
-	handhref = "Exchange-exchangeLog.html" / > , document.getElementById('record'));
+ReactDOM.render( < Record handhref = "Exchange-exchangeLog.html" / > , document.getElementById('record'));
 ReactDOM.render( < Js_banner / > , document.getElementById('js_banner'));
 ReactDOM.render( < SalesWrapper / > , document.getElementById('SalesWrapper'));
+ReactDOM.render( < Js_banner_2 / > , document.getElementById('js_banner_2'));
+
+ReactDOM.render( < JsCate / > , document.getElementById('jd-cate'));
+ReactDOM.render( < JsPrduct / > , document.getElementById('jd-prduct'));

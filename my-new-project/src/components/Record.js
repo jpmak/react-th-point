@@ -1,19 +1,17 @@
 import React from 'react';
 var Record = React.createClass({
-        getInitialState: function() {
+    getInitialState: function() {
         return {
-       banana:''
+            banana: ''
         };
     },
-        componentDidMount: function() {
-        $.getJSON(this.props.source, function(data) {
-            // console.log(bann_top.advList[0].adv_img);
-              console.log(data)
+    componentDidMount: function() {
+        $.getJSON("../json/user_info.json", function(data) {
             if (this.isMounted()) {
                 this.setState({
-                  
-                    banana:data.info.banana
-                
+
+                    banana: data.info.banana
+
                 });
             }
 

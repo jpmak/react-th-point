@@ -24,7 +24,7 @@ var Js_banner = React.createClass({
 
         // var repos_2 = this.state.data.bann_foo1.advList[0];
         return (
-            <a href={this.state.banner_href}><img class="img-banner" src={this.state.imgsrc}/></a>
+            <a href={this.state.banner_href}><img className="img-banner" src={this.state.imgsrc}/></a>
         );
     }
 })

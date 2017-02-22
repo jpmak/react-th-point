@@ -1,0 +1,24 @@
+{
+	"status": 1,
+	"goods_list": [{
+		"goods_name": "ZL 红宇 大头人 USB充电暖手宝 移动电源包子暖手宝 手机配件111",
+		"item_id": "21463",
+		"item_price": "11",
+		"list_image": "https://img.thgo8.com/assets/images/03/26/list_27baf4b4653d45284ed2096561a57a11e6debe01.jpg"
+	}, {
+		"goods_name": "测试",
+		"item_id": "21462",
+		"item_price": "10",
+		"list_image": "https://img.thgo8.com/assets/images/02/20/list_9deb6b324176e8207816bb0c136154a2501f61ec.jpg"
+	}, {
+		"goods_name": "OULIE欧美夏季个性荷 叶袖中长裙开 叉下摆印花连衣裙5547",
+		"item_id": "20704",
+		"item_price": "1312",
+		"list_image": "https://img.thgo8.com/assets/images/11/19/list_6b0f42c4974d2d6f5a2363334a30263b63297fd0.jpg"
+	}, {
+		"goods_name": "ZL 红宇 大头人 USB充电暖手宝 移动电源包子暖手宝 手机配件6",
+		"item_id": "20701",
+		"item_price": "1231",
+		"list_image": "https://img.thgo8.com/assets/images/03/26/list_5ff51e614bdbb35be9151b2ae1e8fc2c1482a102.jpg"
+	}]
+}

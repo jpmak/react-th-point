@@ -111,13 +111,42 @@ var Js_banner = React.createClass({
 
         // var repos_2 = this.state.data.bann_foo1.advList[0];
         return (
-            <a href={this.state.banner_href}><img class="img-banner" src={this.state.imgsrc}/></a>
+            <a href={this.state.banner_href}><img className="img-banner" src={this.state.imgsrc}/></a>
         );
     }
 })
 
+var Js_banner_2 = React.createClass({
+    getInitialState: function() {
+        return {
+            imgsrc: '',
+            banner_href: ''
+        };
+    },
+
+    componentDidMount: function() {
+        $.getJSON("http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner", function(data) {
+            var repos_3 = data.bann_foo2.advList[0];
+
+            if (this.isMounted()) {
+                this.setState({
+                    imgsrc: repos_3.adv_img,
+                    banner_href: repos_3.adv_url
+                });
+            }
+        }.bind(this));
+    },
+    render: function() {
+
+        // var repos_2 = this.state.data.bann_foo1.advList[0];
+        return (
+            <a href={this.state.banner_href}><img className="img-banner" src={this.state.imgsrc}/></a>
+        );
+    }
+})
 
 export {
     SwiperBanner,
-    Js_banner
+    Js_banner,
+    Js_banner_2
 };
