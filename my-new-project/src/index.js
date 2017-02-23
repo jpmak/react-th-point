@@ -15,6 +15,7 @@ import {
 import Record from './components/Record';
 import SalesWrapper from './components/SalesWrapper';
 import {
+	App,
 	JsCate,
 	JsPrduct
 } from './components/JsCate';
@@ -31,6 +32,7 @@ ReactDOM.render( < Record handhref = "Exchange-exchangeLog.html" / > , document.
 ReactDOM.render( < Js_banner / > , document.getElementById('js_banner'));
 ReactDOM.render( < SalesWrapper / > , document.getElementById('SalesWrapper'));
 ReactDOM.render( < Js_banner_2 / > , document.getElementById('js_banner_2'));
+ReactDOM.render( < App / > , document.getElementById('app'));
 
-ReactDOM.render( < JsCate / > , document.getElementById('jd-cate'));
-ReactDOM.render( < JsPrduct / > , document.getElementById('jd-prduct'));
+// ReactDOM.render( < JsCate / > , document.getElementById('jd-cate'));
+// ReactDOM.render( < JsPrduct / > , document.getElementById('jd-prduct'));

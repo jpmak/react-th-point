@@ -7,7 +7,9 @@ var JsCate = React.createClass({
             data: null
         };
     },
+
     componentDidMount: function() {
+
         $.getJSON("http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_list", function(value) {
             if (this.isMounted()) {
                 this.setState({
@@ -86,31 +88,31 @@ var JsCate = React.createClass({
 })
 
 var JsPrduct = React.createClass({
-
-
-    componentDidMount: function() {
-        if (this.isMounted()) {
-            this.setState({
-                data: value
-            });
-        }
+    getInitialState: function() {
+        return {
+            loading: true,
+            error: null,
+            data: null
+        };
     },
 
-    //     $.getJSON("../json/get_cate_goods.json", function(value) {
-    //         if (this.isMounted()) {
-    //             this.setState({
-    //                 loading: false,
-    //                 data: value
-    //             });
-    //         }
-    //         $(".app-pd-list img.lazy").show().lazyload({
-    //             placeholder: "/src/images/f-bg.gif",
-    //             skip_invisible: false,
-    //             effect: "fadeIn",
-    //             threshold: 0
-    //         });
-    //     }.bind(this));
-    // },
+    componentDidMount: function() {
+
+        $.getJSON("../json/get_cate_goods.json", function(value) {
+            if (this.isMounted()) {
+                this.setState({
+                    loading: false,
+                    data: value
+                });
+            }
+            $(".app-pd-list img.lazy").show().lazyload({
+                placeholder: "/src/images/f-bg.gif",
+                skip_invisible: false,
+                effect: "fadeIn",
+                threshold: 0
+            });
+        }.bind(this));
+    },
     render: function() {
         if (this.state.loading) {
             return <span > Loading... </span>;
@@ -144,46 +146,7 @@ var JsPrduct = React.createClass({
     }
 })
 
-var App = React.createClass({
-    getInitialState: function() {
-        return {
-            loading: true,
-            error: null,
-            data: {
-                'cate_id': 1,
-                'page': 0
-            },
-        };
-    },
-
-    loadCommentsFromServer: function() {
-        $.ajax({
-            url: this.props.url,
-            dataType: 'json',
-            success: function(data) {
-                this.setState({
-                    data: data
-                });
-            }.bind(this),
-            error: function(xhr, status, err) {
-                console.log(this.props.url, status, err.toString());
-            }.bind(this)
-        });
-    },
-
-    render: function() {
-        return (
-            <div>
-            <JsCate />
-            <JsPrduct cate_id={this.state.id}/>
-            </div>
-        )
-    }
-
-})
-
 export {
-    App,
     JsCate,
     JsPrduct
 };

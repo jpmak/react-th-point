@@ -268,7 +268,7 @@ function sales_volume() {
 
 function user_info() {
     $.ajax({
-        url: 'user_info',
+        url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=user_info',
         type: 'POST',
         dataType: 'json',
         complete: function() {
