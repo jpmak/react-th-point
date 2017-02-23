@@ -1,8 +1,5 @@
 import React from 'react';
-
-
 var JsCate = React.createClass({
-
     getInitialState: function() {
         return {
             loading: true,
@@ -10,8 +7,6 @@ var JsCate = React.createClass({
             data: null
         };
     },
-
-
     componentDidMount: function() {
         $.getJSON("http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_list", function(value) {
             if (this.isMounted()) {
@@ -61,28 +56,20 @@ var JsCate = React.createClass({
             }
         }.bind(this));
     },
-     handleClick:function(event){
-            this.setState({
-                inputContent:this.state.inputContent + 1
-
-            })
-        
-      },
     render: function() {
         if (this.state.loading) {
             return <span > Loading... </span>;
         } else {
             var Cates = this.state.data.cate_list;
-var self = this;
+
             var CateList = Cates.map(function(Cate, index) {
                 // var indexS = index.shift();
                 return (
-                    <li key={index} data={Cate.cate_id} onClick={self.handleClick}><a><span>{Cate.cate_name}</span></a></li>
+                    <li key={index} ><a><span>{Cate.cate_name}</span></a></li>
                 );
             });
             return (
                 <div>
-                    <span>{this.setState.inputContent}</span>    
                     <div id="app-scroller" className="app-scroller-wrap" style={{'height': '.75rem'}}>
                         <div className="app-scroller">
                             <ul className="choose-items-wp">
@@ -102,9 +89,8 @@ var JsPrduct = React.createClass({
    getInitialState: function() {
         return {
             loading: true,
-             cate_id:'',
-          data: null
-
+       data: null
+           
         };
     },
     componentDidMount: function() {
@@ -128,6 +114,21 @@ var JsPrduct = React.createClass({
 
     },
 
+    //     $.getJSON("../json/get_cate_goods.json", function(value) {
+    //         if (this.isMounted()) {
+    //             this.setState({
+    //                 loading: false,
+    //                 data: value
+    //             });
+    //         }
+    //         $(".app-pd-list img.lazy").show().lazyload({
+    //             placeholder: "/src/images/f-bg.gif",
+    //             skip_invisible: false,
+    //             effect: "fadeIn",
+    //             threshold: 0
+    //         });
+    //     }.bind(this));
+    // },
     render: function() {
         if (this.state.loading) {
             return <span > Loading... </span>;
@@ -155,14 +156,33 @@ var JsPrduct = React.createClass({
 })
 
 var App = React.createClass({
+    // getInitialState: function() {
+    //     return {
+    //         loading: true,
+    //         error: null,
+          
+    //     };
+    // },
 
-    handleItemClick:function(e){
-        console.log(123)
-    },
+    // loadCommentsFromServer: function() {
+    //     $.ajax({
+    //         url: this.props.url,
+    //         dataType: 'json',
+    //         success: function(data) {
+    //             this.setState({
+    //                 data: data
+    //             });
+    //         }.bind(this),
+    //         error: function(xhr, status, err) {
+    //             console.log(this.props.url, status, err.toString());
+    //         }.bind(this)
+    //     });
+    // },
+
     render: function() {
         return (
             <div>
-            <JsCate  />
+            <JsCate />
             <JsPrduct/>
             </div>
         )
