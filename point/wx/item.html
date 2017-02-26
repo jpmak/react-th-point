@@ -1,0 +1,278 @@
+<html lang="zh-CN" data-dpr="2" style="font-size: 100px;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="initial-scale=0.5, user-scalable=no">
+    <script type="text/javascript">
+    (function() {
+        window.onerror = function(e) {
+            var img = new Image();
+            var evt = e || {};
+            var encode = function(s) {
+                return encodeURIComponent(escape(s));
+            }
+            var api = 'https://8.baidu.com/content/log.gif?type=error&url=' + encode(location.href);
+            var el = evt.srcElement || evt.targe;
+            if (el) {
+                img.src = api + '&errorEvent=1&element=1&msg=' + encode([el.tagName, el.getAttribute('src') || el.getAttribute('href')].join(','));
+            } else {
+                if (evt.message) {
+                    img.src = api + '&errorEvent=1&msg=' + encode([evt.message, evt.filename, evt.lineno, evt.colno, evt.error].join(','));
+                } else {
+                    img.src = api + '&msg=' + encode(Array.prototype.slice.call(arguments, 0).join(','));
+                }
+            }
+            img = null;
+        };
+    })();
+    </script>
+
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/common.css">
+        <link rel="stylesheet" href="./css/wu_detail.css">
+      <link rel="stylesheet" href="./css/iconfont.css">
+        
+    <title></title>
+
+</head>
+
+<body style="font-size: 36px;" youdao="bind">
+    <div class="detail-header">
+        <a href="javascript:history.go(-1);" class="home"></a><span class="logo"></span></div>
+    <div style="width:100%;height:1rem"></div>
+    <section class="init-hidden" style="visibility: visible;">
+        <!--手百搜索时添加头部-->
+        <!-- 活动公告 -->
+        <div class="center-notice" style="display:none;"></div>
+        <div class="active-tip" style="display:none;">
+            <span class="right">详情</span>
+            <p></p>
+            <!-- <a href="javascript:void(0);">详情</a> -->
+        </div>
+        <!-- 活动公告end -->
+        <div class="productDetailTop headerBg" style="display: block;">
+            <div id="productDetailMain" class="productDetailMain">
+                <h2 style="font-size: 0.32rem; line-height: normal;">父母理财·百康1月170228</h2>
+                <div id="productDetail" class="productDetail">
+                    <div class="productDetailRate">
+                        <p class="profit"><span class="line-left"></span> 预期年化收益率 <span class="line-right"></span></p>
+                        <div class="rateNumber">6.000% </div>
+                    </div>
+                </div>
+            </div>
+            <div id="productInfo" class="productInfo">
+                <div>
+                    <div class="productMoneyAll productInfoDetail">
+                        <p>起购金额(元)</p>
+                        <p class="numMask">30000</p>
+                    </div>
+                    <div class="productIncome productInfoDetail">
+                        <p>持有期限(天)</p>
+                        <p class="numMask">42</p>
+                    </div> <span class="sep-line"></span> </div>
+            </div>
+        </div>
+        <div class="anxin-tip" data-url="" style="display: block;">
+            <span></span>
+            <p>安心之选 收益稳健</p>
+        </div>
+        <div class="enable-arrive">
+            <div class="enable-amount" style="display: block;"><span class="t">本期剩余额度</span>充足</div>
+            <div class="privilege-amount"></div>
+            <div class="linkList arrive_time" style="display: block;">
+                <div>本期募集截至</div>
+                <label>2017 年</label><span><i></i><i>02</i></span>
+                <label>月</label><span><i></i><i>27</i></span>
+                <label>日</label><em>14:00</em></div>
+            <div class="parent-privilege-tip"></div>
+        </div>
+        <div class="activity-tips">
+            <div class="prdfund-setting-div" style="border-bottom: 1px solid #eeeeee;">
+                <span class="prdfund-rule-span" style="font-size: .3rem;color:#222;">特权用户专享</span>
+                <a class="prdfund-rule-link" href="https://8.baidu.com/activity/privilege/index.html">
+                    <span>活动详情</span>
+                    <i class="icon-font icon-arrow icon-detail"></i>
+                </a>
+            </div>
+            <div class="not-login">
+                <div class="my-privilege"><span class="t">我的特权额度</span>登录后查看额度</div>
+                <div class="linkList arrive_time" style="display: block;">
+                    <div>本期募集截至</div>
+                    <label>2017 年</label><span><i></i><i>02</i></span>
+                    <label>月</label><span><i></i><i>27</i></span>
+                    <label>日</label><em>14:00</em></div>
+            </div>
+            <div class="has-login has-privilege">
+                <div class="my-privilege total-privilege"><span class="t">我的特权额度</span><i></i></div>
+                <div class="my-privilege left-privilege"><span class="t">剩余特权额度</span><i></i></div>
+                <div class="linkList arrive_time" style="display: block;">
+                    <div>本期募集截至</div>
+                    <label>2017 年</label><span><i></i><i>02</i></span>
+                    <label>月</label><span><i></i><i>27</i></span>
+                    <label>日</label><em>14:00</em></div>
+            </div>
+            <div class="has-login not-privilege">
+                <div class="my-privilege"><span class="t">我的特权额度</span>未获得额度</div>
+                <div class="privilege-tip">
+                    <p>特权额度通过在活动时间内（2016.12.12-2017.1.12）累计投资的定期资产来获得（当前活动已结束）。</p>
+                </div>
+                <div class="tip-blank"></div>
+            </div>
+        </div>
+        <div id="timeScheduleBox" class="timeScheduleBox">
+            <!-- 银行理财 -->
+            <div class="prdfund-panel3-div prdfund-rule-box">
+                <div class="prdfund-setting-div"> <span class="prdfund-rule-span">投资规则</span>
+                    <!-- <a class="prdfund-rule-link" href="/content/resource/insure/buyRule/8000.html"> -->
+                    <a class="prdfund-rule-link" href="/content/resource/insure/qa/8000.html"> <span>详情</span> <i class="icon-font icon-arrow icon-detail"></i> </a>
+                </div>
+            </div>
+            <div class="prdfund-time">
+                <div class="prdfund-time-title"> <span>起息日</span> <span>到期日</span> <span>本息到账</span> </div>
+                <canvas id="ruleProcess" style="margin: 0px auto; display: none;"></canvas>
+                <div class="pro-content"><span class="pro-circle"></span><span class="pro-line"><i></i></span><span class="pro-circle"></span><span class="pro-line"><i></i></span><span class="pro-circle"></span></div>
+                <div class="prdfund-time-detail" data-formattime=""> <span data-formattime="">2017-02-28</span> <span data-formattime="">2017-04-11</span> <span data-formattime="">2个工作日内</span> </div>
+                <div class="prdfund-time-tip">
+                    <p>本产品募集成功后起息，不支持提前赎回，产品到期后一次性兑付投资本息</p>
+                </div>
+            </div>
+        </div>
+        <div id="productDetailBox" class="productDetailBox" style="display: block;">
+            <h2>产品介绍</h2>
+            <div class="product-detail-box border-box">
+                <div> <span>产品名称</span> <span>父母理财·百康1月170228</span> </div>
+                <div> <span>产品类型</span> <span>金融资产收益权转让</span> </div>
+                <p>通惠理财作为该产品的网络平台，不参与投资，不承担投资风险，请仔细阅读 <a href="../protocol/protocol.html?goods_id=80000354&amp;desc_id=2469">《武金所个人注册投资者网上注册协议》</a> 、<a href="../protocol/protocol.html?goods_id=80000354&amp;desc_id=2470">《百富安盈计划金融资产收益权转让协议》</a> 、<a href="../protocol/protocol.html?goods_id=80000354&amp;desc_id=2471">《项目说明》</a> 等相关信息</p>
+            </div>
+        </div>
+        <div id="desBox" class="desBox">
+            <h2>投资说明</h2>
+            <div class="product-detail-box border-box">
+                <p>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通惠联合国有金融资产交易所，知名银行，券商，信托公司，保险公司等金融机构，为用户提供多重安全保障。
+                </p>
+                <p style="margin-top:0;">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本产品投资于金融资产收益权，该金融资产是一类或多类资产形成的组合，组合中的资产包括：高流动性资产，包括国债、央行票据、金融债、高等级信用债及货币市场工具等；债权类资产，包括符合监管要求的固定收益类资产管理计划、金融产权交易所委托债权投资项目、债权类信托计划等中低风险资产。
+                </p>
+            </div>
+        </div>
+        <div id="productOtherBox" class="productOtherBox"></div>
+        <div id="productIntroBox" class="productDetailBox productIntroBox">
+            <h2>投资说明</h2>
+            <div class="product-detail-box">
+                <p>通惠联合国有金融资产交易所，知名银行，券商，信托公司，保险公司等金融机构，为用户提供多重安全保障。</p>
+                <p>本产品投资于金融资产收益权，该金融资产是符合监管要求的优质债权等低风险资产。上述金融资产由专业投资团队按照严谨规范的投资流程进行投资管理，建立了良好的风险控制机制并设计了多重的安全保障，在力求资金安全的前提下追求稳健的投资收益。</p>
+            </div>
+        </div>
+        <script id="productIntro_tpl" type="text/template">
+            <h2>投资说明</h2>
+            <div class="product-detail-box">
+                {@if ret_info._productName==='wu'}
+                <p>通惠联合国有金融资产交易所，知名银行，券商，信托公司，保险公司等金融机构，为用户提供多重安全保障。</p>
+                <p>本产品投资于金融资产收益权，该金融资产是符合监管要求的优质债权等低风险资产。上述金融资产由专业投资团队按照严谨规范的投资流程进行投资管理，建立了良好的风险控制机制并设计了多重的安全保障，在力求资金安全的前提下追求稳健的投资收益。</p>
+                {@else if ret_info._productName === 'yue'}
+                <p>百粤安盈系列产品是通惠金融联合广东股交中心推出的固定收益类理财计划；基础资产经严格筛选，标的资产质量安全可靠；通惠金融风控严格把关，安全可信。</p>
+                {@/if}
+            </div>
+        </script>
+        <div id="btnWrap">
+            <div class="btnWrap fixed-act"> <span id="invest" class="prdfund-invest-div btn btn-full btn-largests btn-danger">立即转入</span> </div>
+        </div>
+        <script id="productDetailMain_tpl" type="text/template">
+            <h2>${ret_info.item_name}</h2>
+            <div id="productDetail" class="productDetail">
+                <div class="productDetailRate">
+                    <p class="profit"><span class="line-left"></span> 预期年化收益率 <span class="line-right"></span></p>
+                    <div class="rateNumber">${ret_info.e_annualized_rate_of_return}% {@if ret_info.activityName === 'privilege_staff_parents' && ret_info.subsidyValue}
+                        <div class="privilege-rate-num">
+                            {@if ret_info.subsidyDes}
+                            <div class="subsidy-desc">
+                                <p><span>${ret_info.subsidyDes}</span></p>
+                            </div>
+                            {@/if} +${ret_info.subsidyValue}%
+                        </div>
+                        {@/if}
+                    </div>
+                </div>
+            </div>
+        </script>
+        <script id="productInfo_tpl" type="text/template">
+            <div>
+                <div class="productMoneyAll productInfoDetail">
+                    <p>起购金额(元)</p>
+                </div>
+                <div class="productIncome productInfoDetail">
+                    <p>持有期限(天)</p>
+                </div>
+                <span class="sep-line"></span>
+            </div>
+  
+        </script>
+        <script id="productInfoWithLimit_tpl" type="text/template">
+            <div>
+                <div class="productMoneyAll productInfoDetail" style="width:33%">
+                    <p>起购金额(元)</p>
+                    <p class="numMask"></p>
+                </div>
+                <div class="productIncome productInfoDetail" style="width:33%">
+                    <p>购买限额(元)</p>
+                    <p class="numMask"></p>
+                </div>
+                <div class="productIncome productInfoDetail" style="width:33%">
+                    <p>持有期限(天)</p>
+                    <p class="numMask"></p>
+                </div>
+                <span class="sep-line"></span>
+            </div>
+            {@if ret_info.asset_flag && ret_info.asset_flag == 1} {@if ret_info.asset != 0 || ret_info.accumulated_income != 0}
+            <a class="productInfo-assets" href="./wu_detailed.html?itemid=${ret_info.item_id}">
+                <span>持有资产：${ret_info.asset|moneyToYuan}元</span>
+                <span>累计收益：${ret_info.accumulated_income|moneyToYuan}元</span>
+                <i class="icon-font icon-arrow icon-assets"></i>
+            </a>
+            {@/if} {@/if}
+        </script>
+    </section>
+
+        <div class="cover-mask" style="display: block; opacity: 1">
+        </div>
+        <section class="product-cover" style="display: block; opacity: 1">
+            <div class="wbox-flex">
+                <div class="product-icon cover-close">
+                    <a class="close"></a>
+                </div>
+   
+              <div class="th-main pay amendid">
+                <div class="name">金额</div>
+                <div class="wbox">
+                    <div class="wbox-flex mon_state" >
+                    <div class="mon_tip"><em class="ico">¥</em><span class="title">10000元起投,100000元限额</span></div>
+                        <input id="mon_num" maxlength="50" type="number" autocomplete="off" placeholder="" value="">
+                    </div>
+                    <div class="prompt"><span class="red mr10">03月02日</span>起息,预期年化收益率<span class="red ml10">5.700%</span></div>
+                </div>
+            </div>
+
+
+               <div class="product-payup">
+                    <div class="pay-item">
+                        <div class="button">
+                           <button id="loginform" class="btn bg-red bg-dark">立即转入</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="fix-box product-payup">
+            <div class="pay-item">
+                <div class="wbox-flex tc">
+                    <a class="th-btn th-btn-assertive ">确定并支付</a>
+                </div>
+            </div>
+        </div>
+<div style="width:100%;height:1rem"></div>
+<script src="js/jquery-1.10.1.min.js"></script>
+<script src="js/licai.js"></script>
+</body>

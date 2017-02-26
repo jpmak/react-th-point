@@ -1,0 +1,310 @@
+<html lang="zh-CN" data-dpr="2" style="font-size: 100px; ">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport" content="initial-scale=0.5, user-scalable=no">
+    <script type="text/javascript">
+    (function() {
+        window.onerror = function(e) {
+            var img = new Image();
+            var evt = e || {};
+            var encode = function(s) {
+                return encodeURIComponent(escape(s));
+            }
+            var api = 'https://8.baidu.com/content/log.gif?type=error&url=' + encode(location.href);
+            var el = evt.srcElement || evt.targe;
+            if (el) {
+                img.src = api + '&errorEvent=1&element=1&msg=' + encode([el.tagName, el.getAttribute('src') || el.getAttribute('href')].join(','));
+            } else {
+                if (evt.message) {
+                    img.src = api + '&errorEvent=1&msg=' + encode([evt.message, evt.filename, evt.lineno, evt.colno, evt.error].join(','));
+                } else {
+                    img.src = api + '&msg=' + encode(Array.prototype.slice.call(arguments, 0).join(','));
+                }
+            }
+            img = null;
+        };
+    })();
+    </script>
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/wu_detail.css">
+    <link rel="stylesheet" href="./css/iconfont.css">
+    <title></title>
+</head>
+
+<body style="font-size: 36px;" youdao="bind">
+    <div class="detail-header">
+        <a href="javascript:history.go(-1);" class="home"></a><span class="logo"></span></div>
+    <div style="width:100%;height:1rem"></div>
+    <section class="init-hidden" style="visibility: visible; ">
+        <!--手百搜索时添加头部-->
+        <!-- 活动公告 -->
+        <div class="center-notice" style="display:none;"></div>
+        <div class="active-tip" style="display:none;">
+            <span class="right">详情</span>
+            <p></p>
+            <!-- <a href="javascript:void(0);">详情</a> -->
+        </div>
+        <!-- 活动公告end -->
+        <div class="productDetailTop headerBg" style="display: block; height:100%;overflow:scroll;">
+            <div id="productDetailMain" class="productDetailMain">
+                <h2 style="font-size: 0.32rem; line-height: normal; padding-bottom: .2rem;">惠积宝 3月010001 </h2>
+                <div id="productDetail" class="productDetail">
+                    <div class="productDetailRate">
+                        <p class="profit"><span class="line-left"></span> 持有期限 <span class="line-right"></span></p>
+                        <div class="rateNumber">30天 </div>
+                    </div>
+                </div>
+            </div>
+            <div id="productInfo" class="productInfo">
+                <div>
+                    <div class="productMoneyAll productInfoDetail w40">
+                        <p>精选定期</p>
+                        <p class="numMask">充值100W</p>
+                    </div>
+                    <div class="productMoneyAll productInfoDetail w30">
+                        <p>起投金额</p>
+                        <p class="numMask">100W</p>
+                    </div>
+                    <div class="productIncome productInfoDetail w30">
+                        <p>预期月化收益率</p>
+                        <p class="numMask">10%</p>
+                    </div>
+                    <span class="sep-line"></span> </div>
+            </div>
+            <div id="productInfo" class="productInfo">
+                <div>
+                    <div class="productMoneyAll productInfoDetail w40">
+                        <p>精选定期</p>
+                        <p class="numMask">充80W~100W内</p>
+                    </div>
+                    <div class="productMoneyAll productInfoDetail w30">
+                        <p>起投金额</p>
+                        <p class="numMask">80W</p>
+                    </div>
+                    <div class="productIncome productInfoDetail w30">
+                        <p>预期月化收益率</p>
+                        <p class="numMask">9%</p>
+                    </div>
+                    <span class="sep-line"></span> </div>
+            </div>
+            <div id="productInfo" class="productInfo">
+                <div>
+                    <div class="productMoneyAll productInfoDetail w40">
+                        <p>精选定期</p>
+                        <p class="numMask">充80W~100W</p>
+                    </div>
+                    <div class="productMoneyAll productInfoDetail w30">
+                        <p>起投金额</p>
+                        <p class="numMask">80W</p>
+                    </div>
+                    <div class="productIncome productInfoDetail w30">
+                        <p>预期月化收益率</p>
+                        <p class="numMask">9%</p>
+                    </div>
+                    <span class="sep-line"></span> </div>
+            </div>
+            <div id="productInfo" class="productInfo">
+                <div>
+                    <div class="productMoneyAll productInfoDetail w40">
+                        <p>精选定期</p>
+                        <p class="numMask">充40W~80W内</p>
+                    </div>
+                    <div class="productMoneyAll productInfoDetail w30">
+                        <p>起投金额</p>
+                        <p class="numMask">40W</p>
+                    </div>
+                    <div class="productIncome productInfoDetail w30">
+                        <p>预期月化收益率</p>
+                        <p class="numMask">8%</p>
+                    </div>
+                    <span class="sep-line"></span> </div>
+            </div>
+            <div id="productInfo" class="productInfo">
+                <div>
+                    <div class="productMoneyAll productInfoDetail w40">
+                        <p>精选定期</p>
+                        <p class="numMask">充20W~40W内</p>
+                    </div>
+                    <div class="productMoneyAll productInfoDetail w30">
+                        <p>起投金额</p>
+                        <p class="numMask">20W</p>
+                    </div>
+                    <div class="productIncome productInfoDetail w30">
+                        <p>预期月化收益率</p>
+                        <p class="numMask">7%</p>
+                    </div>
+                    <span class="sep-line"></span> </div>
+            </div>
+            <div id="productInfo" class="productInfo">
+                <div>
+                    <div class="productMoneyAll productInfoDetail w40">
+                        <p>精选定期</p>
+                        <p class="numMask">充10W~20W内</p>
+                    </div>
+                    <div class="productMoneyAll productInfoDetail w30">
+                        <p>起投金额</p>
+                        <p class="numMask">10W</p>
+                    </div>
+                    <div class="productIncome productInfoDetail w30">
+                        <p>预期月化收益率</p>
+                        <p class="numMask">6%</p>
+                    </div>
+                    <span class="sep-line"></span> </div>
+            </div>
+            <div id="productInfo" class="productInfo">
+                <div>
+                    <div class="productMoneyAll productInfoDetail w40">
+                        <p>精选定期</p>
+                        <p class="numMask">充1W~10W内</p>
+                    </div>
+                    <div class="productMoneyAll productInfoDetail w30">
+                        <p>起投金额</p>
+                        <p class="numMask">1W</p>
+                    </div>
+                    <div class="productIncome productInfoDetail w30">
+                        <p>预期月化收益率</p>
+                        <p class="numMask">6%</p>
+                    </div>
+                    <span class="sep-line"></span> </div>
+            </div>
+        </div>
+        <div class="anxin-tip" data-url="" style="display: block; ">
+            <span></span>
+            <p>安心之选 收益稳健</p>
+        </div>
+        <div class="enable-arrive  timeScheduleBox">
+            <div class="privilege-amount"></div>
+            <div class="linkList arrive_time" style="display: block;">
+                <div>本期募集截至</div>
+                <label>2017 年</label><span><i></i><i>03</i></span>
+                <label>月</label><span><i></i><i>31</i></span>
+                <label>日</label><em>14:00</em></div>
+            <div class="parent-privilege-tip"></div>
+        </div>
+        <div id="timeScheduleBox" class="timeScheduleBox">
+            <!-- 银行理财 -->
+            <div class="prdfund-time" style="padding-top: .2rem;">
+                <div class="prdfund-time-title"> <span>起息日</span> <span>本息到账</span> </div>
+                <canvas id="ruleProcess" style="margin: 0px auto; display: none;"></canvas>
+                <div class="pro-content"><span class="pro-circle"></span><span class="pro-line"><i></i></span><span class="pro-circle"></span></div>
+                <div class="prdfund-time-detail" data-formattime=""> <span data-formattime="">2017-02-28</span> <span data-formattime="">2个工作日内</span> </div>
+                <div class="prdfund-time-tip">
+                    <p>本产品投资成功后起息日计息，不支持提前赎回，产品到期后一次性兑付投资本息
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div id="productDetailBox" class="productDetailBox" style="display: block;">
+            <h2>产品介绍</h2>
+            <div class="product-detail-box border-box">
+                <div> <span>产品类型</span> <span>金融资产收益权转让</span> </div>
+                <p>众创金融财作为该产品的网络平台，不参与投资，不承担投资风险，请仔细阅读 <a href="ag.html">《众创理财注册投资者网上注册协议》</a> <a href="xm">《众创理财金融资产收益权转让协议》</a> 、<a href="">《项目说明》</a> 等相关信息</p>
+            </div>
+        </div>
+        <div id="desBox" class="desBox">
+            <h2>投资说明</h2>
+            <div class="product-detail-box border-box">
+                <p>
+                  众创金融联合国有金融资产交易所，知名银行，券商，信托公司，保险公司等金融机构，为用户提供多重安全保障。
+                </p>
+                <p style="margin-top:0;">
+                  本产品投资于金融资产收益权，该金融资产是符合监管要求的优质债权等低风险资产。上述金融资产由专业投资团队按照严谨规范的投资流程进行投资管理，建立了良好的风险控制机制并设计了多重的安全保障，在力求资金安全的前提下追求稳健的投资收益。
+                </p>
+            </div>
+        </div>
+        <div id="productOtherBox" class="productOtherBox"></div>
+        <div id="productIntroBox" class="productDetailBox productIntroBox">
+            <h2>投资说明</h2>
+            <div class="product-detail-box">
+                <p>通惠联合国有金融资产交易所，知名银行，券商，信托公司，保险公司等金融机构，为用户提供多重安全保障。</p>
+                <p>本产品投资于金融资产收益权，该金融资产是符合监管要求的优质债权等低风险资产。上述金融资产由专业投资团队按照严谨规范的投资流程进行投资管理，建立了良好的风险控制机制并设计了多重的安全保障，在力求资金安全的前提下追求稳健的投资收益。</p>
+            </div>
+        </div>
+        <script id="productIntro_tpl" type="text/template">
+            <h2>投资说明</h2>
+            <div class="product-detail-box">
+                <p>众创金融联合国有金融资产交易所，知名银行，券商，信托公司，保险公司等金融机构，为用户提供多重安全保障。</p>
+                <p>本产品投资于金融资产收益权，该金融资产是符合监管要求的优质债权等低风险资产。上述金融资产由专业投资团队按照严谨规范的投资流程进行投资管理，建立了良好的风险控制机制并设计了多重的安全保障，在力求资金安全的前提下追求稳健的投资收益。</p>
+             
+            </div>
+        </script>
+        <div style="width:100%;height:1rem"></div>
+        <div id="btnWrap">
+            <div class="btnWrap fixed-act"> <span id="invest" class="prdfund-invest-div btn btn-full btn-largests btn-danger">立即转入</span> </div>
+        </div>
+        <script id="productDetailMain_tpl" type="text/template">
+           
+        </script>
+        <script id="productInfo_tpl" type="text/template">
+            <div>
+                <div class="productMoneyAll productInfoDetail">
+                    <p>起购金额(元)</p>
+                </div>
+                <div class="productIncome productInfoDetail">
+                    <p>持有期限(天)</p>
+                </div>
+                <span class="sep-line"></span>
+            </div>
+        </script>
+        <script id="productInfoWithLimit_tpl" type="text/template">
+            <div>
+                <div class="productMoneyAll productInfoDetail" style="width:33%">
+                    <p>起购金额(元)</p>
+                    <p class="numMask"></p>
+                </div>
+                <div class="productIncome productInfoDetail" style="width:33%">
+                    <p>购买限额(元)</p>
+                    <p class="numMask"></p>
+                </div>
+                <div class="productIncome productInfoDetail" style="width:33%">
+                    <p>持有期限(天)</p>
+                    <p class="numMask"></p>
+                </div>
+                <span class="sep-line"></span>
+            </div>
+       
+        </script>
+    </section>
+    <div class="cover-mask">
+    </div>
+    <section class="product-cover">
+        <div class="wbox-flex">
+            <div class="product-icon cover-close">
+                <a class="close"></a>
+            </div>
+            <div class="th-main pay amendid">
+                <div class="name">金额</div>
+                <div class="wbox">
+                    <div class="wbox-flex mon_state">
+                        <div class="mon_tip"><em class="ico">¥</em><span class="title">安全、专业、全面的综合金融服务平台</span></div>
+                        <input id="mon_num" maxlength="50" type="number" autocomplete="off" placeholder="" value="" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                    </div>
+                    <div class="prompt"><span class=" mr10">当前余额</span><span class="red" style="font-size: .4rem">100000 元</span><span class="red ml10" style="float:right; color:#ffae53">马上充值</span></div>
+                </div>
+            </div>
+            <div class="product-payup">
+                <div class="pay-item">
+                    <div class="button">
+                        <button id="loginform" class="btn bg-red bg-dark">立即转入</button>
+                        <button id="loginform" class="btn bg-dark">您的余额不足，请马上充值</button>
+                        <button id="loginform" class="btn  bg-dark">首次转入，必需10000起投</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="fix-box product-payup">
+        <div class="pay-item">
+            <div class="wbox-flex tc">
+                <a class="th-btn th-btn-assertive ">确定并支付</a>
+            </div>
+        </div>
+    </div>
+    <div style="width:100%;height:1rem"></div>
+    <script src="js/jquery-1.10.1.min.js"></script>
+    <script src="js/licai.js"></script>
+</body>

@@ -1,56 +1,8 @@
 import React from 'react';
 
 
-var JsPrduct = React.createClass({
-    getInitialState: function() {
-        return {
-            data: {}
-        };
-    },
-    componentDidMount: function() {
-        this.setState({
-            data: data
-        });
+var JsCate = React.createClass({
 
-    },
-
-    render: function() {
-
-        var Prducts = this.props.data.goods_list;
-        var PrductList = Prducts.map(function(Prduct, index) {
-            // var indexS = index.shift();
-            return (
-                <li key={index}><a href={'Exchange-goods-' + Prduct.item_id + '.html'}><div className="info-img"><img alt="" className="lazy" data-original= {Prduct.list_image}/></div><div className="info-bar"><div className="pro-title">{Prduct.goods_name}</div><div className="e-numb"><span className="e-price"><em>{Prduct.item_price}</em>积分</span></div></div></a></li>
-            );
-        });
-
-        return (
-            <div>
-           
-                <div className="app-pd-wp">
-                <div className="app-pd-list">
-                        <ul>
-                            {PrductList}
-                        </ul>
-                    </div>
-                    </div>
-                    </div>)
-
-
-    }
-})
-
-function loadCommentsFromServer(url, data, callback) {
-    setTimeout(function() {
-        callback({
-            username: 'xxx',
-            age: 10
-        });
-    }, 10);
-}
-
-
-var App = React.createClass({
     getInitialState: function() {
         return {
             loading: true,
@@ -63,7 +15,7 @@ var App = React.createClass({
 
     componentDidMount: function() {
         $.getJSON("http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_list", function(value) {
-
+            if (this.isMounted()) {
                 this.setState({
                     loading: false,
                     data: value
@@ -103,25 +55,12 @@ var App = React.createClass({
                     var c_nav = $(this).find("a").text();
                     // navName(c_nav);
                 });
-                // 初始化
-            },
 
-            $.ajax({
-                url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_goods',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    'cate_id': 51,
-                    'page': 0
-                },
-                success: function(value) {
-                    this.setState({
-                        loading: false,
-                        data: value
-                    });
-                }.bind(this),
-                error: function(xhr, status, err) {}.bind(this)
-            }));
+
+
+                // 初始化
+            }
+        }.bind(this));
     },
     handleClick: function(event) {
         // this.setState({
@@ -146,6 +85,7 @@ var App = React.createClass({
             });
             return (
                 <div>
+                    <span>{this.setState.inputContent}</span>
                     <div id="app-scroller" className="app-scroller-wrap" style={{'height': '.75rem'}}>
                         <div className="app-scroller">
                             <ul className="choose-items-wp">
@@ -154,9 +94,70 @@ var App = React.createClass({
                             </ul>
                         </div>
                     </div>
-                       <JsPrduct data={this.state.data}/>
                 </div>
             )
+
+        }
+    }
+})
+
+// var JsPrduct = React.createClass({
+
+
+// })
+
+var App = React.createClass({
+    getInitialState: function() {
+        return {
+            loading: true,
+            cate_id: '',
+            data: null
+
+        };
+    },
+    componentDidMount: function() {
+        $.ajax({
+            url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_goods',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                'cate_id': 1,
+                'page': 0
+            },
+            success: function(value) {
+                this.setState({
+                    loading: false,
+                    data: value
+                });
+            }.bind(this),
+            error: function(xhr, status, err) {}.bind(this)
+        });
+
+    },
+
+    render: function() {
+        if (this.state.loading) {
+            return <span > Loading... </span>;
+        } else {
+            var Prducts = this.state.data.goods_list;
+            var PrductList = Prducts.map(function(Prduct, index) {
+                // var indexS = index.shift();
+                return (
+                    <li key={index}><a href={'Exchange-goods-' + Prduct.item_id + '.html'}><div className="info-img"><img alt="" className="lazy" data-original= {Prduct.list_image}/></div><div className="info-bar"><div className="pro-title">{Prduct.goods_name}</div><div className="e-numb"><span className="e-price"><em>{Prduct.item_price}</em>积分</span></div></div></a></li>
+                );
+            });
+
+            return (
+                <div>
+                   <JsCate />
+                <div className="app-pd-wp">
+                <div className="app-pd-list">
+                        <ul>
+                            {PrductList}
+                        </ul>
+                    </div>
+                    </div>
+                    </div>)
 
         }
     }
@@ -167,6 +168,6 @@ var App = React.createClass({
 
 export {
     App,
-    // JsCate
-    JsPrduct
+    JsCate
+    // JsPrduct
 };
