@@ -86,30 +86,35 @@ var JsCate = React.createClass({
 })
 
 var JsPrduct = React.createClass({
-   getInitialState: function() {
+    getInitialState: function() {
         return {
             loading: true,
-       data: null
-           
+            data: null
+
         };
     },
     componentDidMount: function() {
         $.ajax({
             url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_goods',
-               type: 'POST',
+            type: 'POST',
             dataType: 'json',
             data: {
-            'cate_id': 51,
-            'page': 0
+                'cate_id': 51,
+                'page': 0
             },
             success: function(value) {
                 this.setState({
-                       loading: false,
+                    loading: false,
                     data: value
                 });
+                $(".app-pd-list img.lazy").show().lazyload({
+                    placeholder: "/src/images/f-bg.gif",
+                    skip_invisible: false,
+                    effect: "fadeIn",
+                    threshold: 0,
+                });
             }.bind(this),
-            error: function(xhr, status, err) {
-            }.bind(this)
+            error: function(xhr, status, err) {}.bind(this)
         });
 
     },
@@ -160,7 +165,7 @@ var App = React.createClass({
     //     return {
     //         loading: true,
     //         error: null,
-          
+
     //     };
     // },
 

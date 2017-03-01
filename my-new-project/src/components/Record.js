@@ -6,7 +6,7 @@ var Record = React.createClass({
         };
     },
     componentDidMount: function() {
-        $.getJSON("../json/user_info.json", function(data) {
+        $.getJSON("../../json/user_info.json", function(data) {
             if (this.isMounted()) {
                 this.setState({
 
