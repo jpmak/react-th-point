@@ -9,17 +9,52 @@ var JsPrduct = React.createClass({
 
         };
     },
-
+    componentDidMount: function() {
+        $.ajax({
+            url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_goods',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                'cate_id': this.props.id,
+                'page': 0
+            },
+            success: function(value) {
+                this.setState({
+                    loading: false,
+                    data: value
+                });
+                $(".app-pd-list img.lazy").show().lazyload({
+                    placeholder: "/src/images/f-bg.gif",
+                    skip_invisible: false,
+                    effect: "fadeIn",
+                    threshold: 0,
+                });
+            }.bind(this),
+        });
+    },
     render: function() {
-        return (
-            <div className="app-pd-wp">
+        if (this.state.loading) {
+            return <span > Loading... </span>;
+        } else {
+            var Prducts = this.state.data.goods_list;
+            var PrductList = Prducts.map(function(Prduct, index) {
+                // var indexS = index.shift();
+                return (
+                    <li key={index}><a href={'Exchange-goods-' + Prduct.item_id + '.html'}><div className="info-img"><img alt="" className="lazy" data-original= {Prduct.list_image}/></div><div className="info-bar"><div className="pro-title">{Prduct.goods_name}</div><div className="e-numb"><span className="e-price"><em>{Prduct.item_price}</em>积分</span></div></div></a></li>
+                );
+            });
+
+            return (
+                <div className="app-pd-wp">
                 <div className="app-pd-list">
                         <ul>
-                            {this.props.data}
+                            {PrductList}
                         </ul>
                     </div>
                     </div>
-        )
+            )
+
+        }
     }
 })
 
@@ -87,29 +122,7 @@ var App = React.createClass({
         // })
 
         this.setState({
-            message: function() {
-                $.ajax({
-                    url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_goods',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        'cate_id': event,
-                        'page': 0
-                    },
-                    success: function(value) {
-                        this.setState({
-                            loading: false,
-                            data: value
-                        });
-                        $(".app-pd-list img.lazy").show().lazyload({
-                            placeholder: "/src/images/f-bg.gif",
-                            skip_invisible: false,
-                            effect: "fadeIn",
-                            threshold: 0,
-                        });
-                    }.bind(this),
-                });
-            }
+            message: event
         });
     },
     render: function() {
@@ -134,7 +147,7 @@ var App = React.createClass({
                             </ul>
                         </div>
                     </div>
-            <JsPrduct data={this.state.message}/>
+            <JsPrduct id={this.state.message}/>
                 </div>
             )
 
