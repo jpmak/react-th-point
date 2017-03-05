@@ -1,5 +1,4 @@
-        var page = 0;
-        let page_state = 1;
+
 
         $(function() {
 

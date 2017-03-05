@@ -1,6 +1,8 @@
 import React from 'react';
 
-
+        let page = 0;
+        let page_state = 1;
+        let event='';
 var JsPrduct = React.createClass({
     getInitialState: function() {
         return {
@@ -12,10 +14,13 @@ var JsPrduct = React.createClass({
 
     render: function() {
         return (
+            <div>
             <div className="app-pd-wp">
                 <div className="app-pd-list">
 <ul></ul>
                     </div>
+                    </div>
+                    <div className="load-tip"></div>
                     </div>
         )
     }
@@ -34,7 +39,7 @@ var App = React.createClass({
         };
     },
 
-    // <ul dangerouslySetInnerHTML= {{__html:this.props.data}}></ul> 
+
     componentDidMount: function() {
         document.addEventListener('scroll', this.handleScroll);
         $.getJSON('http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_list',
@@ -46,13 +51,15 @@ var App = React.createClass({
                         data_p: null,
                         data: value
                     });
-                    $('.choose-items-wp li').first().addClass('act').trigger('click');
 
                     var nav_w = $('.app-scroller li').first().width();
                     var fl_w = $('.app-scroller').width();
                     var flb_w = $('.app-scroller-wrap').width();
                     $('.choose-items-wp p').width(nav_w);
                     $('.app-scroller li').on('click', function() {
+                        page=0;
+                        page_state = 1;
+                        event=$(this).attr('id');
                         nav_w = $(this).width();
                         $('.choose-items-wp p').stop(true);
                         $('.choose-items-wp p').animate({
@@ -80,17 +87,18 @@ var App = React.createClass({
                         var c_nav = $(this).find('a').text();
                         // navName(c_nav);
                     });
+                    $('.choose-items-wp li').first().addClass('act').trigger('click');
+                    
                     // 初始化
 
                 }
             }.bind(this));
     },
 
-    handleClick: function(event) {
+    handleClick: function() {
         // this.setState({
         // })
         const _this = this;
-
         $.ajax({
             url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_goods',
             type: 'POST',
