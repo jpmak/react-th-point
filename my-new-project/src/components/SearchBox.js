@@ -5,9 +5,9 @@ var SearchBox = React.createClass({
             <div className="th-search-container on-blur" style={{'display': 'block'}}>
             <div className="th-search-box">
                 <div className="th-search-shadow"></div>
-<SortsBtn Sorthref="Exchange-category.html"/>
+               <SortsBtn Sorthref="Exchange-category.html"/>
                 <a className="backbtn"></a>
-                <a className="search-btn" style={{'width':'.7rem','display':'inline-block'}}>搜索</a>
+        <a className="search-btn" >搜索</a>
                 <div className="wbox search-bar pr">
                     <i className="th-search-iconbtn"></i>
                     <div id="del" className="delete" onclick="del()"></div>

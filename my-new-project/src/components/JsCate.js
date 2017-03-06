@@ -1,6 +1,8 @@
 import React from 'react';
 
-
+        let page = 0;
+        let page_state = 1;
+        let event='';
 var JsPrduct = React.createClass({
     getInitialState: function() {
         return {
@@ -18,13 +20,12 @@ var JsPrduct = React.createClass({
 <ul></ul>
                     </div>
                     </div>
-                     <div className="load-tip"></div>
-                     </div>
+                    <div className="load-tip"></div>
+                    </div>
         )
     }
 })
-let page = 0;
-let page_state = 1;
+
 
 var App = React.createClass({
     getInitialState: function() {
@@ -33,12 +34,14 @@ var App = React.createClass({
             error: null,
             data: null,
             message: '',
+            event: 1,
             data_p: null
         };
     },
 
-    // <ul dangerouslySetInnerHTML= {{__html:this.props.data}}></ul>
+
     componentDidMount: function() {
+        document.addEventListener('scroll', this.handleScroll);
         $.getJSON('http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_list',
 
             function(value) {
@@ -48,18 +51,16 @@ var App = React.createClass({
                         data_p: null,
                         data: value
                     });
-                    $('.choose-items-wp li').first().addClass('act').trigger('click');
-                    // $('.choose-items-wp li').on('click', function() {
 
-                    // })
                     var nav_w = $('.app-scroller li').first().width();
                     var fl_w = $('.app-scroller').width();
                     var flb_w = $('.app-scroller-wrap').width();
                     $('.choose-items-wp p').width(nav_w);
                     $('.app-scroller li').on('click', function() {
+                        page=0;
+                        page_state = 1;
+                        event=$(this).attr('id');
                         nav_w = $(this).width();
-
-                        // console.log(page);
                         $('.choose-items-wp p').stop(true);
                         $('.choose-items-wp p').animate({
                             left: $(this).position().left
@@ -85,21 +86,19 @@ var App = React.createClass({
                         sessionStorage.left = fnl_l;
                         var c_nav = $(this).find('a').text();
                         // navName(c_nav);
-                        page = 0;
-                        page_state = 1;
                     });
+                    $('.choose-items-wp li').first().addClass('act').trigger('click');
+                    
                     // 初始化
 
                 }
             }.bind(this));
     },
 
-    handleClick: function(event) {
+    handleClick: function() {
         // this.setState({
         // })
         const _this = this;
-
-
         $.ajax({
             url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_goods',
             type: 'POST',
@@ -108,23 +107,21 @@ var App = React.createClass({
                 'cate_id': event,
                 'page': page
             },
-
             success: function(data) {
-                var cate_listHtml = '';
-
+                let cate_listHtml = '';
                 if (data.status) {
                     for (var i = 0; i < data.goods_list.length; i++) {
                         cate_listHtml += '  <li><a href="Exchange-goods-' + data.goods_list[i].item_id + '.html"><div class="info-img"><img alt="" class="lazy" data-original="' + data.goods_list[i].list_image + '"></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a></li>';
                     }
+
                     if (page === 0) {
                         $('.app-pd-list ul').html(cate_listHtml);
-                        // page_state = 1;
-
                     } else {
                         $('.app-pd-list ul').append(cate_listHtml);
                         page_state = 1;
                         $('.load-tip').hide();
                     }
+
                 } else {
                     if (page === 0) {
                         var liHtml = '';
@@ -132,11 +129,9 @@ var App = React.createClass({
                         $('.app-pd-list ul').html(liHtml);
                         $('.load-tip').hide();
                         page_state = 0;
-                        // console.log(page_state);
-
                     } else {
                         $('.load-tip').show().html('没有更多数据了');
-                        page_state = 0;
+
                     }
                 }
                 // else end
@@ -147,8 +142,6 @@ var App = React.createClass({
                     threshold: 0
                 });
             }
-
-
         });
 
         var winH = $(window).height();
@@ -156,12 +149,13 @@ var App = React.createClass({
             var pageH = $(document.body).height();
             var scrollT = $(window).scrollTop();
             var rate = (pageH - winH - scrollT) / winH;
-            if (rate < 0.01) {
-                if (page_state === 1) {
+            if (page_state === 1) {
+                if (rate < 0.01) {
                     page++;
                     page_state = 0;
                     _this.handleClick(event);
                     $('.load-tip').show().html('<i class="r-gif"></i><span>正在载入</span>');
+
                 }
             }
         });
@@ -176,10 +170,15 @@ var App = React.createClass({
             var self = this;
             var CateList = Cates.map(function(Cate, index) {
                 // var indexS = index.shift();
+
+
                 return (
                     <li key={index} id={Cate.cate_id}  onClick={self.handleClick.bind(self,Cate.cate_id)}><a><span>{Cate.cate_name}</span></a></li>
                 );
             });
+
+
+
             return (
                 <div>
                     <div id="app-scroller" className="app-scroller-wrap" style={{'height': '.75rem'}}>
@@ -202,5 +201,6 @@ var App = React.createClass({
 
 export {
     App,
+
     JsPrduct
 };

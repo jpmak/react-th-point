@@ -10,7 +10,7 @@ import SearchBox from './components/SearchBox';
 import {
 	SwiperBanner,
 	Js_banner,
-	Js_banner_2
+	Js_banner_2s
 } from './components/SwiperBanner';
 import Record from './components/Record';
 import SalesWrapper from './components/SalesWrapper';

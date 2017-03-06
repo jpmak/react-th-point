@@ -1,7 +1,7 @@
 user_info();
 sales_volume();
 get_cate_list();
-
+search_history();
 $(function() {
     get_index_Banner();
     $('a.search-btn').on('click', function() {
@@ -17,8 +17,6 @@ $(function() {
         skey = hVal;
         search_cache();
     });
-
-
 
 });
 
@@ -366,6 +364,39 @@ function get_index_Banner() {
         }
     });
 }
+
+
+
+function search_history() {
+
+    $.ajax({
+        url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_history',
+        type: 'get',
+        dataType: 'json',
+        // data: {
+
+        // },
+        erro: function() {
+            alert('网络连接失败！');
+        },
+        success: function(data) {
+            var historyHtml = '';
+            console.log(data.length);
+            if (data) {
+
+                for (var i = 0; i < data.length; i++) {
+                    historyHtml += '<li><a>' + data[i] + '</a></li>';
+                }
+
+                $('.search-keywords-list').html(historyHtml);
+
+            }
+
+
+        }
+    });
+}
+
 // get_index_Banner()
 
 function search_cache() {
@@ -386,7 +417,7 @@ function search_cache() {
         },
         success: function(data, textStatus, xhr) {
             if (data.status) {
-                window.location.href = "Exchange-search.html";
+                window.location.href = "search.html";
             }
 
 

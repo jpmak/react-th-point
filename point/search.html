@@ -13,6 +13,8 @@
     <link rel="stylesheet" type="text/css" href="{WapCss}main.css">
     <link rel="stylesheet" type="text/css" href="../src/css/base.css">
     <link rel="stylesheet" type="text/css" href="../src/css/jf.css">
+    <script src="https://www.thgo8.com/public/wapsite/js/jquery-1.10.1.min.js"></script>
+
 </head>
 
 <body>
@@ -27,39 +29,24 @@
                     <i class="th-search-iconbtn"></i>
                     <div id="del" class="delete" onclick="del()"></div>
                     <div class="wbox-flex">
-                        <input id="searchInput"  class="th-search-form" type="text" placeholder="搜索商品关键字" autocomplete="off" value="<?=$keyword?>">
+                        <input id="searchInput"  class="th-search-form" type="text" placeholder="搜索商品关键字" autocomplete="off" value="">
                     </div>
                 </div>
             </div>
         </div>
         <div class="search-wrap">
-            <?php if( !empty($search_history) ){  ?>
+          
             <div class="search-keywords bor-b">
                 <div class="search-keywords-name">
                     <span>历史记录 <i class="delbtn" style="display: none;"></i></span>
                 </div>
                 <div class="search-keywords-list ">
-                    <?php $num=0; foreach($search_history as $k => $v){ ?>
-                    <?php 
-                        $num++;
-                        if($num<9){
-                    ?>
-                    <li>
-                        <a>
-                            <?=$v?>
-                        </a>
-                    </li>
-                    <?php }} ?>
+              
+                  
                 </div>
-                <?php } ?>
+             
             </div>
-            <div class="search-keywords">
-                <div class="search-keywords-name" style="display: none;">
-                    <span>热门记录</span>
-                </div>
-                <div class="search-keywords-list ">
-                </div>
-            </div>
+
         </div>
     </div>
     <!--分类搜索-->
@@ -79,24 +66,29 @@
 </body>
 
 </html>
-<script src="{WapJs}zzjCookie.js"></script>
-<script src="{WapJs}tool.js"></script>
-<script src="{WapJs}ptsWebView1.2.js"></script>
-<script src="{WapJs}Base64.js"></script>
-<script src="{WapJs}jweixin-1.0.0.js"></script>
-<script src="{WapJs}wxClass.js"></script>
-<script src="{WapJs}httpUrlAction.js"></script>
-<script src="{WapJs}ptsAjax.js"></script>
-<script src="{WapJs}jquery-1.10.1.min.js"></script>
-<script src="{WapJs}jq.lazyload.js"></script>
+<script src="https://www.thgo8.com/public/wapsite/js/zzjCookie.js"></script>
+<script src="https://www.thgo8.com/public/wapsite/js/tool.js"></script>
+<script src="https://www.thgo8.com/public/wapsite/js/ptsWebView1.2.js"></script>
+<script src="https://www.thgo8.com/public/wapsite/js/Base64.js"></script>
+<script src="https://www.thgo8.com/public/wapsite/js/jweixin-1.0.0.js"></script>
+<script src="https://www.thgo8.com/public/wapsite/js/wxClass.js"></script>
+<script src="https://www.thgo8.com/public/wapsite/js/httpUrlAction.js"></script>
+<script src="../public/js/jquery.lazyload.js"></script>
 <script>
-Load.show();
+
 var page_state = 1;
 var page = 0;
 var volume = '';
-var keyword = <?php echo empty($keyword) ? '""' : '"'.$keyword.'"';?>;
+// if(i.length>0){
+// keyword = i[i.length-1];
+// }else{
+// keyword = '';
+// }
+var keyword = '';
+// var keyword = <?php echo empty($keyword) ? '""' : '"'.$keyword.'"';?>;
 var price = '';
 var skey = '';
+var c_id='';
 
 
 var winH = $(window).height();
@@ -121,37 +113,39 @@ $(window).scroll(function() {
 search_goods();
 
 function search_goods() {
-    ptsAjax({
-        'url': urlRoot + '?g=WapSite&c=Exchange&a=search_goods',
-        'type': 'json',
-        'Thread': true,
-        'data': {
+        $.ajax({
+        url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_goods',
+           type: 'POST',
+        dataType: 'json',
+        Thread: true,
+        data: {
             'keyword': keyword,
             'volume': volume,
             'by': price,
-            'page': page,
-            'cate_id': <?=empty($cate_id) ? 0 : $cate_id;?>
+            'page': page
         },
-        'complete': function() {
-            Load.hide();
-        },
-        'error': function() {
-            alert('网络连接失败！');
-        },
-        success: function(data, textStatus, xhr) {
+
+        // complete: function() {
+        //     Load.hide();
+        // },
+        // error: function() {
+        //     alert('网络连接失败！');
+        // },
+        success: function(data) {
+  
             var searchHtml = '';
             if (data.status) {
+                        console.log('ok');
                 for (var i = 0; i < data.goods_list.length; i++) {
                     searchHtml += '<li><a href="Exchange-goods-' + data.goods_list[i].item_id + '.html"><div class="info-img"><div><img alt=""class="lazy"data-original="' + data.goods_list[i].list_image + '"></div></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a></li>'
                 }
-                if (page == 0) {
+                if (page === 0) {
                     $('.app-pd-list ul').html(searchHtml);
                 } else {
                     $('.app-pd-list ul').append(searchHtml);
                     page_state = 1;
                     $('.load-tip').hide();
                 }
-                Load.hide();
             } else {
 
                 if (page > 0) {
@@ -182,23 +176,25 @@ function search_goods() {
 //   search_goods();
 //   })
 function search_cache() {
-    ptsAjax({
-        'url': urlRoot + '?g=WapSite&c=Exchange&a=search_cache',
-        'type': 'json',
-        'Thread': true,
-        'data': {
-            'kd': skey,
+      $.ajax({
+        url:'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_cache',
+        type: 'json',
+        Thread: true,
+        data: {
+            // 'kd': skey,
+            'kd': keyword
 
         },
-        'complete': function() {
+       complete: function() {
             Load.hide();
         },
-        'error': function() {
-            alert('网络连接失败！');
+        error: function() {
+            alert('网络连接失！');
         },
         success: function(data, textStatus, xhr) {
             if (data.status) {
-                window.location.href = "Exchange-search.html";
+                window.location.href = "search.html";
+                console.log(123);
             }
 
 
@@ -264,6 +260,8 @@ $('#searchInput').on('keyup', function(e) {
     if (uVal !== "") {
         if (e.keyCode == 13) {
             skey = uVal;
+            keyword=uVal;
+            console.log(keyword);
             search_cache();
         }
         $('#del').show();
@@ -281,15 +279,16 @@ $('a.search-btn').on('click', function() {
     var sVal = $("#searchInput").val();
     if (sVal !== '') {
         skey = sVal;
-        search_cache();
+                    keyword=sVal;
+            console.log(keyword);
+        search_goods();
     }
 });
 $('.search-keywords-list li a').on('click', function() {
     var hVal = $(this).html();
     skey = hVal;
+    
     search_cache();
 });
 </script>
-<script>
-<?=$fx_weixin?>
-</script>
+
