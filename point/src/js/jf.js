@@ -3,10 +3,42 @@ sales_volume();
 get_cate_list();
 search_history();
 $(function() {
+    // var funStoreHistory = function() {
+    //     var arrval = [];
+
+    //     arrval.unshift($("#searchInput").val());
+
+
+    //     //存储，IE6~7 cookie 其他浏览器HTML5本地存储
+    //     if (window.localStorage) {
+    //         localStorage.setItem('searchhistory', JSON.stringify(arrval));
+
+    //     } else {
+    //         Cookie.write(searchhistory, arrval);
+    //     }
+    // };
+    var searchMsg;
+    if (window.localStorage.searchhistory) {
+        searchMsg = JSON.parse(window.localStorage.searchhistory);
+
+    } 
+
+    var funStoreHistory = function() {
+        var arrval = [];
+        console.log(1);
+        window.localStorage.searchhistory = '';
+        arrval.unshift($("#searchInput").val());
+        window.localStorage.searchhistory = JSON.stringify(arrval);
+    };
+
     get_index_Banner();
     $('a.search-btn').on('click', function() {
+
         var sVal = $("#searchInput").val();
         if (sVal !== '') {
+                    console.log(2);
+            funStoreHistory();
+            console.log($("#searchInput").val());
             skey = sVal;
             search_cache();
         }
@@ -15,8 +47,12 @@ $(function() {
     $('.search-keywords-list li a').on('click', function() {
         var hVal = $(this).html();
         skey = hVal;
+        funStoreHistory();
         search_cache();
     });
+    //存储loaclstorage
+
+
 
 });
 
@@ -476,6 +512,7 @@ $('#searchInput').on('keyup', function(e) {
 
 $('.th-search-box a.backbtn').on('click', function() {
     del();
+
     $('#searchInput').blur();
     $('header').removeClass('js-header');
     $('.on-focus').removeClass('on-focus').addClass('on-blur');
