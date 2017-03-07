@@ -86,11 +86,25 @@ var c_id = '';
 // localStorage
 var searchMsg = '';
 var arrval = new Array();
+//自动就把重复的元素给删除掉
+var student = ['qiang','ming','tao','li','liang','you','qiang','tao'];
+var unique = function(arr) {
+    var tmp = new Array();
+    for (var m in arr) {
+        tmp[arr[m]] = 1;
+    }
+    var tmparr = new Array();
+//再把键和值的位置再次调换
+    for (var n in tmp) {
+        tmparr.push(n);
+    }
+    return tmparr;
+}
 
 var historyHtml = function() {
     history_Html = '';
     for (var i = 0; i < searchMsg.length; i++) {
-        history_Html += '<li><a>' + searchMsg[i].keyword + '</a></li>';
+        history_Html += '<li><a>' + searchMsg[i] + '</a></li>';
     }
     $('.search-keywords-list').html(history_Html);
 
@@ -107,14 +121,13 @@ if (window.localStorage.searchhistory) {
 }
 var funStoreHistory = function() {
     // window.localStorage.searchhistory = '';
-    arrval.unshift({
-        'keyword': $("#searchInput").val()
-    });
+    arrval.unshift($("#searchInput").val());
     if (arrval.length > 9) {
         arrval.pop(9);
     }
+       arrval=unique(arrval);
     window.localStorage.searchhistory = JSON.stringify(arrval);
-    keyword = arrval[0].keyword;
+    keyword = arrval[0];
     search_goods()
 };
 
@@ -142,40 +155,6 @@ $(window).scroll(function() {
 <script>
 
 
-// $('.price').click(function() {
-//       if (price == 'asc') {
-//           price = 'desc'
-//       } else {
-//           price = 'asc'
-//       }
-//   search_goods();
-//   })
-// function search_cache() {
-//       $.ajax({
-//         url:'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_cache',
-//         type: 'json',
-//         Thread: true,
-//         data: {
-//             // 'kd': skey,
-//             'kd': keyword
-
-//         },
-//        complete: function() {
-//             Load.hide();
-//         },
-//         error: function() {
-//             alert('网络连接失！');
-//         },
-//         success: function(data, textStatus, xhr) {
-//             if (data.status) {
-//                 window.location.href = "search.html";
-//                 console.log(123);
-//             }
-
-
-//         }
-//     });
-// }
 
 function search_goods() {
     $.ajax({
@@ -200,7 +179,7 @@ function search_goods() {
 
             var searchHtml = '';
             if (data.status) {
-                console.log('ok');
+                $('.result-sort').show();
                 for (var i = 0; i < data.goods_list.length; i++) {
                     searchHtml += '<li><a href="Exchange-goods-' + data.goods_list[i].item_id + '.html"><div class="info-img"><div><img alt=""class="lazy"data-original="' + data.goods_list[i].list_image + '"></div></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a></li>'
                 }
@@ -235,7 +214,7 @@ function search_goods() {
 $(function() {
 
 var funloadHistory = function() {
-    keyword = arrval[0].keyword;
+    keyword = arrval[0];
     $('#searchInput').val(keyword);
     search_goods();
 };

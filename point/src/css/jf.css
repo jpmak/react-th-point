@@ -1143,6 +1143,7 @@ header.js-header {
   height: .98rem;
   background: #fff;
   margin-bottom: .1rem;
+  display: none;
   overflow: hidden;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003474}}
