@@ -1,7 +1,7 @@
 user_info();
 sales_volume();
 get_cate_list();
-search_history();
+// search_history();
 $(function() {
     // var funStoreHistory = function() {
     //     var arrval = [];
@@ -17,28 +17,44 @@ $(function() {
     //         Cookie.write(searchhistory, arrval);
     //     }
     // };
-    var searchMsg;
+    var searchMsg = '';
+    var arrval = new Array();
+    var historyHtml = function() {
+        history_Html = '';
+        for (var i = 0; i < searchMsg.length; i++) {
+            history_Html += '<li><a>' + searchMsg[i].keyword + '</a></li>';
+        }
+        $('.search-keywords-list').html(history_Html);
+
+    }
     if (window.localStorage.searchhistory) {
         searchMsg = JSON.parse(window.localStorage.searchhistory);
+        // arrval.push(searchMsg);
+        historyHtml();
+        arrval = arrval.concat(searchMsg);
 
-    } 
+
+    } else {
+        $('.search-keywords').hide();
+    }
 
     var funStoreHistory = function() {
-        var arrval = [];
-        console.log(1);
-        window.localStorage.searchhistory = '';
-        arrval.unshift($("#searchInput").val());
+        // window.localStorage.searchhistory = '';
+        arrval.unshift({
+            'keyword': $("#searchInput").val()
+        });
+        if (arrval.length > 9) {
+            arrval.pop(9);
+        }
         window.localStorage.searchhistory = JSON.stringify(arrval);
     };
-
     get_index_Banner();
     $('a.search-btn').on('click', function() {
 
         var sVal = $("#searchInput").val();
         if (sVal !== '') {
-                    console.log(2);
             funStoreHistory();
-            console.log($("#searchInput").val());
+            // console.log($("#searchInput").val());
             skey = sVal;
             search_cache();
         }
@@ -47,8 +63,7 @@ $(function() {
     $('.search-keywords-list li a').on('click', function() {
         var hVal = $(this).html();
         skey = hVal;
-        funStoreHistory();
-        search_cache();
+        window.location.href = "search.html";
     });
     //存储loaclstorage
 
@@ -403,35 +418,32 @@ function get_index_Banner() {
 
 
 
-function search_history() {
+// function search_history() {
 
-    $.ajax({
-        url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_history',
-        type: 'get',
-        dataType: 'json',
-        // data: {
+//     $.ajax({
+//         url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_history',
+//         type: 'get',
+//         dataType: 'json',
+//         // data: {
 
-        // },
-        erro: function() {
-            alert('网络连接失败！');
-        },
-        success: function(data) {
-            var historyHtml = '';
-            console.log(data.length);
-            if (data) {
+//         // },
+//         erro: function() {
+//             alert('网络连接失败！');
+//         },
+//         success: function(data) {
+//             var historyHtml = '';
+//             if (data) {
+//                 for (var i = 0; i < data.length; i++) {
+//                     historyHtml += '<li><a>' + data[i] + '</a></li>';
+//                 }
+//                 $('.search-keywords-list').html(historyHtml);
 
-                for (var i = 0; i < data.length; i++) {
-                    historyHtml += '<li><a>' + data[i] + '</a></li>';
-                }
-
-                $('.search-keywords-list').html(historyHtml);
-
-            }
+//             }
 
 
-        }
-    });
-}
+//         }
+//     });
+// }
 
 // get_index_Banner()
 

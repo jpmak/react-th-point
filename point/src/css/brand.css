@@ -399,7 +399,7 @@
   width: .12rem;
   height: .12rem;
   margin-right: .1rem;
-  background: url(../../images/point/multiply.png) center no-repeat;
+  background: url(../images/multiply.png) center no-repeat;
   background-size: 100%;
   font-weight: 400;
 }
@@ -488,7 +488,7 @@
   width: .52rem;
   height: .47rem;
   margin-right: .2rem;
-  background: url(../../images/point/duihuan_add.png) no-repeat;
+  background: url(../images/duihuan_add.png) no-repeat;
   background-size: .52rem .47rem;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003452}}
@@ -547,17 +547,17 @@
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003504}}
 .result-sort li.arrow {
-  background: url(../../images/point/sorf.png) 1.25rem center no-repeat;
+  background: url(../images/sorf.png) 1.25rem center no-repeat;
   background-size: .16rem .34rem;
   display: block;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003509}}
 .result-sort li.desc {
-  background: url(../../images/point/desc.png) 1.25rem center no-repeat;
+  background: url(../images/desc.png) 1.25rem center no-repeat;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003512}}
 .result-sort li.asc {
-  background: url(../../images/point/asc.png) 1.25rem center no-repeat;
+  background: url(../images/asc.png) 1.25rem center no-repeat;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003515}}
 .result-sort li.icons-list {
@@ -567,14 +567,15 @@
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003521}}
 .result-sort li.hor-icon {
-  background: url(../../images/point/hor.png) center no-repeat;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003524}}
-.result-sort li.ver-icon {
-  background: url(../../images/point/ver.png) center no-repeat;
+  background: url(../images/hor.png) center no-repeat;
   background-size: .48rem .48rem;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003529}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003526}}
+.result-sort li.ver-icon {
+  background: url(../images/ver.png) center no-repeat;
+  background-size: .48rem .48rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003531}}
 .result-sort .cf:after {
   content: "";
   clear: both;
@@ -583,7 +584,7 @@
   overflow: hidden;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003538}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003540}}
 .fix-box {
   position: fixed;
   bottom: 0;
@@ -593,19 +594,19 @@
   right: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003547}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003549}}
 .bts1 {
   border-top: 1px solid #dedede;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003551}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003553}}
 .pay-item {
   width: 6.9rem;
   padding: .2rem .3rem;
   margin: 0 auto;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003557}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003559}}
 .cart-footer {
   width: 7.5rem;
   margin: 0 auto;
@@ -613,7 +614,7 @@
   height: 1rem;
   line-height: 1rem;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003563}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003565}}
 .cart-footer a.th-btn {
   height: 1rem;
   line-height: 1rem;
@@ -621,31 +622,31 @@
   margin-left: .2rem;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003571}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003573}}
 .w20 .title-list p {
   width: 20%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003575}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003577}}
 .ordersAdd-box {
   padding-top: .2rem;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003577}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003579}}
 .ordersAdd-box .cart-group {
   width: 5.5rem;
   height: 2.44rem;
   border: 1px solid #dedede;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003582}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003584}}
 .ordersAdd-box .cart-group .cart-group-item .item-icon {
   width: .26rem;
   height: .26rem;
   left: .2rem;
   margin-top: -.13rem;
-  background: url(../../images/point/duihuan_dizhi.png) no-repeat;
+  background: url(../images/duihuan_dizhi.png) no-repeat;
   background-size: .26rem .26rem;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003592}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003594}}
 .ordersAdd-box .cart-group .add-null .add-icon {
   display: inline-block;
   margin-top: -0.05rem;
@@ -653,37 +654,37 @@
   width: .26rem;
   height: .26rem;
   vertical-align: middle;
-  background: url(../../images/point/add-icon.png) no-repeat;
+  background: url(../images/add-icon.png) no-repeat;
   background-size: .26rem .26rem;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003602}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003604}}
 .ordersAdd-box .cart-group .add-null .add-name {
   line-height: 2rem;
   font-size: .26rem;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003608}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003610}}
 .ordersAdd-box .cart-group .delivery-lite-info {
   font-size: .28rem;
   width: 4.6rem;
   margin-left: .4rem;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003612}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003614}}
 .ordersAdd-box .cart-group .delivery-lite-info .impor-info-det {
   text-align: left;
   height: .8rem;
   overflow: hidden;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003618}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003620}}
 .ordersAdd-box .cart-group .cart-group-choose {
   padding: .2rem;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003620}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003622}}
 .ordersAdd-box .cart-group .cart-group-choose span {
   font-size: .24rem;
   height: .8rem;
   line-height: .4rem;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003625}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003627}}
 .ordersAdd-box .cart-group .cart-group-choose .round {
   vertical-align: middle;
   margin-top: -.05rem;
@@ -694,22 +695,22 @@
   width: .22rem;
   height: .22rem;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003637}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003639}}
 .ordersAdd-box .cart-group.cur .cart-group-choose {
   padding: .2rem;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003640}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003642}}
 .ordersAdd-box .cart-group.cur .cart-group-choose span.add-name {
   color: #ED0E47;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003644}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003646}}
 .ordersAdd-box .cart-group.cur .cart-group-choose .round {
   border: 1px solid #ED0E47;
-  background: url(../../images/point/c-ok.png) no-repeat;
+  background: url(../images/c-ok.png) no-repeat;
   background-size: .23rem .23rem;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003654}}
+@media -sass-debug-info{filename{font-family:file\:\/\/D\:\/git-project\/react-th-point\/point\/src\/css\/brand\.scss}line{font-family:\00003656}}
 .pdb120 {
   padding-bottom: 1.2rem;
 }

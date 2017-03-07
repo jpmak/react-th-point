@@ -358,7 +358,7 @@
                                     width: .12rem;
                                     height: .12rem;
                                     margin-right: .1rem;
-                                    background: url(../../images/point/multiply.png) center no-repeat;
+                                    background: url(../images/multiply.png) center no-repeat;
                                     background-size: 100%;
                                     font-weight: 400;
                                 }
@@ -446,7 +446,7 @@
                 width: .52rem;
                 height: .47rem;
                 margin-right: .2rem;
-                background: url(../../images/point/duihuan_add.png) no-repeat;
+                background: url(../images/duihuan_add.png) no-repeat;
                 background-size: .52rem .47rem;
             }
             .delivery-lite-info {
@@ -502,15 +502,15 @@
                 color: $activeColor;
             }
             &.arrow {
-                background: url(../../images/point/sorf.png) 1.25rem center no-repeat;
+                background: url(../images/sorf.png) 1.25rem center no-repeat;
                 background-size: .16rem .34rem;
                 display: block;
             }
             &.desc {
-                background: url(../../images/point/desc.png) 1.25rem center no-repeat;
+                background: url(../images/desc.png) 1.25rem center no-repeat;
             }
             &.asc {
-                background: url(../../images/point/asc.png) 1.25rem center no-repeat;
+                background: url(../images/asc.png) 1.25rem center no-repeat;
             }
             &.icons-list {
                 width: 1.8rem;
@@ -519,10 +519,12 @@
                 font-weight: 400;
             }
             &.hor-icon {
-                background: url(../../images/point/hor.png) center no-repeat;
+                background: url(../images/hor.png) center no-repeat;
+                  background-size: .48rem .48rem;
+                
             }
             &.ver-icon {
-                background: url(../../images/point/ver.png) center no-repeat;
+                background: url(../images/ver.png) center no-repeat;
                   background-size: .48rem .48rem;
             }
         }
@@ -584,7 +586,7 @@
                     height: .26rem;
                     left: .2rem;
                     margin-top: -.13rem;
-                    background: url(../../images/point/duihuan_dizhi.png) no-repeat;
+                    background: url(../images/duihuan_dizhi.png) no-repeat;
                     background-size: .26rem .26rem;
                 }
             }
@@ -596,7 +598,7 @@
                          width: .26rem;
                     height: .26rem;
                         vertical-align: middle;
-                    background: url(../../images/point/add-icon.png) no-repeat;
+                    background: url(../images/add-icon.png) no-repeat;
                     background-size: .26rem .26rem;
                 }
                 .add-name{
@@ -643,7 +645,7 @@
                     }
                     .round {
                         border: 1px solid $redColor;
-                        background: url(../../images/point/c-ok.png) no-repeat;
+                        background: url(../images/c-ok.png) no-repeat;
                         background-size: .23rem .23rem;
                     }
                 }

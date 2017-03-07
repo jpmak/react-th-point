@@ -14,7 +14,6 @@
     <link rel="stylesheet" type="text/css" href="../src/css/base.css">
     <link rel="stylesheet" type="text/css" href="../src/css/jf.css">
     <script src="https://www.thgo8.com/public/wapsite/js/jquery-1.10.1.min.js"></script>
-
 </head>
 
 <body>
@@ -24,29 +23,24 @@
                 <div class="th-search-shadow"></div>
                 <a class="class th-nav-back" href="javascript:history.go(-1);"> </a>
                 <a class="backbtn"></a>
-                <a class="search-btn" style="width:.7rem; display:inline-block;" >搜索</a>
+                <a class="search-btn" style="width:.7rem; display:inline-block;">搜索</a>
                 <div class="wbox search-bar" style="width:75%;">
                     <i class="th-search-iconbtn"></i>
                     <div id="del" class="delete" onclick="del()"></div>
                     <div class="wbox-flex">
-                        <input id="searchInput"  class="th-search-form" type="text" placeholder="搜索商品关键字" autocomplete="off" value="">
+                        <input id="searchInput" class="th-search-form" type="text" placeholder="搜索商品关键字" autocomplete="off" value="">
                     </div>
                 </div>
             </div>
         </div>
         <div class="search-wrap">
-          
             <div class="search-keywords bor-b">
                 <div class="search-keywords-name">
                     <span>历史记录 <i class="delbtn" style="display: none;"></i></span>
                 </div>
                 <div class="search-keywords-list ">
-              
-                  
                 </div>
-             
             </div>
-
         </div>
     </div>
     <!--分类搜索-->
@@ -75,7 +69,6 @@
 <script src="https://www.thgo8.com/public/wapsite/js/httpUrlAction.js"></script>
 <script src="../public/js/jquery.lazyload.js"></script>
 <script>
-
 var page_state = 1;
 var page = 0;
 var volume = '';
@@ -88,8 +81,45 @@ var keyword = '';
 // var keyword = <?php echo empty($keyword) ? '""' : '"'.$keyword.'"';?>;
 var price = '';
 var skey = '';
-var c_id='';
+var c_id = '';
 
+// localStorage
+var searchMsg = '';
+var arrval = new Array();
+
+var historyHtml = function() {
+    history_Html = '';
+    for (var i = 0; i < searchMsg.length; i++) {
+        history_Html += '<li><a>' + searchMsg[i].keyword + '</a></li>';
+    }
+    $('.search-keywords-list').html(history_Html);
+
+}
+if (window.localStorage.searchhistory) {
+    searchMsg = JSON.parse(window.localStorage.searchhistory);
+    // arrval.push(searchMsg);
+    historyHtml();
+    arrval = arrval.concat(searchMsg);
+
+
+} else {
+    $('.search-keywords').hide();
+}
+var funStoreHistory = function() {
+    // window.localStorage.searchhistory = '';
+    arrval.unshift({
+        'keyword': $("#searchInput").val()
+    });
+    if (arrval.length > 9) {
+        arrval.pop(9);
+    }
+    window.localStorage.searchhistory = JSON.stringify(arrval);
+    keyword = arrval[0].keyword;
+    search_goods()
+};
+
+
+// localStorage
 
 var winH = $(window).height();
 $(window).scroll(function() {
@@ -110,12 +140,47 @@ $(window).scroll(function() {
 });
 </script>
 <script>
-search_goods();
+
+
+// $('.price').click(function() {
+//       if (price == 'asc') {
+//           price = 'desc'
+//       } else {
+//           price = 'asc'
+//       }
+//   search_goods();
+//   })
+// function search_cache() {
+//       $.ajax({
+//         url:'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_cache',
+//         type: 'json',
+//         Thread: true,
+//         data: {
+//             // 'kd': skey,
+//             'kd': keyword
+
+//         },
+//        complete: function() {
+//             Load.hide();
+//         },
+//         error: function() {
+//             alert('网络连接失！');
+//         },
+//         success: function(data, textStatus, xhr) {
+//             if (data.status) {
+//                 window.location.href = "search.html";
+//                 console.log(123);
+//             }
+
+
+//         }
+//     });
+// }
 
 function search_goods() {
-        $.ajax({
+    $.ajax({
         url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_goods',
-           type: 'POST',
+        type: 'POST',
         dataType: 'json',
         Thread: true,
         data: {
@@ -132,10 +197,10 @@ function search_goods() {
         //     alert('网络连接失败！');
         // },
         success: function(data) {
-  
+
             var searchHtml = '';
             if (data.status) {
-                        console.log('ok');
+                console.log('ok');
                 for (var i = 0; i < data.goods_list.length; i++) {
                     searchHtml += '<li><a href="Exchange-goods-' + data.goods_list[i].item_id + '.html"><div class="info-img"><div><img alt=""class="lazy"data-original="' + data.goods_list[i].list_image + '"></div></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a></li>'
                 }
@@ -167,42 +232,15 @@ function search_goods() {
         }
     });
 }
-// $('.price').click(function() {
-//       if (price == 'asc') {
-//           price = 'desc'
-//       } else {
-//           price = 'asc'
-//       }
-//   search_goods();
-//   })
-function search_cache() {
-      $.ajax({
-        url:'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_cache',
-        type: 'json',
-        Thread: true,
-        data: {
-            // 'kd': skey,
-            'kd': keyword
-
-        },
-       complete: function() {
-            Load.hide();
-        },
-        error: function() {
-            alert('网络连接失！');
-        },
-        success: function(data, textStatus, xhr) {
-            if (data.status) {
-                window.location.href = "search.html";
-                console.log(123);
-            }
-
-
-        }
-    });
-}
 $(function() {
 
+var funloadHistory = function() {
+    keyword = arrval[0].keyword;
+    $('#searchInput').val(keyword);
+    search_goods();
+};
+
+funloadHistory();
     $('.result-sort li').not('.icons-list').on('click', function() {
         var liindex = $('.result-sort li').index(this);
         $(this).addClass('cur').siblings().removeClass('cur');
@@ -217,7 +255,7 @@ $(function() {
             }
         }
 
-        search_goods();
+        // search_goods();
     });
 
 
@@ -237,6 +275,9 @@ $(function() {
             $('.app-pd-list').addClass('hor-list');
         }
     });
+
+
+
 });
 
 // js-search
@@ -254,15 +295,14 @@ $('.th-search-box .backbtn').on('click', function() {
 
 
 });
-$('#searchInput').on('keyup', function(e) {
+$('#searchInput').on('keyup focus',function(e) {
     $('.search-bar input').css('width', '80%');
     var uVal = $("#searchInput").val();
     if (uVal !== "") {
         if (e.keyCode == 13) {
-            skey = uVal;
-            keyword=uVal;
-            console.log(keyword);
-            search_cache();
+            keyword = uVal;
+               funStoreHistory();
+ window.location.href = "search.html";
         }
         $('#del').show();
     } else {
@@ -279,16 +319,17 @@ $('a.search-btn').on('click', function() {
     var sVal = $("#searchInput").val();
     if (sVal !== '') {
         skey = sVal;
-                    keyword=sVal;
-            console.log(keyword);
-        search_goods();
+        funStoreHistory();
+ window.location.href = "search.html";
+
     }
 });
 $('.search-keywords-list li a').on('click', function() {
+    var sVal = $("#searchInput").val();
     var hVal = $(this).html();
-    skey = hVal;
-    
-    search_cache();
+    $('#searchInput').val(hVal);
+    funStoreHistory();
+     window.location.href = "search.html";
+
 });
 </script>
-
