@@ -36,7 +36,7 @@
         <div class="search-wrap">
             <div class="search-keywords bor-b">
                 <div class="search-keywords-name">
-                    <span>历史记录 <i class="delbtn" style="display: none;"></i></span>
+                    <span>历史记录 <i class="delbtn"></i></span>
                 </div>
                 <div class="search-keywords-list ">
                 </div>
@@ -87,7 +87,6 @@ var c_id = '';
 var searchMsg = '';
 var arrval = new Array();
 //自动就把重复的元素给删除掉
-var student = ['qiang','ming','tao','li','liang','you','qiang','tao'];
 var unique = function(arr) {
     var tmp = new Array();
     for (var m in arr) {
@@ -99,7 +98,21 @@ var unique = function(arr) {
         tmparr.push(n);
     }
     return tmparr;
+    console.log(tmparr);
 }
+
+ Array.prototype.unique3 = function(){
+ var res = [];
+ var json = {};
+ for(var i = 0; i < this.length; i++){
+  if(!json[this[i]]){
+   res.push(this[i]);
+   json[this[i]] = 1;
+  }
+ }
+ return res;
+}
+
 
 var historyHtml = function() {
     history_Html = '';
@@ -125,7 +138,8 @@ var funStoreHistory = function() {
     if (arrval.length > 9) {
         arrval.pop(9);
     }
-       arrval=unique(arrval);
+       // arrval=unique(arrval);
+      arrval=arrval.unique3()
     window.localStorage.searchhistory = JSON.stringify(arrval);
     keyword = arrval[0];
     search_goods()
@@ -259,11 +273,20 @@ funloadHistory();
 
 });
 
+
+
 // js-search
 $('#searchInput').on('click', function() {
     $('#js-list,.class,.result-wp').hide();
     $('.search-wrap,.th-search-box .backbtn').show();
     $('.th-active,.th-active body').css("overflow", 'auto');
+
+});
+$('.delbtn').on('click',function() {
+          if (confirm("确定要清空吗？")) {  
+        localStorage.removeItem("searchhistory");
+    $('.search-wrap').remove();
+        }  
 
 });
 $('.th-search-box .backbtn').on('click', function() {
@@ -297,7 +320,7 @@ function del() {
 $('a.search-btn').on('click', function() {
     var sVal = $("#searchInput").val();
     if (sVal !== '') {
-        skey = sVal;
+            keyword = sVal;
         funStoreHistory();
  window.location.href = "search.html";
 
