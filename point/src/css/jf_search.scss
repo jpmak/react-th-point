@@ -119,6 +119,7 @@
             }
         }
         .th-search-box a.search-btn {
+            width:.7rem; display:inline-block;
             right: .2rem;
             opacity: 1;
         }
@@ -129,7 +130,7 @@
     
     .th-nav-list {
         .search-bar {
-            width: 78%;
+            width: 75%;
         }
         .th-search-iconbtn {
             left: 0;
@@ -343,7 +344,6 @@
                 }
             }
             img {
-                background: #FFF url() center no-repeat;
                 background-size: 100%;
             }
         }

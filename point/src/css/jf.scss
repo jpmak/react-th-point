@@ -17,7 +17,7 @@ a.th-btn.th-btn-assertive.th-btn-outline {
 .th-block{
     background:#fff;
 }
-.pr{position: relative;}
+
 .th-btn.th-btn-assertive.th-btn-outline {
     border: 1px solid   $redColor;
     color: #E21D1D;
@@ -53,6 +53,7 @@ a.th-btn.th-btn-assertive.th-btn-outline {
 
 // 搜索样式
 @import 'jf_search';
+.pr{position: relative;}
 .jf-floor-banner .swiper-container {
     width: 7.5rem;
     height: 3.2rem;

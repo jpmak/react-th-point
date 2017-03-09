@@ -10,7 +10,7 @@ import SearchBox from './components/SearchBox';
 import {
 	SwiperBanner,
 	Js_banner,
-	Js_banner_2s
+	Js_banner_2
 } from './components/SwiperBanner';
 import Record from './components/Record';
 import SalesWrapper from './components/SalesWrapper';
@@ -19,11 +19,16 @@ import {
 	JsCate,
 	JsPrduct
 } from './components/JsCate';
+
+
+import Searchhead from './components/search/Searchhead';
 // import Js_banner from './components/Js_banner';
 // Render the main component into the dom
+// 
+ReactDOM.render( < Searchhead / > , document.getElementById('js-search-box'));
 ReactDOM.render( < TopNav titleName = "兑换商城"
 	icon = "jf-record-icon"
-	icon_link = "Exchange-orderList.html" / > , document.getElementById('headnav'));
+	icon_link = "search.html" / > , document.getElementById('headnav'));
 // ReactDOM.render(<AppComponent />, document.getElementById('app'));
 // ReactDOM.render(<SwiperBanner />, document.getElementById('banner'));
 ReactDOM.render( < SearchBox / > , document.getElementById('search'));
@@ -36,3 +41,7 @@ ReactDOM.render( < App / > , document.getElementById('app'));
 
 // ReactDOM.render( < JsCate / > , document.getElementById('jd-cate'));
 // ReactDOM.render( < JsPrduct / > , document.getElementById('jd-prduct'));
+
+
+
+//search页面

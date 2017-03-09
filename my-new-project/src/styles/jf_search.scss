@@ -119,10 +119,10 @@
             }
         }
         .th-search-box a.search-btn {
+            width:.7rem; 
+            display:inline-block;
             right: .2rem;
             opacity: 1;
-           width:.7rem;
-           display:inline-block;
         }
         .th-search-iconbtn {
             left: 0rem;
@@ -131,7 +131,7 @@
     
     .th-nav-list {
         .search-bar {
-            width: 78%;
+            width: 75%;
         }
         .th-search-iconbtn {
             left: 0;
@@ -273,7 +273,7 @@
         padding: 0 .15rem .15rem;
         background: #F2F2F2;
         .list-banner {
-            margin-top: .1rem;
+  margin-top: .1rem;
             img {
                 width: 100%;
                 height: auto;
@@ -345,7 +345,6 @@
                 }
             }
             img {
-                background: #FFF center no-repeat;
                 background-size: 100%;
             }
         }

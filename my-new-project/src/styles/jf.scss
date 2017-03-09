@@ -2,8 +2,6 @@
 //-----------------------------------
 // header顶部样式 
 @charset "UTF-8";
-/*header顶部条样式*/
-@import 'h_tit';
 $yellowColor: #F5A623;
 $borderColor: #DEDEDE;
     $redColor:#ED0E47;
@@ -105,7 +103,7 @@ a.th-btn.th-btn-assertive.th-btn-outline {
 
 /*兑换排行榜*/
 
-.sales-wrapper{
+#sales-wrapper{
     z-index: 1;
     width: 100%;
     overflow-y:hidden; 
@@ -117,7 +115,7 @@ a.th-btn.th-btn-assertive.th-btn-outline {
     .banner {
         width: 7.5rem;
         height: 1.28rem;
-        /* background: url($bg+'Combined.jpg') no-repeat;*/
+        // background: url($bg+'Combined.jpg') no-repeat;
         background-size: 7.5rem 1.28rem;
     }
     .banner-bottom {

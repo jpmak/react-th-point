@@ -18,13 +18,13 @@
 
 <body>
     <div class="js-search-box">
-        <div class="th-search-container on-focus th-nav-list" style="position: relative;">
+        <div class="th-search-container on-focus th-nav-list pr">
             <div class="th-search-box">
                 <div class="th-search-shadow"></div>
                 <a class="class th-nav-back" href="javascript:history.go(-1);"> </a>
                 <a class="backbtn"></a>
-                <a class="search-btn" style="width:.7rem; display:inline-block;">搜索</a>
-                <div class="wbox search-bar" style="width:75%;">
+                <a class="search-btn" style="">搜索</a>
+                <div class="wbox search-bar" >
                     <i class="th-search-iconbtn"></i>
                     <div id="del" class="delete" onclick="del()"></div>
                     <div class="wbox-flex">
@@ -88,16 +88,16 @@ var searchMsg = '';
 var arrval = new Array();
 //自动就把重复的元素给删除掉
 
- Array.prototype.unique3 = function(){
- var res = [];
- var json = {};
- for(var i = 0; i < this.length; i++){
-  if(!json[this[i]]){
-   res.push(this[i]);
-   json[this[i]] = 1;
-  }
- }
- return res;
+Array.prototype.unique3 = function() {
+    var res = [];
+    var json = {};
+    for (var i = 0; i < this.length; i++) {
+        if (!json[this[i]]) {
+            res.push(this[i]);
+            json[this[i]] = 1;
+        }
+    }
+    return res;
 }
 
 
@@ -125,11 +125,11 @@ var funStoreHistory = function() {
     if (arrval.length > 9) {
         arrval.pop(9);
     }
-       // arrval=unique(arrval);
-      arrval=arrval.unique3()
+    // arrval=unique(arrval);
+    arrval = arrval.unique3()
     window.localStorage.searchhistory = JSON.stringify(arrval);
     keyword = arrval[0];
-       window.location.reload();
+    window.location.reload();
 };
 
 
@@ -152,9 +152,6 @@ $(window).scroll(function() {
 });
 </script>
 <script>
-
-
-
 function search_goods() {
     $.ajax({
         url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_goods',
@@ -195,9 +192,9 @@ function search_goods() {
                     $('.load-tip').show().html("没有更多数据了");
                 } else {
                     var liHtml = '';
-                          page_state = 0;
+                    page_state = 0;
                     liHtml += '<div class="none-data"></div>';
-              
+
                     $('.app-pd-list ul').html(liHtml);
                 }
                 Load.hide();
@@ -213,12 +210,12 @@ function search_goods() {
 }
 $(function() {
 
-var funloadHistory = function() {
-    keyword = arrval[0];
-    $('#searchInput').val(keyword);
-    search_goods();
-};
-funloadHistory();
+    var funloadHistory = function() {
+        keyword = arrval[0];
+        $('#searchInput').val(keyword);
+        search_goods();
+    };
+    funloadHistory();
 
     $('.result-sort li').not('.icons-list').on('click', function() {
         var liindex = $('.result-sort li').index(this);
@@ -267,13 +264,13 @@ $('#searchInput').on('click', function() {
     $('.th-active,.th-active body').css("overflow", 'auto');
 
 });
-$('.delbtn').on('click',function() {
-          if (confirm("确定要清空吗？")) {  
+$('.delbtn').on('click', function() {
+    if (confirm("确定要清空吗？")) {
         localStorage.removeItem("searchhistory");
-    $('.search-wrap').remove();
-    arrval=[];
+        $('.search-wrap').remove();
+        arrval = [];
 
-        }  
+    }
 
 });
 $('.th-search-box .backbtn').on('click', function() {
@@ -284,15 +281,14 @@ $('.th-search-box .backbtn').on('click', function() {
 
 
 });
-$('#searchInput').on('keyup focus',function(e) {
+$('#searchInput').on('keyup focus', function(e) {
     $('.search-bar input').css('width', '80%');
     var uVal = $("#searchInput").val();
     if (uVal !== "") {
-        if (e.keyCode === 13) 
-        {
+        if (e.keyCode === 13) {
 
 
- $('a.search-btn').click();
+            $('a.search-btn').click();
         }
         $('#del').show();
     } else {
@@ -308,7 +304,7 @@ function del() {
 $('a.search-btn').on('click', function() {
     var sVal = $("#searchInput").val();
     if (sVal !== '') {
-            keyword = sVal;
+        keyword = sVal;
         funStoreHistory();
 
     }

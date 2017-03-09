@@ -1,8 +1,8 @@
 import React from 'react';
 
-        let page = 0;
-        let page_state = 1;
-        let event='';
+let page = 0;
+let page_state = 1;
+let event = '';
 var JsPrduct = React.createClass({
     getInitialState: function() {
         return {
@@ -17,7 +17,7 @@ var JsPrduct = React.createClass({
             <div>
             <div className="app-pd-wp">
                 <div className="app-pd-list">
-<ul></ul>
+                   <ul></ul>
                     </div>
                     </div>
                     <div className="load-tip"></div>
@@ -39,9 +39,8 @@ var App = React.createClass({
         };
     },
 
-
     componentDidMount: function() {
-        document.addEventListener('scroll', this.handleScroll);
+        // document.addEventListener('scroll', this.handleScroll);
         $.getJSON('http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_list',
 
             function(value) {
@@ -57,9 +56,9 @@ var App = React.createClass({
                     var flb_w = $('.app-scroller-wrap').width();
                     $('.choose-items-wp p').width(nav_w);
                     $('.app-scroller li').on('click', function() {
-                        page=0;
+                        page = 0;
                         page_state = 1;
-                        event=$(this).attr('id');
+                        event = $(this).attr('id');
                         nav_w = $(this).width();
                         $('.choose-items-wp p').stop(true);
                         $('.choose-items-wp p').animate({
@@ -88,7 +87,7 @@ var App = React.createClass({
                         // navName(c_nav);
                     });
                     $('.choose-items-wp li').first().addClass('act').trigger('click');
-                    
+
                     // 初始化
 
                 }
