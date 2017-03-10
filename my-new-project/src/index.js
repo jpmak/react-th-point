@@ -21,11 +21,9 @@ import {
 } from './components/JsCate';
 
 
-import Searchhead from './components/search/Searchhead';
 // import Js_banner from './components/Js_banner';
 // Render the main component into the dom
 // 
-ReactDOM.render( < Searchhead / > , document.getElementById('js-search-box'));
 ReactDOM.render( < TopNav titleName = "兑换商城"
 	icon = "jf-record-icon"
 	icon_link = "search.html" / > , document.getElementById('headnav'));
