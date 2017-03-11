@@ -7,10 +7,12 @@ import ReactDOM from 'react-dom';
 
 
 import Searchhead from './components/search/Searchhead';
+import ResultWrap from './components/search/ResultWrap';
 
 // import Js_banner from './components/Js_banner';
 // Render the main component into the dom
-ReactDOM.render( < Searchhead / > , document.getElementById('js-search-box'));
+ReactDOM.render( < Searchhead onName = ' on-focus ' / > , document.getElementById('js-search-box'));
 
+ReactDOM.render( < ResultWrap / > , document.getElementById('ResultWrap'));
 
 //search页面
