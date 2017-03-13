@@ -1,4 +1,5 @@
 import React from 'react';
+
 class Goback extends React.Component {
     componentDidMount() {
 
@@ -22,7 +23,6 @@ class Goback extends React.Component {
     }
 }
 class Inputbox extends React.Component {
-
     componentDidMount() {
         $('#searchInput').on('keyup focus', function(e) {
             $('.search-bar input').css('width', '80%');
@@ -65,9 +65,20 @@ class Inputbox extends React.Component {
 
 }
 class SearchBtn extends React.Component {
+    handClick() {
+        $('a.search-btn').on('click', function() {
+            var sVal = $("#searchInput").val();
+            if (sVal !== '') {
+                keyword = sVal;
+                funStoreHistory();
+
+            }
+        });
+        console.log('test');
+    }
     render() {
         return (
-            <a className="search-btn">搜索</a>
+            <a className="search-btn" onClick={this.handClick}>搜索</a>
         )
     }
 }
