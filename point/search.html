@@ -221,7 +221,14 @@ $(function() {
     $('.result-sort li').not('.icons-list').on('click', function() {
         var liindex = $('.result-sort li').index(this);
         $(this).addClass('cur').siblings().removeClass('cur');
+        if(liindex == 0){
+  price = '';
 
+}
+if(liindex == 1){
+  price = 'desc';
+
+}
         if (liindex == 2) {
             if ($('.result-sort li.arrow').hasClass('asc') || price == 'asc') {
                 $('.result-sort li.arrow').removeClass('asc').addClass('desc');
@@ -231,7 +238,7 @@ $(function() {
                 price = 'asc';
             }
         }
-
+search_goods();
     });
 
 
@@ -285,8 +292,6 @@ $('#searchInput').on('keyup focus', function(e) {
     var uVal = $("#searchInput").val();
     if (uVal !== "") {
         if (e.keyCode === 13) {
-
-
             $('a.search-btn').click();
         }
         $('#del').show();

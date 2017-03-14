@@ -1,5 +1,7 @@
 import React from 'react';
-
+let sVal = '';
+let keyword = '';
+// let sVal = '';
 class Goback extends React.Component {
     componentDidMount() {
 
@@ -22,6 +24,25 @@ class Goback extends React.Component {
 
     }
 }
+
+class SearchBtn extends React.Component {
+    handClick() {
+
+        var sVal = $('#searchInput').val();
+        $('a.search-btn').on('click', function() {
+            if (sVal !== '') {
+                keyword = sVal;
+            }
+            console.log(sVal);
+        });
+    }
+    render() {
+        return (
+            <a className="search-btn" onClick={this.handClick}>搜索</a>
+        )
+    }
+}
+
 class Inputbox extends React.Component {
     componentDidMount() {
         $('#searchInput').on('keyup focus', function(e) {
@@ -44,44 +65,36 @@ class Inputbox extends React.Component {
         });
 
     }
-    handDel() {
+    handleClick() {
+        this.refs.myTextInput.focus();
+    }
+    handleDel() {
         $('#searchInput').val('').focus();
         $('#del').hide();
         $('.search-bar input').css('width', '100%');
     }
+    focus() {
+
+        console.log(123);
+    }
 
     render() {
         return (
+            <div>
+         
             <div className="wbox search-bar" >
                     <i className="th-search-iconbtn"></i>
-                    <div id="del" className="delete" onClick={this.handDel} ></div>
+                    <div id="del" className="delete" onClick={this.handleDel} ></div>
                     <div className="wbox-flex">
-        <input id="searchInput" style={{'width':'80%'}} className="th-search-form" type="text" placeholder="搜索商品关键字" autocomplete="off" />
+        <input id="searchInput" style={{'width':'80%'}} className="th-search-form" type="text" placeholder="搜索商品关键字" ref="myTextInput" />
                     </div>
                 </div>
-        );
+                </div>);
     }
 
 
 }
-class SearchBtn extends React.Component {
-    handClick() {
-        $('a.search-btn').on('click', function() {
-            var sVal = $("#searchInput").val();
-            if (sVal !== '') {
-                keyword = sVal;
-                funStoreHistory();
 
-            }
-        });
-        console.log('test');
-    }
-    render() {
-        return (
-            <a className="search-btn" onClick={this.handClick}>搜索</a>
-        )
-    }
-}
 class SearchResult extends React.Component {
 
     render() {

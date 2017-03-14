@@ -7,21 +7,12 @@ var price = '';
 var c_id = '';
 var arrval = new Array();
 class ResultWrap extends React.Component {
-    // getInitialState() {
-    //     return {
-    //         // loading: true,
-    //         // data: null
-
-    //     };
-    // }
-    // 
 
     componentWillMount() {
         this.handload()
     }
     handload() {
         const _this = this;
-
         $.ajax({
             url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_goods',
             type: 'POST',
@@ -33,7 +24,6 @@ class ResultWrap extends React.Component {
                 'by': price,
                 'page': page
             },
-
             error: function() {
                 alert('网络连接失败！');
             },
@@ -63,10 +53,9 @@ class ResultWrap extends React.Component {
 
                         $('.app-pd-list ul').html(liHtml);
                     }
-                    Load.hide();
+
                 }
                 $('img.lazy').show().lazyload({
-                    placeholder: '/images/f-bg.gif',
                     effect: 'fadeIn',
                     skip_invisible: false,
                     threshold: 100
