@@ -6,6 +6,7 @@ let page = 0;
 let volume = '';
 let price = '';
 let c_id = '';
+let searchClick = 0;
 
 let searchMsg = '';
 let arrval = new Array();
@@ -33,70 +34,68 @@ class Goback extends React.Component {
     }
 }
 
-class SearchBtn extends React.Component {
-    handleClick() {
+// class SearchBtn extends React.Component {
+//     handleClick() {
+//         var sVal = $('#searchInput').val();
+//         $('a.search-btn').on('click', function() {
 
-        var sVal = $('#searchInput').val();
-        $('a.search-btn').on('click', function() {
-            if (sVal !== '') {
-                keyword = sVal;
-            }
-        });
-    }
-    render() {
-        return (
-            <a className="search-btn" onClick={this.handleClick}>搜索</a>
-        )
-    }
-}
+//             if (sVal !== '') {
+//                 keyword = sVal;
+//             }
+//         });
+//     }
+//     render() {
+//         return (
+//             <a className="search-btn" onClick={this.handleClick}>搜索</a>
+//         )
+//     }
+// }
 
-class Inputbox extends React.Component {
-    componentDidMount() {
-        $('#searchInput').on('keyup focus', function(e) {
-            $('.search-bar input').css('width', '80%');
-            var uVal = $('#searchInput').val();
-            if (uVal !== '') {
-                if (e.keyCode === 13) {
-                    $('a.search-btn').click();
-                }
-                $('#del').show();
-            } else {
-                $('#del').hide();
-            }
-        });
-        $('#searchInput').on('click', function() {
-            $('#js-list,.class,.result-wp').hide();
-            $('.search-wrap,.th-search-box .backbtn').show();
-            $('.th-active,.th-active body').css('overflow', 'auto');
+// class Inputbox extends React.Component {
+//     componentDidMount() {
+//         $('#searchInput').on('keyup focus', function(e) {
+//             $('.search-bar input').css('width', '80%');
+//             var uVal = $('#searchInput').val();
+//             if (uVal !== '') {
+//                 if (e.keyCode == 13) {
+//                     $('a.search-btn').click();
+//                 }
+//                 $('#del').show();
+//             } else {
+//                 $('#del').hide();
+//             }
+//         });
+//         $('#searchInput').on('click', function() {
+//             $('#js-list,.class,.result-wp').hide();
+//             $('.search-wrap,.th-search-box .backbtn').show();
+//             $('.th-active,.th-active body').css('overflow', 'auto');
 
-        });
+//         });
 
-    }
-    handleClick() {
-        this.refs.myTextInput.focus();
-    }
-    handleDel() {
-        $('#searchInput').val('').focus();
-        $('#del').hide();
-        $('.search-bar input').css('width', '100%');
-    }
+//     }
+//     handleClick() {
+//         this.refs.myTextInput.focus();
+//     }
+//     handleDel() {
+//         $('#searchInput').val('').focus();
+//         $('#del').hide();
+//         $('.search-bar input').css('width', '100%');
+//     }
 
-    render() {
-        return (
-            <div>
-         
-            <div className="wbox search-bar" >
-                    <i className="th-search-iconbtn"></i>
-                    <div id="del" className="delete" onClick={this.handleDel} ></div>
-                    <div className="wbox-flex">
-        <input id="searchInput" style={{'width':'80%'}} className="th-search-form" type="text" placeholder="搜索商品关键字" ref="myTextInput"  />
-                    </div>
-                </div>
-                </div>);
-    }
+//     render() {
+//         return (
+//             <div>
 
-
-}
+//             <div className="wbox search-bar" >
+//                     <i className="th-search-iconbtn"></i>
+//                     <div id="del" className="delete" onClick={this.handleDel} ></div>
+//                     <div className="wbox-flex">
+//         <input id="searchInput" style={{'width':'80%'}} className="th-search-form" type="text" placeholder="搜索商品关键字" ref="myTextInput"  />
+//                     </div>
+//                 </div>
+//                 </div>);
+//     }
+// }
 
 class SearchResult extends React.Component {
 
@@ -159,12 +158,10 @@ class SearchResult extends React.Component {
 }
 
 class Searchhead extends React.Component {
-
-
     constructor(props) {
         super(props);
         this.state = {
-            value: 12,
+            value: '',
             message: 121
         };
 
@@ -174,29 +171,37 @@ class Searchhead extends React.Component {
             });
         }
 
-        this.handleClick = () => {
-            var sVal = $('#searchInput').val();
-            const _this = this;
-            $('a.search-btn').on('click', function() {
-                if (sVal !== '') {
-                    keyword = _this.state.value;
-                }
-            });
-
-            console.log(keyword);
-        }
+        // this.handleClick = () => {
+        //     var sVal = $('#searchInput').val();
+        //     const _this = this;
+        //     $('a.search-btn').on('click', function() {
+        //         if (sVal !== '') {
+        //             keyword = _this.state.value;
+        //         }
+        //     });
+        // }
         this._handleClick = () => {
-                var sVal = $('#searchInput').val();
-                const _this = this;
-                $('a.search-btn').on('click', function() {
-                    if (sVal !== '') {
-                        // keyword = _this.state.value;
-                        keyword = sVal;
-                    }
-                });
-                console.log(keyword);
 
-                this.refs.getload.sendAjax();
+
+
+                // $('a.search-btn').on('click', function() {
+                if (sVal != '') {
+                    // keyword = _this.state.value;
+                    // keyword = this.state.value;
+                    // _this.refs.getarr.funStoreHistory();
+                    // console.log(keyword);
+                    const _this = this;
+
+                    var sVal = $('#searchInput').val();
+                    keyword = sVal;
+                    _this.refs.getarr.funStoreHistory();
+
+                }
+
+                // console.log(keyword);
+                // });
+
+
 
             }
             // this.funloadHistory = () => {
@@ -205,28 +210,32 @@ class Searchhead extends React.Component {
             //     this.refs.getload.sendAjax();
             // }
     }
-    componentWillMount() {
-        this.funloadHistory();
-    }
     funloadHistory() {
         keyword = arrval[0];
         $('#searchInput').val(keyword);
-        console.log(123);
-        // this.refs.getload.sendAjax();
+        this.refs.getload.sendAjax();
     }
+    componentWillMount() {
+        // this.funloadHistory();
+
+    }
+
+
     componentDidMount() {
-        $('#searchInput').on('keyup focus', function(e) {
-            $('.search-bar input').css('width', '80%');
-            var uVal = $('#searchInput').val();
-            if (uVal !== '') {
-                if (e.keyCode === 13) {
-                    $('a.search-btn').click();
-                }
-                $('#del').show();
-            } else {
-                $('#del').hide();
-            }
-        });
+        this.funloadHistory()
+
+        // $('#searchInput').on('keyup focus', function(e) {
+        //     $('.search-bar input').css('width', '80%');
+        //     var uVal = $('#searchInput').val();
+        //     if (uVal !== '') {
+        //         if (e.keyCode === 13) {
+        //             $('a.search-btn').click();
+        //         }
+        //         $('#del').show();
+        //     } else {
+        //         $('#del').hide();
+        //     }
+        // });
         $('#searchInput').on('click', function() {
             $('#js-list,.class,.result-wp').hide();
             $('.search-wrap,.th-search-box .backbtn').show();
@@ -252,7 +261,7 @@ class Searchhead extends React.Component {
             <div className="th-search-box">
                 <div className="th-search-shadow"></div>
          <Goback/>
-        <a className="search-btn" onClick={this._handleClick}>搜索</a>
+        <a className="search-btn" onClick={this._handleClick.bind(this)}>搜索</a>
                     <div className="wbox search-bar" >
                     <i className="th-search-iconbtn"></i>
                     <div id="del" className="delete" onClick={this.handleDel} ></div>
@@ -265,7 +274,7 @@ class Searchhead extends React.Component {
                 </div>
             </div>
         </div>
-<SearchResult/>
+<SearchResult ref="getarr"/>
 <ResultWrap ref="getload"/>
             </div>
         );
