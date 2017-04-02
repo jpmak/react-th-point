@@ -19,7 +19,7 @@ var SalesWrapper = React.createClass({
                     data: value
                 });
                 $("img.lazy").show().lazyload({
-                    container: $("#SalesWrapper"),
+                    container: $("#sales-wrapper"),
                     effect: "fadeIn"
                 });
             }
@@ -56,12 +56,13 @@ var SalesWrapper = React.createClass({
                 return scrollerHtml;
             }
             return (
+                <div id="sales-wrapper">
                 <div id="scroller" className="list">
             <ul dangerouslySetInnerHTML=
                         {{__html:Shtml()}}
                         />
                     </div>
-
+</div>
             );
 
         }

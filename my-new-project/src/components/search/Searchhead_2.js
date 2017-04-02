@@ -117,6 +117,11 @@ class Searchhead extends React.Component {
             value: '',
             message: ''
         };
+        this.handleChange = (event) => {
+            this.setState({
+                value: event.target.value
+            });
+        }
 
         this.handleChange = (event) => {
             this.setState({
@@ -161,7 +166,7 @@ class Searchhead extends React.Component {
         $('#searchInput').on('keyup focus', function(e) {
             $('.search-bar input').css('width', '80%');
             var uVal = $('#searchInput').val();
-            if (uVal != '') {
+            if (uVal != '1') {
                 if (e.keyCode === 13) {
                     _this._handleClick();
                 }
@@ -416,6 +421,7 @@ class ResultWrap extends React.Component {
         );
     }
 }
+
 
 export {
     Searchhead,

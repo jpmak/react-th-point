@@ -24,7 +24,7 @@
                 <a class="class th-nav-back" href="javascript:history.go(-1);"> </a>
                 <a class="backbtn"></a>
                 <a class="search-btn" style="">搜索</a>
-                <div class="wbox search-bar" >
+                <div class="wbox search-bar">
                     <i class="th-search-iconbtn"></i>
                     <div id="del" class="delete" onclick="del()"></div>
                     <div class="wbox-flex">
@@ -210,14 +210,12 @@ function search_goods() {
     });
 }
 $(function() {
-
     var funloadHistory = function() {
         keyword = arrval[0];
         $('#searchInput').val(keyword);
         search_goods();
     };
     funloadHistory();
-
     $('.result-sort li').not('.icons-list').on('click', function() {
         var liindex = $('.result-sort li').index(this);
         $(this).addClass('cur').siblings().removeClass('cur');

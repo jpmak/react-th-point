@@ -40,9 +40,7 @@ var App = React.createClass({
     },
 
     componentDidMount: function() {
-        // document.addEventListener('scroll', this.handleScroll);
         $.getJSON('http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_list',
-
             function(value) {
                 if (this.isMounted()) {
                     this.setState({
@@ -50,7 +48,6 @@ var App = React.createClass({
                         data_p: null,
                         data: value
                     });
-
                     var nav_w = $('.app-scroller li').first().width();
                     var fl_w = $('.app-scroller').width();
                     var flb_w = $('.app-scroller-wrap').width();
@@ -135,7 +132,6 @@ var App = React.createClass({
                 }
                 // else end
                 $('.app-pd-list img.lazy').show().lazyload({
-                    placeholder: '/src/images/f-bg.gif',
                     skip_invisible: false,
                     effect: 'fadeIn',
                     threshold: 0
@@ -175,9 +171,6 @@ var App = React.createClass({
                     <li key={index} id={Cate.cate_id}  onClick={self.handleClick.bind(self,Cate.cate_id)}><a><span>{Cate.cate_name}</span></a></li>
                 );
             });
-
-
-
             return (
                 <div>
                     <div id="app-scroller" className="app-scroller-wrap" style={{'height': '.75rem'}}>
@@ -196,10 +189,7 @@ var App = React.createClass({
     }
 })
 
-
-
 export {
     App,
-
     JsPrduct
 };

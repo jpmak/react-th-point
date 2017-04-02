@@ -21,25 +21,15 @@ import {
 } from './components/JsCate';
 
 
-// import Js_banner from './components/Js_banner';
-// Render the main component into the dom
-// 
+
 ReactDOM.render( < TopNav titleName = "兑换商城"
 	icon = "jf-record-icon"
 	icon_link = "search.html" / > , document.getElementById('headnav'));
-// ReactDOM.render(<AppComponent />, document.getElementById('app'));
-// ReactDOM.render(<SwiperBanner />, document.getElementById('banner'));
+
 ReactDOM.render( < SearchBox / > , document.getElementById('search'));
 ReactDOM.render( < SwiperBanner / > , document.getElementById('banner'));
-ReactDOM.render( < Record handhref = "Exchange-exchangeLog.html" / > , document.getElementById('record'));
+ReactDOM.render( < Record handhref = "exchangeLog.html" / > , document.getElementById('record'));
 ReactDOM.render( < Js_banner / > , document.getElementById('js_banner'));
 ReactDOM.render( < SalesWrapper / > , document.getElementById('SalesWrapper'));
 ReactDOM.render( < Js_banner_2 / > , document.getElementById('js_banner_2'));
 ReactDOM.render( < App / > , document.getElementById('app'));
-
-// ReactDOM.render( < JsCate / > , document.getElementById('jd-cate'));
-// ReactDOM.render( < JsPrduct / > , document.getElementById('jd-prduct'));
-
-
-
-//search页面

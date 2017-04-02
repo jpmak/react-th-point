@@ -19,6 +19,16 @@ let config = Object.assign({}, baseConfig, {
       'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
       'webpack/hot/only-dev-server',
       './src/search'
+    ],
+    'detail': [
+      'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
+      'webpack/hot/only-dev-server',
+      './src/detail'
+    ],
+    'exchangeLog': [
+      'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
+      'webpack/hot/only-dev-server',
+      './src/exchangeLog'
     ]
   },
   cache: true,
