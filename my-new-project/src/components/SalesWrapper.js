@@ -51,7 +51,7 @@ var SalesWrapper = React.createClass({
                             sales_top = '';
                             break;
                     }
-                    scrollerHtml += '<li><a href="Exchange-goods-' + Sales[i].item_id + '.html"><div class="info-img"><div class="top ' + sales_top + '"></div><img alt="" class="lazy"   data-original="' + Sales[i].list_image + '"/></div><div class="info-bar"><div class="pro-title">' + Sales[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + Sales[i].item_price + '</em>积分</span></div></div></a> </li>';
+                    scrollerHtml += '<li><a ><div class="info-img"><div class="top ' + sales_top + '"></div><img alt="" class="lazy"   data-original="' + Sales[i].list_image + '"/></div><div class="info-bar"><div class="pro-title">' + Sales[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + Sales[i].item_price + '</em>积分</span></div></div></a> </li>';
                 }
                 return scrollerHtml;
             }
