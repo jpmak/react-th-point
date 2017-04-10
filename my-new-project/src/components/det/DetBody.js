@@ -115,7 +115,7 @@ class ProductCover extends React.Component {
 
 
     render() {
-
+const _this = this;
         let saleProps = this.props.saleProp;
         let itemUrls = this.props.itemUrl;
         /*for in*/
@@ -151,12 +151,28 @@ class ProductCover extends React.Component {
             let keysrt = '';
             let propNum = 1;
             let propClassAdd = '';
-            let PropKeys = Object.keys(propLi);
-            let PropKeyList = propLis.map(function(propLi) {
+            let PropKeys = Object.keys(propLis);
+            // let PropKeyList=12;
+
+            // console.log(PropKeys);
+            console.log(PropKeys);
+            console.log(propLis);
+
+// let tools=[];
+// for (let n in propLis){
+//     tools.push(propLis[n]);
+
+// }
+
+            let PropKeyList = PropKeys.map(function(propLi,index) {
+
+                  return (
                 // <a className="value " key={index} >{propLi.PropKeys}></a>
-                <a className="value " >{propLi.PropKeys}</a>
+                <a className="value " key={index} onClick={_this.props.callClick.bind(_this,itemUrls[propLi])} id={itemUrls[propLi]}>{propLis[propLi]} </a>
+                  );
             });
             return (
+
                 <li key={ index }>
                 <h2>{saleProp.prop_name}</h2>
                     <div className="items">
@@ -295,8 +311,8 @@ class DetBody extends React.Component {
         e.stopPropagation();
     }
 
-    handleClick(event) {
-        console.log('ok');
+    handleClick(eventId) {
+        console.log(eventId);
         fetch("http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_goods_msg", {
                 method: "POST",
                 headers: {
@@ -338,7 +354,7 @@ class DetBody extends React.Component {
             .catch(function(e) {
                 console.log("加载失败");
             });
-        this.stopPropagation();
+        // this.stopPropagation();
     }
     handleGetId() {
         this.setState({
@@ -350,7 +366,7 @@ class DetBody extends React.Component {
         $('.way-wp li').on('click', function() {
             $(this).addClass('cur').siblings().removeClass('cur');
         });
-        this.handleClick();
+        this.handleClick(eventId);
     }
 
     componentDidUpdate() {
@@ -359,7 +375,7 @@ class DetBody extends React.Component {
         $('.select-list .items .value').on('click', function() {
             $(this).addClass('cur disabled').siblings().removeClass('cur disabled');
             eventId = $(this).attr('id');
-            _this.handleClick();
+            // _this.handleClick();
         });
 
 
