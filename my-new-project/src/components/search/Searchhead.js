@@ -271,6 +271,9 @@ class ResultWrap extends React.Component {
             }
         });
     }
+    funStoreUpItem(upItem) {
+        window.localStorage.upItem = upItem;
+    }
     handload() {
         const _this = this;
         $.ajax({
@@ -316,6 +319,10 @@ class ResultWrap extends React.Component {
                     effect: 'fadeIn',
                     skip_invisible: false,
                     threshold: 100
+                });
+                $('a.upItem').on('click', function() {
+                    upItem = $(this).attr('data-id');
+                    _this.funStoreUpItem(upItem);
                 });
             }
         });

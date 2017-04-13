@@ -1,7 +1,12 @@
 import React from 'react';
 import Banner from '../det/Banner';
-// let eventId = '20701';
-let eventId = '21354';
+let upItem = '';
+let p_type = '';
+let eventId = '';
+
+// let eventId = '20662';
+// let eventId = '21354';
+// 
 let clickState = 1;
 class FixBtn extends React.Component {
     componentDidMount() {
@@ -10,55 +15,6 @@ class FixBtn extends React.Component {
             $('.cover-mask').addClass('cover-mask-toggle').show();
             $('html').addClass('hidescroll');
 
-        });
-        $(".exchange-submit").click(function() {
-            if (!confirm('是否确认兑换')) {
-                return false;
-            }
-            var stock = $("#stock").html();
-            if (stock == 0 || stock == '') {
-                layer.msg('没库存了', {
-                    skin: 'layui-layer-huise'
-                });
-                return false;
-            }
-            var p_type = $(".cur").attr('data-id');
-            if (p_type == null || p_type == '') {
-                layer.msg('请选择兑换积分类型', {
-                    skin: 'layui-layer-huise'
-                });
-                return false;
-            }
-            ptsAjax({
-                'url': urlRoot + '?g=WapSite&c=Exchange&a=commit_exchange',
-                'type': 'json',
-                'Thread': true,
-                'data': {
-                    'item_id': upItem,
-                    'p_type': p_type
-                },
-                'complete': function() {
-                    Load.hide();
-                },
-                'error': function() {
-                    alert('网络连接失败！');
-                },
-                success: function(data, textStatus, xhr) {
-                    if (data.OK) {
-                        location = 'Exchange-getOrderInfo-' + upItem + '.html';
-                    } else {
-                        layer.msg(data.msg, {
-                            skin: 'layui-layer-huise'
-                        });
-                        if (data.url != '') {
-                            setTimeout(function() {
-                                location = data.url
-                            }, 1500);
-                        }
-                        return false;
-                    }
-                }
-            });
         });
     }
     render() {
@@ -92,30 +48,27 @@ class CoverMask extends React.Component {
 
 class ProductCover extends React.Component {
     // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         getId: eventId
-    //     };
+    //         super(props);
+    //         this.state = {
+    //             getId: eventId
+    //         };
 
-    // }
+    //     }
     // componentDidUpdate() {
-    // let keyText = $('.items').text();
+    //     let keyText = $('.items').text();
 
-    // const _this = this;
-    // $('.select-list .items .value').on('click', function() {
-    //     $(this).addClass('cur').siblings().removeClass('cur');
-    //     eventId = $(this).attr('id');
-    //     console.log(eventId);
-    //     // _this.handelClick();
-    // });
-    // $('.select-list .items .value').first().addClass('cur').trigger('click');
+    //     const _this = this;
+    //     $('.select-list .items .value').on('click', function() {
+    //         $(this).addClass('cur').siblings().removeClass('cur');
+    //         eventId = $(this).attr('id');
+    //         // _this.handelClick();
+    //     });
+    //     // $('.select-list .items .value').first().addClass('cur').trigger('click');
 
 
     // }
-
-
     render() {
-const _this = this;
+        const _this = this;
         let saleProps = this.props.saleProp;
         let itemUrls = this.props.itemUrl;
         /*for in*/
@@ -150,29 +103,23 @@ const _this = this;
             let propLis = saleProp.props;
             let keysrt = '';
             let propNum = 1;
-            let propClassAdd = '';
+            let propClassAdd = 'value';
             let PropKeys = Object.keys(propLis);
-            // let PropKeyList=12;
-
             // console.log(PropKeys);
-            console.log(PropKeys);
-            console.log(propLis);
-
-// let tools=[];
-// for (let n in propLis){
-//     tools.push(propLis[n]);
-
-// }
-
-            let PropKeyList = PropKeys.map(function(propLi,index) {
-
-                  return (
-                // <a className="value " key={index} >{propLi.PropKeys}></a>
-                <a className="value " key={index} onClick={_this.props.callClick.bind(_this,itemUrls[propLi])} id={itemUrls[propLi]}>{propLis[propLi]} </a>
-                  );
-            });
+            // console.log(propLis);
+            let PropKeyList = PropKeys.map(function(propLi, index) {
+                if (index == 0) {
+                    return (
+                        // <a className="value " key={index} >{propLi.PropKeys} onClick={_this.props.callClick.bind(_this,itemUrls[propLi])} ></a>
+                        <a className='value cur disabled' key={index}  id={itemUrls[propLi]}>{propLis[propLi]} </a>
+                    );
+                } else {
+                    return (
+                        <a className='value' key={index} id={itemUrls[propLi]}>{propLis[propLi]} </a>
+                    );
+                }
+            }, _this);
             return (
-
                 <li key={ index }>
                 <h2>{saleProp.prop_name}</h2>
                     <div className="items">
@@ -205,17 +152,88 @@ const _this = this;
                 </div>
              
         <div style={{color:'#ccc',textAlign:'center','display':!this.props.isDisplay}}>无可选属性</div>
-          
-                <div className="fix-box product-payup">
+          <PutBtn/>
+       
+            </div>
+        </section>
+        )
+    }
+}
+class PutBtn extends React.Component {
+    componentDidMount() {
+        $(".exchange-submit").click(function() {
+            if (!confirm('是否确认兑换')) {
+                return false;
+            }
+            var stock = $("#stock").html();
+            if (stock == '缺货' || stock == '') {
+                layer.msg('没库存了', {
+                    skin: 'layui-layer-huise'
+                });
+                return false;
+            }
+            upItem = eventId;
+            p_type = $(".product-pay-way .way-wp li.cur").attr('data-id');
+            fetch('http://dev.thgo8.com/?g=WapSite&c=Exchange&a=commit_exchange', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+
+                body: 'item_id=' + upItem & 'p_type=' + p_type
+
+            })
+
+            .then((res) => res.json())
+                .then((data) => {
+                    if (data.ok) {
+                        location = 'Exchange-getOrderInfo-' + upItem + '.html';
+                    } else {
+                        if (data.url != '') {
+                            layer.msg('请先登录', {
+                                skin: 'layui-layer-huise'
+                            });
+                            // alert(data.msg);
+                            setTimeout(function() {
+                                // location = data.url
+                            }, 1500);
+                        }
+                    }
+                })
+                // .then((data) => {
+                //         if (data.ok) {
+                //             console.log('test');
+
+            //         } else {
+
+            //             if (data.url != '') {
+            //                 console.log(data.url);
+            //                 setTimeout(function() {
+            //                     location = data.url
+            //                 }, 1500);
+            //             }
+            //         }
+            //         // location = 'Exchange-getOrderInfo-' + upItem + '.html';
+            //     })
+            .catch(function(e) {
+                console.log("加载失败");
+            });
+
+        });
+
+
+    }
+    render() {
+        return (
+            <div className="fix-box product-payup">
                     <div className="pay-item">
                         <div className="wbox-flex tc exchange-submit">
                             <a className="th-btn th-btn-assertive ">确定</a>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
         )
+
     }
 }
 class Scrollup extends React.Component {
@@ -275,7 +293,6 @@ class Scrollup extends React.Component {
         });
     }
     render() {
-        // <div className="post-body" dangerouslySetInnerHTML={this.goods_mess()}></div>
         return (
             <div>
                 
@@ -292,7 +309,7 @@ class DetBody extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            getId: eventId,
+            // getId: eventId,
             saleProp: [],
             prop_name: '',
             itemUrl: '',
@@ -311,8 +328,7 @@ class DetBody extends React.Component {
         e.stopPropagation();
     }
 
-    handleClick(eventId) {
-        console.log(eventId);
+    handleClick() {
         fetch("http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_goods_msg", {
                 method: "POST",
                 headers: {
@@ -323,23 +339,21 @@ class DetBody extends React.Component {
             .then((res) => res.json())
             .then((json) => {
                 this.setState({
-
                     prop_name: (json.prop_name) ? json.prop_name : '',
                     saleProp: (json.saleProp) ? json.saleProp : [],
                     itemUrl: (json.itemUrl) ? json.itemUrl : '',
-                    imgsrc: json.goods.main_image,
                     item_price: json.goods.item_price,
                     name: json.goods.goods_name,
                     stock: json.goods.stock,
                     goods_id: json.goods.goods_id,
                     goods_body: json.goods.goods_body,
-                    item_name: json.goods.item_name
+                    imgsrc: json.goods.main_image,
+                    item_name: (json.goods.item_name) ? '已选择：' + json.goods.item_name : ''
                 });
                 if (!json.saleProp) {
                     this.setState({
-                        isDisplay: falsex
+                        isDisplay: false
                     });
-
                 }
                 var swiper = new Swiper('.big_img_wrapper', {
                     pagination: '.big-img-pagination',
@@ -354,28 +368,38 @@ class DetBody extends React.Component {
             .catch(function(e) {
                 console.log("加载失败");
             });
-        // this.stopPropagation();
+        this.stopPropagation();
     }
-    handleGetId() {
-        this.setState({
-            getId: eventId
-        });
-        this.handleClick();
+    getUpItem() {
+        if (window.localStorage.upItem) {
+            eventId = window.localStorage.upItem;
+            this.handleClick();
+            // arrval.push(searchMsg);
+        } else {
+            alert('网络异常')
+        }
     }
     componentDidMount() {
-        $('.way-wp li').on('click', function() {
-            $(this).addClass('cur').siblings().removeClass('cur');
-        });
-        this.handleClick(eventId);
+        this.getUpItem();
+
     }
 
-    componentDidUpdate() {
-        const _this = this
 
+    componentDidUpdate() {
+
+        const _this = this
+        $('.way-wp li').on('click', function() {
+            $(this).addClass('cur').siblings().removeClass('cur');
+            p_type = $(this).attr('data-id');
+            console.log(p_type);
+
+        });
         $('.select-list .items .value').on('click', function() {
             $(this).addClass('cur disabled').siblings().removeClass('cur disabled');
             eventId = $(this).attr('id');
-            // _this.handleClick();
+            upItem = eventId;
+            // console.log(upItem);
+            _this.handleClick();
         });
 
 
@@ -398,7 +422,7 @@ class DetBody extends React.Component {
             <div className="product-pay-way">
             <p className="statement">选择你要使用的积分类型</p>
             <ul className="way-wp wbox">
-            <li data-id="balance_point"><i className="round "></i><span>排点积分</span></li>
+            <li data-id="balance_point" className="cur"><i className="round"></i><span>排点积分</span></li>
             <li data-id="travel_point"><i className="round" ></i><span>旅游积分</span></li>
             <li  data-id="point"><i className="round" ></i><span>购物积分</span></li>
             </ul>
@@ -411,8 +435,8 @@ class DetBody extends React.Component {
             </div>
             </div>
             <CoverMask/>
-        <ProductCover isDisplay={isDisplay}  callClick={this.handleClick} imgsrc={this.state.imgsrc[1]} item_price={this.state.item_price} stock={this.state.stock? this.state.stock : '缺货'} item_name={this.state.item_name} prop_name={this.state.prop_name} saleProp={this.state.saleProp} itemUrl={this.state.itemUrl} />
-          <FixBtn title = "立即兑换"/>
+        <ProductCover isDisplay={isDisplay}  callClick={this.handleClick} imgsrc={this.state.imgsrc[0]} item_price={this.state.item_price} stock={this.state.stock? this.state.stock : '缺货'} item_name={this.state.item_name} prop_name={this.state.prop_name} saleProp={this.state.saleProp} itemUrl={this.state.itemUrl} />
+        <FixBtn title = "立即兑换"/>
 
             </div>
         )

@@ -1,5 +1,4 @@
 import React from 'react';
-
 let page = 0;
 let page_state = 1;
 let event = '';
@@ -86,15 +85,35 @@ var App = React.createClass({
                     $('.choose-items-wp li').first().addClass('act').trigger('click');
 
                     // 初始化
-
                 }
             }.bind(this));
+
+        const _this = this
+        $('.app-pd-list li').on('click', function() {
+            // upItem = $(this).attr('data-id');
+            console.log(12);
+            // _this.funStoreUpItem();
+        });
+
+
+    },
+    funStoreUpItem: function(upItem) {
+        window.localStorage.upItem = upItem;
     },
 
+    // componentDidUpdate() {
+    //     const _this = this
+    //     $('a.upItem').on('click', function() {
+    //         // upItem = $(this).attr('data-id');
+    //         console.log(12);
+    //         // _this.funStoreUpItem();
+    //     });
+    // },
     handleClick: function() {
         // this.setState({
         // })
         const _this = this;
+        let upItem = '';
         $.ajax({
             url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_goods',
             type: 'POST',
@@ -107,7 +126,8 @@ var App = React.createClass({
                 let cate_listHtml = '';
                 if (data.status) {
                     for (var i = 0; i < data.goods_list.length; i++) {
-                        cate_listHtml += '  <li><a href="Exchange-goods-' + data.goods_list[i].item_id + '.html"><div class="info-img"><img alt="" class="lazy" data-original="' + data.goods_list[i].list_image + '"></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a></li>';
+                        // href="Exchange-goods-' + data.goods_list[i].item_id + '.html"
+                        cate_listHtml += '  <li><a href="detail.html"  class="upItem" data-id="' + data.goods_list[i].item_id + '"><div class="info-img"><img alt="" class="lazy" data-original="' + data.goods_list[i].list_image + '"></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a></li>';
                     }
 
                     if (page === 0) {
@@ -135,6 +155,10 @@ var App = React.createClass({
                     skip_invisible: false,
                     effect: 'fadeIn',
                     threshold: 0
+                });
+                $('a.upItem').on('click', function() {
+                    upItem = $(this).attr('data-id');
+                    _this.funStoreUpItem(upItem);
                 });
             }
         });

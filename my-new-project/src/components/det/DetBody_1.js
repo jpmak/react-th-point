@@ -239,6 +239,8 @@ class DetBody extends React.Component {
         .then((res) => res.json())
             .then((json) => {
                 this.setState({
+                    prop_name: json.saleProp[0].prop_name,
+
                     saleProp: json.saleProp,
                     itemUrl: json.itemUrl,
                     imgsrc: json.goods.main_image,
@@ -247,7 +249,6 @@ class DetBody extends React.Component {
                     stock: json.goods.stock,
                     goods_id: json.goods.goods_id,
                     goods_body: json.goods.goods_body,
-                    prop_name: json.saleProp[0].prop_name,
                     item_name: json.goods.item_name
                 });
                 var swiper = new Swiper('.big_img_wrapper', {
