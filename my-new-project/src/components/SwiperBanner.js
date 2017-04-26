@@ -106,9 +106,11 @@ var Js_banner = React.createClass({
                 });
             }
         }.bind(this));
+        if (this.state.imgsrc == 0) {
+            $('#js_banner').hide();
+        }
     },
     render: function() {
-
         // var repos_2 = this.state.data.bann_foo1.advList[0];
         return (
             <a href={this.state.banner_href}><img className="img-banner" src={this.state.imgsrc}/></a>

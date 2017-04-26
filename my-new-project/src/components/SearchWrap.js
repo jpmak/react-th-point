@@ -13,7 +13,7 @@ var SearchBox = React.createClass({
                     <div id="del" class="delete" onclick="del()"></div>
                     <div class="wbox-flex">
                         <form class="th-search-form">
-                            <input id="searchInput" class="th-search-form" type="text" placeholder="搜索商品关键字" autocomplete="off">
+                            <input id="searchInput" class="th-search-form" type="text" placeholder="搜索商品关键字" autocomplete="off"/>
                         </form>
                     </div>
                 </div>

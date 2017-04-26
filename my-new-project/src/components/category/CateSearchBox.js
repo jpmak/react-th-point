@@ -1,27 +1,37 @@
 import React from 'react';
-import SortsBtn from './public/SortsBtn';
-import SearchInput from './search/SearchInput';
-import Goback_up from './public/Goback_up';
-import Del_val from './search/Del_val';
-import SearchBtn from './search/SearchBtn';
+import Goback from '../public/Goback';
+let sVal = '';
+let keyword = '';
+let page_state = 1;
+let page = 0;
+let volume = '';
+let price = '';
+let c_id = '';
+let searchClick = 0;
 let searchMsg = '';
 let arrval = new Array();
-let keyword = '';
+class Goback_up extends React.Component {
+    componentDidMount() {}
+    handClick() {
 
-var Backbtn = React.createClass({
-
-    render: function() {
-        return (
-            <a className="backbtn"></a>
-        )
+        $('#searchInput').blur();
+        $('#js-list,.class,.result-wp').show();
+        $('.search-wrap,.th-search-box .backbtn').hide();
     }
-});
+
+    render() {
+        return (
+            <div>
+       <Goback/>
+                <a className="backbtn" onClick={this.handClick}></a>
+</div>
+        )
 
 
+    }
+}
 class SearchResult extends React.Component {
-
     componentDidMount() {
-
         const _this = this;
         if (window.localStorage.searchhistory) {
             searchMsg = JSON.parse(window.localStorage.searchhistory);
@@ -58,8 +68,7 @@ class SearchResult extends React.Component {
         arrval = this.unique(arrval);
         window.localStorage.searchhistory = JSON.stringify(arrval);
         keyword = arrval[0];
-        window.location.href = 'search.html';
-        // window.location.reload();
+        window.location.reload();
     }
     unique(arr) {
         var res = [];
@@ -75,7 +84,7 @@ class SearchResult extends React.Component {
     historyHtml() {
         let history_Html = '';
         for (var i = 0; i < searchMsg.length; i++) {
-            history_Html += '<li><a>' + searchMsg[i] + '</a></li>';
+            history_Html += '<li><a href="/search.html">' + searchMsg[i] + '</a></li>';
         }
         $('.search-keywords-list').html(history_Html);
 
@@ -94,35 +103,53 @@ class SearchResult extends React.Component {
         )
     }
 }
-
-
-var SearchBox = React.createClass({
-    getInitialState: function() {
-        return {
-            value: ''
+class CateSearchBox extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: '',
+            message: ''
         };
-    },
 
-    handleChange: function(event) {
-        this.setState({
-            value: event.target.value
-        });
-    },
-    handleDel: function() {
-        $('#searchInput').val('').focus();
-        $('#del').hide();
-        $('.search-bar input').css('width', '100%');
-    },
-    _handleClick: function() {
-        var sVal = $('#searchInput').val();
-
-        if (sVal != '') {
-            const _this = this;
-            keyword = sVal;
-            _this.refs.getarr.funStoreHistory();
+        this.handleChange = (event) => {
+            this.setState({
+                value: event.target.value
+            });
         }
-    },
-    componentDidMount: function() {
+
+        $('.delbtn').on('click', function() {
+            if (confirm("确定要清空吗？")) {
+                localStorage.removeItem("searchhistory");
+                $('.search-wrap').remove();
+                arrval = [];
+
+            }
+
+        });
+
+        this._handleClick = () => {
+            var sVal = $('#searchInput').val();
+
+            if (sVal != '') {
+                const _this = this;
+                keyword = sVal;
+                _this.refs.getarr.funStoreHistory();
+            }
+        }
+    }
+    funloadHistory() {
+        if (window.localStorage.searchhistory) {
+            keyword = arrval[0];
+        } else {
+            keyword = '';
+        }
+
+        $('#searchInput').val(keyword);
+        this.refs.getload.sendAjax();
+    }
+
+    componentDidMount() {
+        // this.funloadHistory()
         const _this = this;
         $('#searchInput').on('keyup focus', function(e) {
             $('.search-bar input').css('width', '80%');
@@ -154,34 +181,46 @@ var SearchBox = React.createClass({
                 $('#del').hide();
             }
         });
-    },
-    render: function() {
+        // $('#searchInput').on('click', function() {
+        //     $('#js-list,.class,.result-wp').hide();
+        //     $('.search-wrap,.th-search-box .backbtn').show();
+        //     $('.th-active,.th-active body').css('overflow', 'auto');
+
+        // });
+
+    }
+
+    handleDel() {
+        $('#searchInput').val('').focus();
+        $('#del').hide();
+        $('.search-bar input').css('width', '100%');
+    }
+
+    render() {
         var value = this.state.value;
+        // <input type="text" value={this.state.value} onChange={this.handleClick} />
         return (
-            <div className="th-search-container on-blur" style={{'display': 'block'}}>
+            <div>
+        <div className= {'th-search-container th-nav-list pr'+ this.props.onName}>
             <div className="th-search-box">
                 <div className="th-search-shadow"></div>
-               <SortsBtn Sorthref="category.html"/>
-     <Goback_up/>
-        <a className="search-btn" onClick={this._handleClick}>搜索</a>
-
-
-                <div className="wbox search-bar">
+         <Goback_up/>
+        <a className="search-btn" onClick={this._handleClick.bind(this)}>搜索</a>
+                    <div className="wbox search-bar" >
                     <i className="th-search-iconbtn"></i>
                     <div id="del" className="delete" onClick={this.handleDel} ></div>
                     <div className="wbox-flex">
-                        <input id="searchInput" className="th-search-form" type="text" placeholder="搜索商品关键字"  value={value}  onChange={this.handleChange}/>
+               <div className="th-search-form">
+        <input id="searchInput" className="th-search-form" type="text" placeholder="搜索商品关键字"  value={value}  onChange={this.handleChange}/>
+                        </div>
                     </div>
+     
                 </div>
-
             </div>
-<SearchResult ref="getarr"/>
         </div>
-
-        )
+<SearchResult ref="getarr"/>
+            </div>
+        );
     }
-})
-
-
-
-export default SearchBox;
+}
+export default CateSearchBox;

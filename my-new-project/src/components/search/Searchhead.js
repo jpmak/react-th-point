@@ -12,6 +12,7 @@ let price = '';
 let c_id = '';
 let searchClick = 0;
 let searchMsg = '';
+let cate_id = '';
 let arrval = new Array();
 // let sVal = '';
 class Goback_up extends React.Component {
@@ -90,7 +91,7 @@ class SearchResult extends React.Component {
     historyHtml() {
         let history_Html = '';
         for (var i = 0; i < searchMsg.length; i++) {
-            history_Html += '<li><a>' + searchMsg[i] + '</a></li>';
+            history_Html += '<li><a >' + searchMsg[i] + '</a></li>';
         }
         $('.search-keywords-list').html(history_Html);
 
@@ -234,6 +235,7 @@ class Searchhead extends React.Component {
 class ResultWrap extends React.Component {
     componentDidMount() {
         const _this = this;
+
         $('.result-sort li').not('.icons-list').on('click', function() {
             var liindex = $('.result-sort li').index(this);
             $(this).addClass('cur').siblings().removeClass('cur');
@@ -256,6 +258,7 @@ class ResultWrap extends React.Component {
             }
             _this.sendAjax();
         });
+
         $('.result-sort li.icons-list').on('click', function() {
             if ($('.result-sort li.icons-list').hasClass('ver-icon')) {
                 $('.result-sort li.icons-list').removeClass('ver-icon');
@@ -274,83 +277,92 @@ class ResultWrap extends React.Component {
     funStoreUpItem(upItem) {
         window.localStorage.upItem = upItem;
     }
-    handload() {
-        const _this = this;
-        $.ajax({
-            url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_goods',
-            type: 'POST',
-            dataType: 'json',
-            Thread: true,
-            data: {
-                'keyword': keyword,
-                'volume': volume,
-                'by': price,
-                'page': page
-            },
-            error: function() {
-                alert('网络连接失败！');
-            },
-            success: function(data) {
-                var searchHtml = '';
-                if (data.status) {
-                    $('.result-sort').show();
-                    for (var i = 0; i < data.goods_list.length; i++) {
-                        searchHtml += '<li><a href="Exchange-goods-' + data.goods_list[i].item_id + '.html"><div class="info-img"><div><img alt=""class="lazy"data-original="' + data.goods_list[i].list_image + '"></div></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a></li>'
-                    }
-                    if (page == 0) {
-                        $('.app-pd-list ul').html(searchHtml);
-                    } else {
-                        $('.app-pd-list ul').append(searchHtml);
-                        page_state = 1;
-                        $('.load-tip').hide();
-                    }
-                } else {
-                    if (page > 0) {
-                        $('.load-tip').show().html("没有更多数据了");
-                    } else {
-                        var liHtml = '';
-                        page_state = 0;
-                        liHtml += '<div class="none-data"></div>';
 
-                        $('.app-pd-list ul').html(liHtml);
-                    }
-                }
-                $('img.lazy').show().lazyload({
-                    effect: 'fadeIn',
-                    skip_invisible: false,
-                    threshold: 100
-                });
-                $('a.upItem').on('click', function() {
-                    upItem = $(this).attr('data-id');
-                    _this.funStoreUpItem(upItem);
-                });
-            }
-        });
+    // componentDidUpdate() {
+    //         // const _this = this;
+    //         $('.app-pd-list li').on('click', function() {
+    //             // upItem = $(this).attr('data-id');
+    //             // _this.funStoreUpItem(upItem);
+    //             console.log('12');
+    //         });
+    //     }
+    // handload() {
+    //     const _this = this;
+    //     $.ajax({
+    //         url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_goods',
+    //         type: 'POST',
+    //         dataType: 'json',
+    //         Thread: true,
+    //         data: {
+    //             'keyword': keyword,
+    //             'volume': volume,
+    //             'by': price,
+    //             'page': page
+    //         },
+    //         error: function() {
+    //             alert('网络连接失败！');
+    //         },
+    //         success: function(data) {
+    //             var searchHtml = '';
+    //             if (data.status) {
+    //                 $('.result-sort').show();
+    //                 for (var i = 0; i < data.goods_list.length; i++) {
+    //                     searchHtml += '<li><a href="Exchange-goods-' + data.goods_list[i].item_id + '.html"><div class="info-img"><div><img alt=""class="lazy"data-original="' + data.goods_list[i].list_image + '"></div></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a></li>'
+    //                 }
+    //                 if (page == 0) {
+    //                     $('.app-pd-list ul').html(searchHtml);
+    //                 } else {
+    //                     $('.app-pd-list ul').append(searchHtml);
+    //                     page_state = 1;
+    //                     $('.load-tip').hide();
+    //                 }
+    //             } else {
+    //                 if (page > 0) {
+    //                     $('.load-tip').show().html("没有更多数据了");
+    //                 } else {
+    //                     var liHtml = '';
+    //                     page_state = 0;
+    //                     liHtml += '<div class="none-data"></div>';
 
-        var winH = $(window).height();
-        $(window).scroll(function() {
-            var pageH = $(document.body).height();
-            var scrollT = $(window).scrollTop();
-            var rate = (pageH - winH - scrollT) / winH;
-            if (page_state == 1) {
-                if (rate < 0.01) {
-                    page++;
-                    page_state = 0;
-                    _this.handload();
-                    $('.load-tip').show().html('<i class="r-gif"></i><span>正在载入</span>');
-                }
-            }
-        });
-    }
+    //                     $('.app-pd-list ul').html(liHtml);
+    //                 }
+    //             }
+    //             $('img.lazy').show().lazyload({
+    //                 effect: 'fadeIn',
+    //                 skip_invisible: false,
+    //                 threshold: 100
+    //             });
+    //             $('a.upItem').on('click', function() {
+    //                 upItem = $(this).attr('data-id');
+    //                 _this.funStoreUpItem(upItem);
+    //             });
+    //         }
+    //     });
+
+    //     var winH = $(window).height();
+    //     $(window).scroll(function() {
+    //         var pageH = $(document.body).height();
+    //         var scrollT = $(window).scrollTop();
+    //         var rate = (pageH - winH - scrollT) / winH;
+    //         if (page_state == 1) {
+    //             if (rate < 0.01) {
+    //                 page++;
+    //                 page_state = 0;
+    //                 _this.handload();
+    //                 $('.load-tip').show().html('<i class="r-gif"></i><span>正在载入</span>');
+    //             }
+    //         }
+    //     });
+    // }
     sendAjax() {
-        console.log(keyword);
         const _this = this;
+        let upItem = '';
         fetch("http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_goods", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: 'keyword=' + keyword + '&page=' + page + '&volume=' + volume + '&by=' + price
+            body: 'keyword=' + keyword + '&page=' + page + '&volume=' + volume + '&by=' + price + '&cate_id=' + cate_id
         }).then(function(res) {
             if (res.ok) {
                 res.json().then(function(data) {
@@ -358,8 +370,10 @@ class ResultWrap extends React.Component {
                         let searchHtml = '';
                         $('.result-sort').show();
                         for (var i = 0; i < data.goods_list.length; i++) {
-                            searchHtml += '<li><a href="Exchange-goods-' + data.goods_list[i].item_id + '.html"><div class="info-img"><div><img alt=""class="lazy"data-original="' + data.goods_list[i].list_image + '"></div></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a></li>'
+                            searchHtml += '<li><a class="upItem" data-id="' + data.goods_list[i].item_id + '" href="detail.html" ><div class="info-img"><div><img alt=""class="lazy"data-original="' + data.goods_list[i].list_image + '"></div></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a></li>'
                         }
+
+
                         if (page == 0) {
                             $('.app-pd-list ul').html(searchHtml);
                         } else {
@@ -367,6 +381,10 @@ class ResultWrap extends React.Component {
                             page_state = 1;
                             $('.load-tip').hide();
                         }
+                        $('a.upItem').on('click', function() {
+                            upItem = $(this).attr('data-id');
+                            _this.funStoreUpItem(upItem);
+                        });
                         $('img.lazy').show().lazyload({
                             effect: 'fadeIn',
                             skip_invisible: false,
