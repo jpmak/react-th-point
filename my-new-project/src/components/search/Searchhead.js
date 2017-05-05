@@ -210,6 +210,7 @@ class Searchhead extends React.Component {
         return (
             <div>
         <div className= {'th-search-container th-nav-list pr'+ this.props.onName}>
+         
             <div className="th-search-box">
                 <div className="th-search-shadow"></div>
          <Goback_up/>

@@ -10,7 +10,7 @@ let BowerWebpackPlugin = require('bower-webpack-plugin');
 
 let config = Object.assign({}, baseConfig, {
   entry: {
-    'app1': [
+    'index': [
       'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
       'webpack/hot/only-dev-server',
       './src/index'
@@ -34,6 +34,11 @@ let config = Object.assign({}, baseConfig, {
       'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
       'webpack/hot/only-dev-server',
       './src/text'
+    ],
+    'jf': [
+      'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
+      'webpack/hot/only-dev-server',
+      './src/jf'
     ],
     'exchangeLog': [
       'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,

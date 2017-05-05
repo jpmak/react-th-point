@@ -1,0 +1,2 @@
+*my-new-project\cfg\base
+*my-new-project\cfg\dist
