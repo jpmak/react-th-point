@@ -14,11 +14,7 @@ import {
 } from './components/SwiperBanner';
 import Record from './components/Record';
 import SalesWrapper from './components/SalesWrapper';
-import {
-  App,
-  JsCate,
-  JsPrduct
-} from './components/JsCate';
+import JsCate from './components/JsCate';
 import {
   Searchhead,
   ResultWrap
@@ -35,13 +31,8 @@ import {
 
 
 const R_jf = () => (
-
-
   <div>
-  
-
        <header id="headnav">
-   
    <TopNav titleName = "兑换商城"	icon = "jf-record-icon" icon_link = "search.html" />
     </header>
      <div className="w">
@@ -55,8 +46,6 @@ const R_jf = () => (
             <div id="record">
 <Record handhref = "exchangeLog.html"/>
             </div>
-   
-
           <div className="fl-space"></div>
           <div className="jf-bsell-box">
               <div id="js_banner" className="banner">
@@ -73,7 +62,7 @@ const R_jf = () => (
             <div className="app-pro-holder mt20">
                 <div className="app-pro-holder mt20">
                 <div id="app">
-                <App/>
+                <JsCate/>
      </div>
 </div>
             </div>

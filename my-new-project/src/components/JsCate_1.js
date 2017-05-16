@@ -1,8 +1,7 @@
 import React from 'react';
-
-        let page = 0;
-        let page_state = 1;
-        let event='';
+let page = 0;
+let page_state = 1;
+let event = '';
 var JsPrduct = React.createClass({
     getInitialState: function() {
         return {
@@ -17,7 +16,7 @@ var JsPrduct = React.createClass({
             <div>
             <div className="app-pd-wp">
                 <div className="app-pd-list">
-<ul></ul>
+                   <ul></ul>
                     </div>
                     </div>
                     <div className="load-tip"></div>
@@ -39,11 +38,8 @@ var App = React.createClass({
         };
     },
 
-    // <ul dangerouslySetInnerHTML= {{__html:this.props.data}}></ul> 
     componentDidMount: function() {
-        document.addEventListener('scroll', this.handleScroll);
         $.getJSON('http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_list',
-
             function(value) {
                 if (this.isMounted()) {
                     this.setState({
@@ -51,15 +47,14 @@ var App = React.createClass({
                         data_p: null,
                         data: value
                     });
-                    $('.choose-items-wp li').first().addClass('act');
-
                     var nav_w = $('.app-scroller li').first().width();
                     var fl_w = $('.app-scroller').width();
                     var flb_w = $('.app-scroller-wrap').width();
                     $('.choose-items-wp p').width(nav_w);
                     $('.app-scroller li').on('click', function() {
-                        page=0;
+                        page = 0;
                         page_state = 1;
+                        event = $(this).attr('id');
                         nav_w = $(this).width();
                         $('.choose-items-wp p').stop(true);
                         $('.choose-items-wp p').animate({
@@ -87,16 +82,38 @@ var App = React.createClass({
                         var c_nav = $(this).find('a').text();
                         // navName(c_nav);
                     });
-                    // 初始化
+                    $('.choose-items-wp li').first().addClass('act').trigger('click');
 
+                    // 初始化
                 }
             }.bind(this));
+
+        const _this = this
+        $('.app-pd-list li').on('click', function() {
+            // upItem = $(this).attr('data-id');
+            console.log(12);
+            // _this.funStoreUpItem();
+        });
+
+
+    },
+    funStoreUpItem: function(upItem) {
+        window.localStorage.upItem = upItem;
     },
 
-    handleClick: function(event) {
+    // componentDidUpdate() {
+    //     const _this = this
+    //     $('a.upItem').on('click', function() {
+    //         // upItem = $(this).attr('data-id');
+    //         console.log(12);
+    //         // _this.funStoreUpItem();
+    //     });
+    // },
+    handleClick: function() {
         // this.setState({
         // })
         const _this = this;
+        let upItem = '';
         $.ajax({
             url: 'http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_cate_goods',
             type: 'POST',
@@ -109,7 +126,8 @@ var App = React.createClass({
                 let cate_listHtml = '';
                 if (data.status) {
                     for (var i = 0; i < data.goods_list.length; i++) {
-                        cate_listHtml += '  <li><a href="Exchange-goods-' + data.goods_list[i].item_id + '.html"><div class="info-img"><img alt="" class="lazy" data-original="' + data.goods_list[i].list_image + '"></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a></li>';
+                        // href="Exchange-goods-' + data.goods_list[i].item_id + '.html"
+                        cate_listHtml += '  <li><a href="detail.html"  class="upItem" data-id="' + data.goods_list[i].item_id + '"><div class="info-img"><img alt="" class="lazy" data-original="' + data.goods_list[i].list_image + '"></div><div class="info-bar"><div class="pro-title">' + data.goods_list[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + data.goods_list[i].item_price + '</em>积分</span></div></div></a></li>';
                     }
 
                     if (page === 0) {
@@ -134,10 +152,13 @@ var App = React.createClass({
                 }
                 // else end
                 $('.app-pd-list img.lazy').show().lazyload({
-                    placeholder: '/src/images/f-bg.gif',
                     skip_invisible: false,
                     effect: 'fadeIn',
                     threshold: 0
+                });
+                $('a.upItem').on('click', function() {
+                    upItem = $(this).attr('data-id');
+                    _this.funStoreUpItem(upItem);
                 });
             }
         });
@@ -152,7 +173,6 @@ var App = React.createClass({
                     page++;
                     page_state = 0;
                     _this.handleClick(event);
-                    console.log(' wo new' +event)
                     $('.load-tip').show().html('<i class="r-gif"></i><span>正在载入</span>');
 
                 }
@@ -175,9 +195,6 @@ var App = React.createClass({
                     <li key={index} id={Cate.cate_id}  onClick={self.handleClick.bind(self,Cate.cate_id)}><a><span>{Cate.cate_name}</span></a></li>
                 );
             });
-
-
-
             return (
                 <div>
                     <div id="app-scroller" className="app-scroller-wrap" style={{'height': '.75rem'}}>
@@ -188,7 +205,7 @@ var App = React.createClass({
                             </ul>
                         </div>
                     </div>
-            <JsPrduct/>
+     
                 </div>
             )
 
@@ -196,10 +213,7 @@ var App = React.createClass({
     }
 })
 
-
-
 export {
     App,
-
     JsPrduct
 };

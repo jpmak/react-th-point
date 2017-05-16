@@ -175,16 +175,17 @@ class PutBtn extends React.Component {
             upItem = eventId;
             p_type = $(".product-pay-way .way-wp li.cur").attr('data-id');
             fetch('http://dev.thgo8.com/?g=WapSite&c=Exchange&a=commit_exchange', {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
 
-                body: 'item_id=' + upItem & 'p_type=' + p_type
+                    body: 'item_id=' + upItem + '&p_type=' + p_type
 
-            })
 
-            .then((res) => res.json())
+
+                })
+                .then((res) => res.json())
                 .then((data) => {
                     if (data.ok) {
                         location = 'Exchange-getOrderInfo-' + upItem + '.html';
@@ -386,7 +387,6 @@ class DetBody extends React.Component {
 
 
     componentDidUpdate() {
-
         const _this = this
         $('.way-wp li').on('click', function() {
             $(this).addClass('cur').siblings().removeClass('cur');

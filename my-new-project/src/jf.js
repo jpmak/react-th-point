@@ -61,19 +61,16 @@ const App = () => (
 const Jf = () => (
   <Router history={hashHistory}>
       <div>
+    {/*
        <Link to="/jf/R_search">1</Link>
         <Link to="/jf/R_det"> 2 </Link>
         <Link to="/jf/"> 3 </Link>
         <Link to="/jf/E"> 4 </Link>
-
-
-
-    <Route exact  path="/jf.html/" component={Home}/>
-    <Route  path="/jf/E" component={E}/>
-
-    <Route path="/jf/R_search" component={R_search}/>
-    <Route path="/jf/R_det" component={R_det}/>
-
+*/}
+    <Route exact  path="/jf.html" component={R_jf}/>
+    <Route  path="/jf.html/E" component={E}/>
+    <Route path="/jf.html/R_search" component={R_search}/>
+    <Route path="/jf.html/R_det" component={R_det}/>
     </div>
   </Router>
 )
