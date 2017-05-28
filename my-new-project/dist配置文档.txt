@@ -1,2 +1,17 @@
 *my-new-project\cfg\base
 *my-new-project\cfg\dist
+
+
+在my-new-project 下安装
+路由：
+cnpm install --save-dev react-router-dom
+
+安装稳定版：
+redux:
+npm install --save-dev redux
+
+
+多数情况下，你还需要使用 React 绑定库和开发者工具。
+
+npm install --save react-redux
+npm install --save-dev redux-devtools

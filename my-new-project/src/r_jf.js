@@ -28,6 +28,7 @@ import {
   Link
 } from 'react-router-dom'
 
+const urlRoot = 'http://dev.thgo8.com/'
 
 
 const R_jf = () => (
