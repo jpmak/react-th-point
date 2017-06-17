@@ -2,12 +2,13 @@ require('styles/swiper.min.css');
 import React from 'react';
 import {
     connect
-} from 'react-redux'
+} from 'react-redux';
 const urlRoot = 'http://dev.thgo8.com/'
 let repos_2 = '';
 let repos_3 = '1';
 let adv_url = '2';
 let adv_img = '3';
+
 
 
 var SwiperBanner = React.createClass({
@@ -105,60 +106,47 @@ var BannerHtml = React.createClass({
     ///////////////////////
 
 ///////////////////////
+///
+
+
+
 var Js_banner = React.createClass({
-    const VisibleTodoList = connect(
-            mapStateToProps,
-            mapDispatchToProps
-        )(BannerHtml),
 
-        function mapStateToProps(state) {
-            return {
-                todos: getVisibleTodos(state.data)
-            };
-        },
 
-        function mapDispatchToProps(dispatch) {
-            return {
-                onIncrement: () => dispatch(increment())
-            };
-        },
 
-        const getVisibleTodos = (todos) => {
+    getInitialState: function() {
+        return {
+            imgsrc: '',
+            banner_href: ''
+        };
+    },
+    componentDidMount: function() {
+        console.log(12);
+    },
+    // componentDidMount: function() {
+    //     $.getJSON(urlRoot + '?g=WapSite&c=Exchange&a=get_index_Banner', function(data) {
+    //         var repos_2 = data.bann_foo1.advList[0];
 
-                return todos
+    //         if (this.isMounted()) {
+    //             this.setState({
+    //                 imgsrc: repos_2.adv_img,
+    //                 banner_href: repos_2.adv_url
+    //             });
+    //         }
+    //     }.bind(this));
+    //     if (this.state.imgsrc == 0) {
+    //         $('#js_banner').hide();
+    //     }
+    // },
+    render: function() {
 
-            },
-            getInitialState: function() {
-                return {
-                    imgsrc: '',
-                    banner_href: ''
-                };
-            },
-            componentDidMount: function() {
-                console.log(getVisibleTodos(todos));
-            },
-            // componentDidMount: function() {
-            //     $.getJSON(urlRoot + '?g=WapSite&c=Exchange&a=get_index_Banner', function(data) {
-            //         var repos_2 = data.bann_foo1.advList[0];
+        return (
+            <div>
+            <a href={this.state.banner_href}><img className="img-banner" src={this.state.imgsrc}/></a>
+            </div>
+        );
 
-            //         if (this.isMounted()) {
-            //             this.setState({
-            //                 imgsrc: repos_2.adv_img,
-            //                 banner_href: repos_2.adv_url
-            //             });
-            //         }
-            //     }.bind(this));
-            //     if (this.state.imgsrc == 0) {
-            //         $('#js_banner').hide();
-            //     }
-            // },
-            render: function() {
-
-                return (
-                    <a href={this.state.banner_href}><img className="img-banner" src={this.state.imgsrc}/></a>
-                );
-
-            }
+    }
 })
 
 var Js_banner_2 = React.createClass({

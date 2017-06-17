@@ -5,6 +5,7 @@ import 'core-js/fn/object/assign';
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import AppComponent from './components/Main';
+
 import R_jf from './r_jf';
 import R_search from './r_search';
 import R_det from './r_det';
@@ -67,7 +68,8 @@ const Jf = () => (
         <Link to="/jf/"> 3 </Link>
         <Link to="/jf/E"> 4 </Link>
 */}
-    <Route exact  path="/jf.html" component={R_jf}/>
+<Route exact  path="/jf.html" component={R_jf}/>
+   {/*<Route exact  path="/jf.html" component={R_jf}/>*/} 
     <Route  path="/jf.html/E" component={E}/>
     <Route path="/jf.html/R_search" component={R_search}/>
     <Route path="/jf.html/R_det" component={R_det}/>

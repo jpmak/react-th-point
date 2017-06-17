@@ -441,7 +441,7 @@ class DetBody extends React.Component {
             </div>
         )
 
-
+        ap
     }
 }
 export default DetBody;
