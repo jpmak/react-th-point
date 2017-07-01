@@ -23,7 +23,7 @@ const R_Searchhead = () => (
 		<Router history={hashHistory}>
       <div>
 <Route exact  path="/r_search.html" component={Searchhead }/>
-   <Route path="/r_search.html/R_det" component={R_det}/>
+   <Route path="/r_search.html/R_det/:id" component={R_det}/>
     </div>
   </Router>
 
