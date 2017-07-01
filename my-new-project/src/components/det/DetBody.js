@@ -8,6 +8,7 @@ let eventId = '';
 // let eventId = '21354';
 // 
 let clickState = 1;
+
 class FixBtn extends React.Component {
     componentDidMount() {
         $('.product-payup').on('click', function() {
@@ -111,11 +112,11 @@ class ProductCover extends React.Component {
                 if (index == 0) {
                     return (
                         // <a className="value " key={index} >{propLi.PropKeys} onClick={_this.props.callClick.bind(_this,itemUrls[propLi])} ></a>
-                        <a className='value cur disabled' key={index}  id={itemUrls[propLi]}>{propLis[propLi]} </a>
+                        <a className='value cur disabled' key={index} onClick={(event) => { event.preventDefault()  }} id={itemUrls[propLi]}>{propLis[propLi]} </a>
                     );
                 } else {
                     return (
-                        <a className='value' key={index} id={itemUrls[propLi]}>{propLis[propLi]} </a>
+                        <a className='value' key={index} onClick={(event) => { event.preventDefault()  }}  id={itemUrls[propLi]}>{propLis[propLi]} </a>
                     );
                 }
             }, _this);
@@ -244,6 +245,7 @@ class Scrollup extends React.Component {
             mess: '',
             body: ''
         };
+        this.Det_mounted = false;
 
     }
     get_goods_mess() {
@@ -274,31 +276,84 @@ class Scrollup extends React.Component {
             });
 
     }
-    componentDidMount() {
-        const _this = this;
-        let mess_state = 1;
-        let gBody = this.props.goods_body
-        var winH = $(window).height();
-        $(window).scroll(function() {
-            var pageH = $(document.body).height();
-            var scrollT = $(window).scrollTop();
-            var rate = (pageH - winH - scrollT) / winH;
-            if (mess_state == 1) {
-                if (rate < 0.01) {
-                    $('.scroll-up').hide();
-                    mess_state = 0;
-                    let pbt = $('.post-body').text();
-                    $('.post-body').show().html(pbt);
-                }
-            }
-        });
+    componentWillMount() {
+        //router显示滚动正常
+        this.Det_mounted = true;
+        window.scrollTo(0, 0);
+
+        if (this.Det_mounted) {
+            // window.scrollTo(0, 0);
+        }
+
+        // console.log('det');
+
     }
+    componentDidMount() {
+        //在router的情况下，componentDidMount，点击排行榜的产品，下拉详情，可以正常显示，但是分类加载的产品list不能显示
+        //
+        // window.scrollTo(0, 0);
+        //
+        //测试滚动up
+        // this.scrollUp();
+        $('.product-main .items img').lazyload({
+            skip_invisible: false,
+            effect: 'fadeIn',
+            threshold: 0
+        });
+
+    }
+    componentWillUnmount() {
+        // window.scrollTo(0, 0);
+
+        this.Det_mounted = false;
+
+    }
+    scrollUp() {
+            const _this = this;
+            let mess_state = 1;
+            let gBody = this.props.goods_body;
+            var winH = $(window).height();
+            $(window).scroll(function() {
+                console.log('test++');
+                var pageH = $(document.body).height();
+                var scrollT = $(window).scrollTop();
+                var rate = (pageH - winH - scrollT) / winH;
+                if (mess_state == 1) {
+                    if (rate < 0.01) {
+                        // console.log('我是底部');
+                        // $('.scroll-up').hide();
+                        mess_state = 0;
+                        let pbt = $('.post-body').text();
+                        $('.post-body').show().html(pbt);
+                    }
+                }
+            });
+
+        }
+        // componentDidUpdate() {
+        //     // this.scrollUp()
+
+
+    // }
     render() {
+        let goods_body = this.props.goods_body;
+
+
+        function newGoods_body() {
+            $('.product-main .items img').lazyload({
+                skip_invisible: false,
+                effect: 'fadeIn',
+                threshold: 0
+            });
+            return goods_body = goods_body.toString().replace(/src=/g, "data-original=");
+
+        }
+        newGoods_body();
+
         return (
             <div>
-                
-            <div className="scroll-up">下拉查看图文详情</div>
-        <div className="post-body" style={{display: 'none'}}>{this.props.goods_body}</div>
+         <div className="items" dangerouslySetInnerHTML={{__html:goods_body}} />
+  
 
             </div>
 
@@ -351,6 +406,7 @@ class DetBody extends React.Component {
                     imgsrc: json.goods.main_image,
                     item_name: (json.goods.item_name) ? '已选择：' + json.goods.item_name : ''
                 });
+
                 if (!json.saleProp) {
                     this.setState({
                         isDisplay: false
@@ -369,7 +425,7 @@ class DetBody extends React.Component {
             .catch(function(e) {
                 console.log("加载失败");
             });
-        this.stopPropagation();
+        // this.stopPropagation();
     }
     getUpItem() {
         if (window.localStorage.upItem) {
@@ -380,9 +436,19 @@ class DetBody extends React.Component {
             alert('网络异常')
         }
     }
-    componentDidMount() {
+    componentWillMount() {
         this.getUpItem();
 
+        console.log('will-detBody');
+
+        window.scrollTo(0, 0);
+
+    }
+    componentDidMount() {
+
+        this.setState({
+            goods_body: 2
+        });
     }
 
 
@@ -391,20 +457,23 @@ class DetBody extends React.Component {
         $('.way-wp li').on('click', function() {
             $(this).addClass('cur').siblings().removeClass('cur');
             p_type = $(this).attr('data-id');
-            console.log(p_type);
-
         });
         $('.select-list .items .value').on('click', function() {
             $(this).addClass('cur disabled').siblings().removeClass('cur disabled');
             eventId = $(this).attr('id');
             upItem = eventId;
-            // console.log(upItem);
             _this.handleClick();
         });
 
 
     }
+    componentWillUnmount() {
+        // this.mounted = true;
+        // window.scrollTo(0, 0);
 
+        console.log('Unwill-detBody');
+
+    }
     render() {
         var isDisplay = this.state.isDisplay ? 'block' : 'none';
         return (
@@ -441,7 +510,7 @@ class DetBody extends React.Component {
             </div>
         )
 
-        ap
+
     }
 }
 export default DetBody;

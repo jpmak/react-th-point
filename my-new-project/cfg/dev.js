@@ -15,6 +15,11 @@ let config = Object.assign({}, baseConfig, {
       'webpack/hot/only-dev-server',
       './src/index'
     ],
+    'r_search': [
+      'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
+      'webpack/hot/only-dev-server',
+      './src/r_search'
+    ],
     'search': [
       'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
       'webpack/hot/only-dev-server',
@@ -29,11 +34,6 @@ let config = Object.assign({}, baseConfig, {
       'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
       'webpack/hot/only-dev-server',
       './src/category'
-    ],
-    'text': [
-      'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
-      'webpack/hot/only-dev-server',
-      './src/text'
     ],
     'jf': [
       'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,

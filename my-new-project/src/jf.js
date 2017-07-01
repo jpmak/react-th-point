@@ -7,9 +7,8 @@ import ReactDOM from 'react-dom';
 // import AppComponent from './components/Main';
 
 import R_jf from './r_jf';
-import R_search from './r_search';
+// import R_search from './r_search';
 import R_det from './r_det';
-
 import {
   BrowserRouter as Router,
   hashHistory,
@@ -45,16 +44,7 @@ import {
 // )
 
 
-const Home = () => (
-  <div>
-    <h2>Home</h2>
-  </div>
-)
-const E = () => (
-  <div>
-    <h2>E</h2>
-  </div>
-)
+
 const App = () => (
   <Router>
   </Router>
@@ -69,12 +59,13 @@ const Jf = () => (
         <Link to="/jf/E"> 4 </Link>
 */}
 <Route exact  path="/jf.html" component={R_jf}/>
-   {/*<Route exact  path="/jf.html" component={R_jf}/>*/} 
-    <Route  path="/jf.html/E" component={E}/>
-    <Route path="/jf.html/R_search" component={R_search}/>
-    <Route path="/jf.html/R_det" component={R_det}/>
+   {/*<Route exact  path="/jf.html" component={R_jf}/>*/}
+ 
+   <Route path="/jf.html/R_det" component={R_det}/>
+
     </div>
   </Router>
+
 )
 ReactDOM.render(<Jf/>, document.getElementById('jf-app'));
 
@@ -89,4 +80,3 @@ ReactDOM.render(<Jf/>, document.getElementById('jf-app'));
 //     <Route path="/Two" component={Two}/>
 //   </Router>
 // ), document.getElementById('jf-app'))
-export default Home

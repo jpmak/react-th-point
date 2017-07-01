@@ -67,9 +67,6 @@ var BannerHtml = React.createClass({
                 }
                 // repos_2 = this.state.data.bann_foo1.advList[0];
                 repos_3 = this.state.data.bann_foo2.advList[0];
-                console.log(repos_2);
-                console.log(repos_3);
-
                 var swiper1 = new Swiper('.swiper1', {
                     pagination: '.swiper-pagination1',
                     preloadImages: false,
@@ -120,9 +117,7 @@ var Js_banner = React.createClass({
             banner_href: ''
         };
     },
-    componentDidMount: function() {
-        console.log(12);
-    },
+
     // componentDidMount: function() {
     //     $.getJSON(urlRoot + '?g=WapSite&c=Exchange&a=get_index_Banner', function(data) {
     //         var repos_2 = data.bann_foo1.advList[0];
@@ -157,34 +152,26 @@ var Js_banner_2 = React.createClass({
         };
     },
 
-    // componentDidMount: function() {
-    //     $.getJSON(urlRoot + '?g=WapSite&c=Exchange&a=get_index_Banner', function(data) {
-    //         var repos_3 = data.bann_foo2.advList[0];
-
-    //         if (this.isMounted()) {
-    //             this.setState({
-    //                 imgsrc: repos_3.adv_img,
-    //                 banner_href: repos_3.adv_url
-    //             });
-    //         }
-    //     }.bind(this));
-    // },
     componentDidMount: function() {
+        $.getJSON(urlRoot + '?g=WapSite&c=Exchange&a=get_index_Banner', function(data) {
+            var repos_3 = data.bann_foo2.advList[0];
 
-        console.log(repos_3);
-        console.log(adv_url);
-        console.log(adv_img);
-
-        let adv_url = repos_3.adv_url;
-        let adv_img = repos_3.adv_img;
+            if (this.isMounted()) {
+                this.setState({
+                    imgsrc: repos_3.adv_img,
+                    banner_href: repos_3.adv_url
+                });
+            }
+        }.bind(this));
     },
+
     render: function() {
 
         // var repos_2 = this.state.data.bann_foo1.advList[0];
         // <a href={adv_url}><img className="img-banner" src={adv_img}/></a>
         // 
         return (
-            <a href={adv_url}><img className="img-banner" src={adv_img}/></a>
+            <a href={this.state.banner_href}><img className="img-banner" src={this.state.imgsrc}/></a>
         );
     }
 })

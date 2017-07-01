@@ -20,7 +20,7 @@ import {
 const R_det = () => (
 
 
-	<div>
+	<div className="pdb120 th-block">
         <header id="headnav"><TopNav titleName = "产品详情"	icon = "jf-record-icon"	dis = "none" /></header>
 <div id="detwrap"><DetBody /></div>
     </div>

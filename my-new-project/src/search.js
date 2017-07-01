@@ -9,7 +9,7 @@ import ReactDOM from 'react-dom';
 import {
 	Searchhead,
 	ResultWrap
-} from './components/search/Searchhead';
+} from './components/search/R_Searchhead';
 
 // import Js_banner from './components/Js_banner';
 // Render the main component into the dom

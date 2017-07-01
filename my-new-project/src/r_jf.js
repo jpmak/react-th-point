@@ -31,8 +31,9 @@ import {
 const urlRoot = 'http://dev.thgo8.com/'
 
 
-const R_jf = () => (
-  <div>
+const R_jf = () => {
+
+  return <div>
        <header id="headnav">
    <TopNav titleName = "兑换商城"	icon = "jf-record-icon" icon_link = "search.html" />
     </header>
@@ -49,9 +50,7 @@ const R_jf = () => (
             </div>
           <div className="fl-space"></div>
           <div className="jf-bsell-box">
-              <div id="js_banner" className="banner">
-               <Js_banner />
-              </div>
+      
               <div id="SalesWrapper" className="sales-wrapper">
               <SalesWrapper />
                 </div>
@@ -72,6 +71,6 @@ const R_jf = () => (
     </div>
 
 
-)
+}
 
 export default R_jf;

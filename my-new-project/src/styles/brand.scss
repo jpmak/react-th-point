@@ -94,6 +94,11 @@
             }
             &.act a {
                 color: $activeColor;
+
+            }
+            &.act{
+            pointer-events:none;
+                
             }
         }
     }

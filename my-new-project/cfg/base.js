@@ -17,7 +17,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/../dist/assets'), //打包输出的路径
 
-    filename: '[name].js', //打包后的名字 npm  run dist 需要设置 具体输出的名字
+    filename: 'jf.js', //打包后的名字 npm  run dist 需要设置 具体输出的名字
     // filename: '[name].js' npm run serve 
     publicPath: defaultSettings.publicPath //html引用路径，在这里是本地地址。
   },

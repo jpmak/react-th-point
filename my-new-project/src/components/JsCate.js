@@ -10,10 +10,12 @@ let page = '';
 let page_state = 1;
 const urlRoot = 'http://dev.thgo8.com/'
 
-
+// let goodsList = this.state.goodsList;
 class JsCate extends React.Component {
     constructor(props) {
         super(props);
+        this.mounted = false;
+
         this.state = {
             cateList: [],
             goodsList: [],
@@ -21,10 +23,47 @@ class JsCate extends React.Component {
             event: '',
             goodsListStar: ''
         };
+        // goodsList = goodsList || this.state.goodsList;
+    }
+    componentWillMount() {
+        this.mounted = true;
+        page = 0;
+        page_state = 1;
+        // goodsList = null
+        //router显示滚动正常
+
+    }
+    componentDidMount() {
+
+        this.mounted = true;
+        if (this.mounted) {
+            this.getCateList();
+            this.ScrollPage();
+
+        }
 
     }
 
+    componentDidUpdate() {
+
+
+        let upItem = '';
+        const _this = this;
+        $('a.upItem').on('click', function() {
+            upItem = $(this).attr('data-id');
+            _this.funStoreUpItem(upItem);
+        });
+    }
+    componentWillUnmount() {
+        console.log('unwill-jscate');
+
+        this.mounted = false;
+        // page_state = 0;
+
+    }
     get_cate_goods(event, page) {
+        const _this = this;
+
         fetch(urlRoot + '?g=WapSite&c=Exchange&a=get_cate_goods', {
                 method: 'POST',
                 headers: {
@@ -44,7 +83,7 @@ class JsCate extends React.Component {
                     let goodsLists = this.state.goodsList;
                     let goodsList = goodsLists.map(function(goods, index) {
                         return (
-                            <li  key={index}> <Link to="/jf.html/R_det" className="upItem" data-id={goods.item_id}><div className="info-img"><img alt="" className="lazy" data-original={goods.list_image}/></div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link> </li>
+                            <li  key={index}> <Link to="/jf.html/R_det"  className="upItem" data-id={goods.item_id}><div className="info-img"><img alt="" className="lazy" data-original={goods.list_image}/></div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link> </li>
                         )
 
                     });
@@ -87,6 +126,11 @@ class JsCate extends React.Component {
                 console.log("加载失败");
             });
     }
+
+    funStoreUpItem(upItem) {
+        window.localStorage.upItem = upItem;
+    }
+
     getCateList() {
         const _this = this;
         $.getJSON(urlRoot + '?g=WapSite&c=Exchange&a=get_cate_list',
@@ -130,24 +174,28 @@ class JsCate extends React.Component {
             }.bind(_this));
     }
 
-    componentDidMount() {
-        this.getCateList();
-        this.ScrollPage();
-
-    }
 
     ScrollPage() {
         const _this = this;
         let winH = $(window).height();
+        // window.scrollTo(0, 0);
+        console.log('test');
+        console.log(winH);
+
         $(window).scroll(function() {
+            console.log(_this.mounted);
+
             var pageH = $(document.body).height(),
                 scrollT = $(window).scrollTop(),
                 rate = (pageH - winH - scrollT) / winH;
+            console.log(scrollT);
+
             if (page_state === 1) {
-                if (rate < 0.01) {
+                if (_this.mounted && rate < 0.01) {
                     page++;
                     page_state = 0;
                     _this.get_cate_goods(event, page);
+
                     $('.load-tip').show().html('<i class="r-gif"></i><span>正在载入</span>');
 
                 }
@@ -168,8 +216,15 @@ class JsCate extends React.Component {
     render() {
         let CateLists = this.state.cateList;
         let CateList = CateLists.map(function(Cate, index) {
+            var act = ""
+            switch (index) {
+                case 0:
+                    act = "act"
+                    break;
+
+            }
             return (
-                <li key={index} id={Cate.cate_id} ><a><span>{Cate.cate_name}</span></a></li>
+                <li key={index} className={act} id={Cate.cate_id} ><a><span>{Cate.cate_name}</span></a></li>
             )
         }, this)
         return (

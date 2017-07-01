@@ -1,5 +1,10 @@
 import React from 'react';
-
+import {
+    BrowserRouter as Router,
+    Route,
+    Link
+} from 'react-router-dom'
+const urlRoot = 'http://dev.thgo8.com/'
 
 var SalesWrapper = React.createClass({
     getInitialState: function() {
@@ -9,9 +14,11 @@ var SalesWrapper = React.createClass({
             data: null
         };
     },
-
+    funStoreUpItem: function(upItem) {
+        window.localStorage.upItem = upItem;
+    },
     componentDidMount: function() {
-        $.getJSON("http://dev.thgo8.com/?g=WapSite&c=Exchange&a=sales_volume", function(value) {
+        $.getJSON(urlRoot + '?g=WapSite&c=Exchange&a=sales_volume', function(value) {
             // console.log(bann_top.advList[0].adv_img);
             if (this.isMounted()) {
                 this.setState({
@@ -19,51 +26,61 @@ var SalesWrapper = React.createClass({
                     data: value
                 });
                 $("img.lazy").show().lazyload({
-                    container: $("#SalesWrapper"),
+                    container: $("#sales-wrapper"),
                     effect: "fadeIn"
                 });
             }
 
         }.bind(this));
+
+
+    },
+    componentDidUpdate() {
+        let upItem = '';
+        const _this = this
+        $('a.upItem').on('click', function() {
+            upItem = $(this).attr('data-id');
+            _this.funStoreUpItem(upItem);
+        });
     },
     render: function() {
         if (this.state.loading) {
             return <span > Loading... </span>;
         } else {
             var Sales = this.state.data.goods_list;
-            //     var sales_top = '';
-            // switch (Sales.length) {
-            //             case 0:
-            //                 sales_top = 't1';
-            //                 break;
-            //             case 1:
-            //                 sales_top = 't2';
-            //                 break;
-            //             case 2:
-            //                 sales_top = 't3';
-            //                 break;
-            //             case 3:
-            //                 sales_top = '';
-            //                 break;
-            //         }
-            //         console.log(sales_top);
 
-            var SalesList = Sales.map(function(repo, index) {
-                // var indexS = index.shift();
+            function Shtml() {
+                var scrollerHtml = '';
+                for (var i = 0; i < Sales.length; i++) {
+                    var sales_top = ''
 
-
-                return (
-
-                    <li key={index}><a href={'Exchange-goods-'+repo.item_id+'.html'}><div className="info-img"><div className={'top t'+ index} >{repo.sales_top}</div><img alt="" className="lazy"   data-original= {repo.list_image} /></div><div className="info-bar"><div className="pro-title">{repo.goods_name}</div><div className="e-numb"><span className="e-price"><em>{repo.item_price}</em>积分</span></div></div></a> </li>);
-            });
-
+                    switch (i) {
+                        case 0:
+                            sales_top = 't1';
+                            break;
+                        case 1:
+                            sales_top = 't2';
+                            break;
+                        case 2:
+                            sales_top = 't3';
+                            break;
+                        case 3:
+                            sales_top = '';
+                            break;
+                    }
+                    // href="detail.html"
+                    scrollerHtml += '<li ><a class="upItem" data-id="' + Sales[i].item_id + '" href="detail.html" ><div class="info-img"><div class="top ' + sales_top + '"></div><img alt="" class="lazy"   data-original="' + Sales[i].list_image + '"/></div><div class="info-bar"><div class="pro-title">' + Sales[i].goods_name + '</div><div class="e-numb"><span class="e-price"><em>' + Sales[i].item_price + '</em>积分</span></div></div></a> </li>';
+                }
+                return scrollerHtml;
+            }
             return (
+                <div id="sales-wrapper">
                 <div id="scroller" className="list">
-                        <ul>
-                        {SalesList}
-                        </ul>
+            <ul dangerouslySetInnerHTML=
+                        {{__html:Shtml()}}
+                        />
                     </div>
-
+</div>
             );
 
         }
