@@ -82,8 +82,10 @@ class JsCate extends React.Component {
                     let goodsHtml = this.state.goodsHtml;
                     let goodsLists = this.state.goodsList;
                     let goodsList = goodsLists.map(function(goods, index) {
+                        // to="/jf.html/R_det"  to={'/jf.html/R_det/${{goods.item_id}}'} 
                         return (
-                            <li  key={index}> <Link to="/jf.html/R_det"  className="upItem" data-id={goods.item_id}><div className="info-img"><img alt="" className="lazy" data-original={goods.list_image}/></div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link> </li>
+                            <li  key={index}> <Link to={'/jf.html/R_det/'+goods.item_id}  className="upItem" data-id={goods.item_id}><div className="info-img"><img alt="" className="lazy" data-original={goods.list_image}/></div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link> </li>
+
                         )
 
                     });
@@ -240,10 +242,12 @@ class JsCate extends React.Component {
                     </div>
  <div className="app-pd-wp">
                 <div className="app-pd-list">
+
                    <ul>
           {
             this.state.goodsHtml
         }
+       
                    </ul>
                     </div>
                     </div>

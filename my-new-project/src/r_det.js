@@ -17,12 +17,14 @@ import {
 
 
 
-const R_det = () => (
+const R_det = ({ match }) => (
 
 
 	<div className="pdb120 th-block">
+
+
         <header id="headnav"><TopNav titleName = "产品详情"	icon = "jf-record-icon"	dis = "none" /></header>
-<div id="detwrap"><DetBody /></div>
+<div id="detwrap"><DetBody paramsId={match.params.id}/></div>
     </div>
 
 

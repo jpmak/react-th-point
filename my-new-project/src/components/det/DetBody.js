@@ -390,7 +390,7 @@ class DetBody extends React.Component {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
                 },
-                body: 'id=' + eventId
+                body: 'id=' + this.props.paramsId
             })
             .then((res) => res.json())
             .then((json) => {
@@ -479,6 +479,7 @@ class DetBody extends React.Component {
         return (
 
             <div className="produt-show">
+            <div></div>
         <Banner imgsrc={this.state.imgsrc}/>
             <div className="w">
             <div className="product-main">

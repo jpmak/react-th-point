@@ -1,8 +1,8 @@
 require('styles/swiper.min.css');
 import React from 'react';
-import {
-    connect
-} from 'react-redux';
+// import {
+//     connect
+// } from 'react-redux';
 const urlRoot = 'http://dev.thgo8.com/'
 let repos_2 = '';
 let repos_3 = '1';

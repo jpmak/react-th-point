@@ -61,7 +61,7 @@ const Jf = () => (
 <Route exact  path="/jf.html" component={R_jf}/>
    {/*<Route exact  path="/jf.html" component={R_jf}/>*/}
  
-   <Route path="/jf.html/R_det" component={R_det}/>
+   <Route path="/jf.html/R_det/:id" component={R_det}/>
 
     </div>
   </Router>
