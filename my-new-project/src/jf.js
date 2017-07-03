@@ -5,6 +5,7 @@ import 'core-js/fn/object/assign';
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import AppComponent from './components/Main';
+import $ from 'jquery';
 
 import R_jf from './r_jf';
 // import R_search from './r_search';

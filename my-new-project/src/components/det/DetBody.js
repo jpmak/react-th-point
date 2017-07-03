@@ -1,5 +1,18 @@
 import React from 'react';
+
+import $ from 'jquery';
+// import Swiper from 'react-swiper';
+
+// require('../../js/jquery-1.10.1.min.js');
+// require('js/swiper.jquery.min.js');
+// import '../../js/jquery-1.10.1.min.js';
+
+// import '../../js/swiper.jquery.min.js';
 import Banner from '../det/Banner';
+
+import LazyLoad from 'react-lazyload';
+const urlRoot = 'http://dev.thgo8.com/'
+
 let upItem = '';
 let p_type = '';
 let eventId = '';
@@ -175,7 +188,7 @@ class PutBtn extends React.Component {
             }
             upItem = eventId;
             p_type = $(".product-pay-way .way-wp li.cur").attr('data-id');
-            fetch('http://dev.thgo8.com/?g=WapSite&c=Exchange&a=commit_exchange', {
+            fetch(urlRoot + '?g=WapSite&c=Exchange&a=commit_exchange', {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded"
@@ -249,7 +262,7 @@ class Scrollup extends React.Component {
 
     }
     get_goods_mess() {
-        fetch('http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_goods_mess', {
+        fetch(urlRoot + '?g=WapSite&c=Exchange&a=get_goods_mess', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
@@ -265,10 +278,10 @@ class Scrollup extends React.Component {
                 $('.scroll-up').hide();
 
 
-                $('img.lazy').lazyload({
-                    effect: 'fadeIn'
+                // $('img.lazy').lazyload({
+                //     effect: 'fadeIn'
 
-                });
+                // });
 
             })
             .catch(function(e) {
@@ -295,11 +308,11 @@ class Scrollup extends React.Component {
         //
         //测试滚动up
         // this.scrollUp();
-        $('.product-main .items img').lazyload({
-            skip_invisible: false,
-            effect: 'fadeIn',
-            threshold: 0
-        });
+        // $('.product-main .items img').lazyload({
+        //     skip_invisible: false,
+        //     effect: 'fadeIn',
+        //     threshold: 0
+        // });
 
     }
     componentWillUnmount() {
@@ -339,21 +352,22 @@ class Scrollup extends React.Component {
         let goods_body = this.props.goods_body;
 
 
-        function newGoods_body() {
-            $('.product-main .items img').lazyload({
-                skip_invisible: false,
-                effect: 'fadeIn',
-                threshold: 0
-            });
-            return goods_body = goods_body.toString().replace(/src=/g, "data-original=");
+        // function newGoods_body() {
+        //     $('.product-main .items img').lazyload({
+        //         skip_invisible: false,
+        //         effect: 'fadeIn',
+        //         threshold: 0
+        //     });
+        //     return goods_body = goods_body.toString().replace(/src=/g, "data-original=");
 
-        }
-        newGoods_body();
+        // }
+        // newGoods_body();
 
         return (
             <div>
+            <LazyLoad>
          <div className="items" dangerouslySetInnerHTML={{__html:goods_body}} />
-  
+  </LazyLoad>
 
             </div>
 
@@ -385,7 +399,7 @@ class DetBody extends React.Component {
     }
 
     handleClick() {
-        fetch("http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_goods_msg", {
+        fetch(urlRoot + '?g=WapSite&c=Exchange&a=get_goods_msg', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
@@ -412,15 +426,15 @@ class DetBody extends React.Component {
                         isDisplay: false
                     });
                 }
-                var swiper = new Swiper('.big_img_wrapper', {
-                    pagination: '.big-img-pagination',
-                    paginationClickable: true,
-                    centeredSlides: true,
-                    lazyLoading: true, // 滚动加载
-                    spaceBetween: -20,
-                    slidesPerView: 1.34
-                        // loop: true,
-                });
+                // var swiper = new Swiper('.big_img_wrapper', {
+                //     pagination: '.big-img-pagination',
+                //     paginationClickable: true,
+                //     centeredSlides: true,
+                //     lazyLoading: true, // 滚动加载
+                //     spaceBetween: -20,
+                //     slidesPerView: 1.34
+                //         // loop: true,
+                // });
             })
             .catch(function(e) {
                 console.log("加载失败");

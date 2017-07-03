@@ -1,5 +1,6 @@
 import React from 'react';
 import Goback from '../public/Goback';
+import $ from 'jquery';
 // import SearchInput from './SearchInput';
 
 

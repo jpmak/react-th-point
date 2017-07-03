@@ -1,12 +1,14 @@
 import React from 'react';
 import Goback from '../public/Goback';
-import $ from "jquery";
+import $ from 'jquery';
+import LazyLoad from 'react-lazyload';
 // import SearchInput from './SearchInput';
 import {
     BrowserRouter as Router,
     Route,
     Link
 } from 'react-router-dom'
+const urlRoot = 'http://dev.thgo8.com/'
 
 let sVal = '';
 let keyword = '';
@@ -251,7 +253,7 @@ class ResultWrap extends React.Component {
     }
     componentWillMount() {
         this.mounted = true;
-        page=0;
+        page = 0;
         console.log(page)
     }
     componentWillUnmount() {
@@ -306,7 +308,7 @@ class ResultWrap extends React.Component {
 
         const _this = this;
         let upItem = '';
-        fetch("http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_goods", {
+        fetch(urlRoot + '?g=WapSite&c=Exchange&a=search_goods', {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -332,7 +334,8 @@ class ResultWrap extends React.Component {
                         return (
 
 
-                            <li key={index}> <Link  to={'/r_search.html/R_det/'+goods.item_id} className="upItem" data-id={goods.item_id}><div className="info-img"><img alt="" className="lazy" data-original={goods.list_image}/></div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link> </li>
+                            <li key={index} >     <Link  to={'/r_search.html/R_det/'+goods.item_id} className="upItem" data-id={goods.item_id}><div className="info-img"><LazyLoad height={0} offset={100} ><img alt="" className="lazy" src={goods.list_image}/></LazyLoad></div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link>        </li>
+
                         )
 
                     });
@@ -355,11 +358,11 @@ class ResultWrap extends React.Component {
                         upItem = $(this).attr('data-id');
                         _this.funStoreUpItem(upItem);
                     });
-                    $('img.lazy').show().lazyload({
-                        effect: 'fadeIn',
-                        skip_invisible: false,
-                        threshold: 100
-                    });
+                    // $('img.lazy').show().lazyload({
+                    //     effect: 'fadeIn',
+                    //     skip_invisible: false,
+                    //     threshold: 100
+                    // });
                 } else {
                     if (page > 0) {
                         $('.load-tip').show().html("没有更多数据了");
@@ -378,7 +381,7 @@ class ResultWrap extends React.Component {
             });
         var winH = $(window).height();
         $(window).scroll(function() {
-                    console.log(_this.mounted);
+            console.log(_this.mounted);
 
             var pageH = $(document.body).height();
             var scrollT = $(window).scrollTop();

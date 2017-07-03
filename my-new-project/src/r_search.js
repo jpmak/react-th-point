@@ -1,9 +1,13 @@
-require('styles/base.scss');
-require('styles/jf.scss');
+// require('styles/base.scss');
+// require('styles/jf.css');
 
+// import '';
 import 'core-js/fn/object/assign';
 import React from 'react';
+
 import ReactDOM from 'react-dom';
+// import $ from 'jquery';
+
 import {
 	BrowserRouter as Router,
 	hashHistory,
