@@ -1,6 +1,7 @@
 import React from 'react';
 
 import $ from 'jquery';
+// import jquery.lazyload from 'lazyLoad';
 // import Swiper from 'react-swiper';
 
 // require('../../js/jquery-1.10.1.min.js');
@@ -308,11 +309,11 @@ class Scrollup extends React.Component {
         //
         //测试滚动up
         // this.scrollUp();
-        // $('.product-main .items img').lazyload({
-        //     skip_invisible: false,
-        //     effect: 'fadeIn',
-        //     threshold: 0
-        // });
+        $('.product-main .items img').lazyload({
+            skip_invisible: false,
+            effect: 'fadeIn',
+            threshold: 0
+        });
 
     }
     componentWillUnmount() {
@@ -352,22 +353,24 @@ class Scrollup extends React.Component {
         let goods_body = this.props.goods_body;
 
 
-        // function newGoods_body() {
-        //     $('.product-main .items img').lazyload({
-        //         skip_invisible: false,
-        //         effect: 'fadeIn',
-        //         threshold: 0
-        //     });
-        //     return goods_body = goods_body.toString().replace(/src=/g, "data-original=");
+        function newGoods_body() {
+            $('.product-main .items img').lazyload({
+                skip_invisible: false,
+                effect: 'fadeIn',
+                threshold: 0
+            });
+            return goods_body = goods_body.toString().replace(/src=/g, "data-original=");
 
-        // }
-        // newGoods_body();
+        }
+        newGoods_body();
 
+           // <LazyLoad once offset={0}>
+             // </LazyLoad>
         return (
             <div>
-            <LazyLoad>
+ 
          <div className="items" dangerouslySetInnerHTML={{__html:goods_body}} />
-  </LazyLoad>
+
 
             </div>
 

@@ -1,5 +1,7 @@
-// require('styles/base.scss');
-// require('styles/jf.css');
+require('styles/base.scss');
+require('styles/jf.css');
+require('styles/slick.css');
+
 
 // import '';
 import 'core-js/fn/object/assign';

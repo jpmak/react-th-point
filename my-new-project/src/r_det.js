@@ -1,5 +1,5 @@
-require('styles/base.scss');
-require('styles/jf.scss');
+// require('styles/base.scss');
+// require('styles/jf.scss');
 
 import 'core-js/fn/object/assign';
 import React from 'react';

@@ -18,7 +18,11 @@ class Banner extends React.Component {
     render() {
         let settings = {
             dots: true,
-            infinite: true,
+            arrows:false,
+            nextArrow:false,
+            prevArrow:false,
+            lazyLoad:true,
+            infinite: false,
             speed: 500,
             slidesToShow: 1,
             slidesToScroll: 1
@@ -26,7 +30,7 @@ class Banner extends React.Component {
         // var repos = this.props.data.bann_top.advList;
         let repos = this.props.imgsrc
 
-        let repoList = repos.map(function(repo, index) {
+        let repoList = (repos || []).map(function(repo, index) {
 
             return (
 
@@ -36,7 +40,9 @@ class Banner extends React.Component {
 
 
         });
-        console.log(repos)
+        if (!repos.length) 
+            {repoList = <div></div>}
+        // console.log(repos)
 
         // // console.log(repoList) 
         //  {
@@ -50,13 +56,11 @@ class Banner extends React.Component {
         //     })
         // } ;
         return (
-            <div>
-
-          {this.props.imgsrc.map(function (repo, index) {
-            return   <div className = "swiper-slide" key = { index } ><img className = ""  src = {repo}/> </div>
-          })}
-
-   
+            <div className="col-md-12">
+<Slider {...settings}>
+          
+{repoList}
+     </Slider>
      
 </div>
 
