@@ -18,10 +18,10 @@ class Banner extends React.Component {
     render() {
         let settings = {
             dots: true,
-            arrows:false,
-            nextArrow:false,
-            prevArrow:false,
-            lazyLoad:true,
+            arrows: false,
+            nextArrow: true,
+            prevArrow: true,
+            lazyLoad: true,
             infinite: false,
             speed: 500,
             slidesToShow: 1,
@@ -40,8 +40,9 @@ class Banner extends React.Component {
 
 
         });
-        if (!repos.length) 
-            {repoList = <div></div>}
+        if (!repos.length) {
+            repoList = <div></div>
+        }
         // console.log(repos)
 
         // // console.log(repoList) 
@@ -56,7 +57,7 @@ class Banner extends React.Component {
         //     })
         // } ;
         return (
-            <div className="col-md-12">
+            <div>
 <Slider {...settings}>
           
 {repoList}

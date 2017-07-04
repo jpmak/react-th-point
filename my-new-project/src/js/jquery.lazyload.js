@@ -109,10 +109,10 @@
                             $self.hide();
                             if ($self.is("img")) {
                                 $self.attr("src", original);
-                            $self.css("display", "inline");
+                                $self.css("display", "block");
                             } else {
                                 $self.css("background-image", "url('" + original + "')");
-                                $self.css("display", "inline");
+                                $self.css("display", "block");
                             }
                             $self[settings.effect](settings.effect_speed);
 

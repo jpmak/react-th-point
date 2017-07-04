@@ -3,6 +3,7 @@ require('styles/jf.css');
 require('styles/slick.css');
 
 
+
 // import '';
 import 'core-js/fn/object/assign';
 import React from 'react';
@@ -21,7 +22,7 @@ import R_det from './r_det';
 import {
 	Searchhead,
 	ResultWrap
-} from './components/search/R_Searchhead';
+} from './components/search/Is_r_Searchhead';
 
 
 

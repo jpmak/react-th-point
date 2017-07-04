@@ -1,14 +1,8 @@
 import React from 'react';
 
 import $ from 'jquery';
-// import jquery.lazyload from 'lazyLoad';
-// import Swiper from 'react-swiper';
+// 
 
-// require('../../js/jquery-1.10.1.min.js');
-// require('js/swiper.jquery.min.js');
-// import '../../js/jquery-1.10.1.min.js';
-
-// import '../../js/swiper.jquery.min.js';
 import Banner from '../det/Banner';
 
 import LazyLoad from 'react-lazyload';
@@ -302,18 +296,30 @@ class Scrollup extends React.Component {
         // console.log('det');
 
     }
+    componentDidUpdate() {
+
+        // $('.product-main .items img').lazyload({
+        //     skip_invisible: false,
+        //     effect: 'fadeIn',
+        //     threshold: 0
+        // });
+    }
     componentDidMount() {
+
+        // $('body').append(' <script src="http://dev.thgo8.com/public/wapsite/js/jq.lazyload.js"></script>')
+
         //在router的情况下，componentDidMount，点击排行榜的产品，下拉详情，可以正常显示，但是分类加载的产品list不能显示
         //
         // window.scrollTo(0, 0);
         //
         //测试滚动up
         // this.scrollUp();
-        $('.product-main .items img').lazyload({
-            skip_invisible: false,
-            effect: 'fadeIn',
-            threshold: 0
-        });
+        // 
+        // $('.product-main .items img').lazyload({
+        //     skip_invisible: false,
+        //     effect: 'fadeIn',
+        //     threshold: 0
+        // });
 
     }
     componentWillUnmount() {
@@ -323,54 +329,88 @@ class Scrollup extends React.Component {
 
     }
     scrollUp() {
-            const _this = this;
-            let mess_state = 1;
-            let gBody = this.props.goods_body;
-            var winH = $(window).height();
-            $(window).scroll(function() {
-                console.log('test++');
-                var pageH = $(document.body).height();
-                var scrollT = $(window).scrollTop();
-                var rate = (pageH - winH - scrollT) / winH;
-                if (mess_state == 1) {
-                    if (rate < 0.01) {
-                        // console.log('我是底部');
-                        // $('.scroll-up').hide();
-                        mess_state = 0;
-                        let pbt = $('.post-body').text();
-                        $('.post-body').show().html(pbt);
-                    }
+        const _this = this;
+        let mess_state = 1;
+        let gBody = this.props.goods_body;
+        var winH = $(window).height();
+        $(window).scroll(function() {
+            console.log('test++');
+            var pageH = $(document.body).height();
+            var scrollT = $(window).scrollTop();
+            var rate = (pageH - winH - scrollT) / winH;
+            if (mess_state == 1) {
+                if (rate < 0.01) {
+                    // console.log('我是底部');
+                    // $('.scroll-up').hide();
+                    mess_state = 0;
+                    let pbt = $('.post-body').text();
+                    $('.post-body').show().html(pbt);
                 }
-            });
+            }
+        });
 
-        }
-        // componentDidUpdate() {
-        //     // this.scrollUp()
+    }
+
+    // componentDidUpdate() {
+    //     // this.scrollUp()
 
 
     // }
-    render() {
-        let goods_body = this.props.goods_body;
+    // newGoods_body() {
+    //     let goods_body = '';
+    //     // let goods_body = this.props.goods_body;
 
+    //     // $('.product-main .items img').insertBefore("span");
+    //     // return goods_body
+    //     // console.log(goods_body);
+    //     //     $('.product-main .items img').lazyload({
+    //     //         skip_invisible: false,
+    //     //         effect: 'fadeIn',
+    //     //         threshold: 0
+    //     //     });
+    //     //     
+    //     //     str.replace(/<span>(.*?)<\/span>/g, '<img src="$1"/>')
+    //     //     str.replace(/<span>(.*?)<\/span>/g, (match, url, index, str) => {
+    //     // return `<img src="${url}">`
+    //     // })
+
+    //     return goods_body = this.props.goods_body.toString().replace(/<img src=".+?">/ig, "$1")
+    //     console.log(goods_body);
+    //     // return goods_body = goods_body.toString().replace(/src=/g, "data-original=");
+
+    // }
+    newGoods_body() {
+        let goods_body = '';
+
+        // return goods_body = goods_body.toString().replace(/<img [^>]*src=['"]([^'"]+)[^>]*>/g, "<LazyLoad><img src='$1'/></LazyLoad>");
+        return goods_body = this.props.goods_body.toString().replace(/src=/g, "data-original=");
+        // 
+        // return goods_body = goods_body.toString().replace(/<img src=".+?">/ig, "$1")
+
+    }
+    render() {
+        // console.log(imgs);
+        // let goods_body = this.props.goods_body;
 
         function newGoods_body() {
-            $('.product-main .items img').lazyload({
-                skip_invisible: false,
-                effect: 'fadeIn',
-                threshold: 0
-            });
+            // let goods_body = '';
+
+            // return goods_body = goods_body.toString().replace(/<img [^>]*src=['"]([^'"]+)[^>]*>/g, "<LazyLoad><img src='$1'/></LazyLoad>");
             return goods_body = goods_body.toString().replace(/src=/g, "data-original=");
+            // 
+            // return goods_body = goods_body.toString().replace(/<img src=".+?">/ig, "$1")
 
         }
-        newGoods_body();
-
-           // <LazyLoad once offset={0}>
-             // </LazyLoad>
+        // newGoods_body()
+        // <LazyLoad once offset={0}>
+        // </LazyLoad>
+        // <div className="items" dangerouslySetInnerHTML={{__html:goods_body}} />
+        // 
         return (
             <div>
  
-         <div className="items" dangerouslySetInnerHTML={{__html:goods_body}} />
-
+        <div className="items" dangerouslySetInnerHTML={{__html:this.props.goods_body}} />
+ 
 
             </div>
 
