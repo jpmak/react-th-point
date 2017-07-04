@@ -432,7 +432,7 @@ class ResultWrap extends React.Component {
         <div className="app-pd-list hor-list">
             <ul>
         {
-        lis
+      this.state.goodsHtml
         }
             </ul>
         </div>
