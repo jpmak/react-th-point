@@ -4,11 +4,11 @@ require('styles/iscroll.css');
 import React from 'react';
 import Goback from '../public/Goback';
 import $ from 'jquery';
-import ReactIScroll from 'react-iscroll';
+// import ReactIScroll from 'react-iscroll';
 
-import iScroll from "react-iscroll/node_modules/iscroll/build/iscroll-probe";
+// import iScroll from "react-iscroll/node_modules/iscroll/build/iscroll-probe";
 
-// import iScroll from 'iscroll/build/iscroll-probe'
+import iScroll from 'iscroll/build/iscroll-probe'
 
 import LazyLoad from 'react-lazyload';
 // import SearchInput from './SearchInput';
@@ -17,7 +17,9 @@ import {
     Route,
     Link
 } from 'react-router-dom'
-const urlRoot = 'http://dev.thgo8.com/'
+const urlRoot = 'http://dev.thgo8.com/';
+const _this = this;
+
 let lis = [];
 
 let sVal = '';
@@ -268,8 +270,11 @@ class ResultWrap extends React.Component {
     }
     componentWillUnmount() {
         this.mounted = false;
+        window.removeEventListener('scroll', this.listScroll);
+
     }
     componentDidMount() {
+        window.addEventListener('scroll', this.listScroll());
         const _this = this;
 
         $('.result-sort li').not('.icons-list').on('click', function() {
@@ -315,7 +320,7 @@ class ResultWrap extends React.Component {
     }
 
     sendAjax() {
-
+        console.log('2222222222222222222222222');
         const _this = this;
         let upItem = '';
         fetch(urlRoot + '?g=WapSite&c=Exchange&a=search_goods', {
@@ -397,23 +402,44 @@ class ResultWrap extends React.Component {
                 console.log("fetch fail");
             });
 
+
+        // $(window).scroll(function() {
+        //     console.log(_this.mounted);
+
+        //     var pageH = $(document.body).height();
+        //     var scrollT = $(window).scrollTop();
+        //     var rate = (pageH - winH - scrollT) / winH;
+        //     if (page_state === 1) {
+        //         if (_this.mounted && rate < 0.01) {
+        //             page++;
+        //             page_state = 0;
+        //             _this.sendAjax();
+        //             $('.load-tip').show().html('<i class="r-gif"></i><span>正在载入</span>');
+        //         }
+        //     }
+        // });
+    }
+    listScroll() {
+
         var winH = $(window).height();
 
-        $(window).scroll(function() {
-            console.log(_this.mounted);
+        var pageH = $(document.body).height();
+        var scrollT = $(window).scrollTop();
+        var rate = (pageH - winH - scrollT) / winH;
+        console.log(page);
+        console.log(page_state);
+        console.log(rate);
 
-            var pageH = $(document.body).height();
-            var scrollT = $(window).scrollTop();
-            var rate = (pageH - winH - scrollT) / winH;
-            if (page_state === 1) {
-                if (_this.mounted && rate < 0.01) {
-                    page++;
-                    page_state = 0;
-                    _this.sendAjax();
-                    $('.load-tip').show().html('<i class="r-gif"></i><span>正在载入</span>');
-                }
+        const _this = this;
+
+        if (page_state === 1) {
+            if (_this.mounted && rate < 0.01) {
+                page++;
+                page_state = 0;
+                _this.sendAjax();
+                $('.load-tip').show().html('<i class="r-gif"></i><span>正在载入</span>');
             }
-        });
+        }
     }
     render() {
         this.state.goodsList.forEach((goods, index) => {

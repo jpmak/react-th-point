@@ -22,14 +22,14 @@ import R_det from './r_det';
 import {
 	Searchhead,
 	ResultWrap
-} from './components/search/Is_r_Searchhead';
+} from './components/search/R_Searchhead';
 
 
 
 const R_Searchhead = () => (
 		<Router history={hashHistory}>
       <div>
-<Route exact  path="/r_search.html" component={Searchhead}/>
+<Route exact  path="/r_search.html" component={Searchhead} />
    <Route path="/r_search.html/R_det/:id" component={R_det}/>
     </div>
   </Router>

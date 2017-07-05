@@ -9,11 +9,9 @@ import {
     Link
 } from 'react-router-dom'
 const urlRoot = 'http://dev.thgo8.com/'
-
 let sVal = '';
 let keyword = '';
-let page_state = 1;
-let page = 0;
+// let page = 0;
 let volume = '';
 let price = '';
 let c_id = '';
@@ -246,21 +244,32 @@ class ResultWrap extends React.Component {
         super(props);
         this.state = {
             goodsHtml: [],
-            goodsList: []
+            goodsList: [],
+            page: 0,
+            page_state: 1
                 // searchState: ''
         };
+        this.listScroll_new = this.listScroll.bind(this);
+
         // goodsList = goodsList || this.state.goodsList;
     }
     componentWillMount() {
-        this.mounted = true;
-        page = 0;
-        console.log(page)
+        window.scrollTo(0, 0);
+
+        console.log(this.state.page)
+
+        // console.log(page)
     }
+
     componentWillUnmount() {
-        this.mounted = false;
+
+
+        window.removeEventListener('scroll', this.listScroll_new);
+
     }
     componentDidMount() {
-        const _this = this;
+
+        window.addEventListener('scroll', this.listScroll_new);
 
         $('.result-sort li').not('.icons-list').on('click', function() {
             var liindex = $('.result-sort li').index(this);
@@ -300,20 +309,28 @@ class ResultWrap extends React.Component {
             }
         });
     }
+
+
+
     funStoreUpItem(upItem) {
         window.localStorage.upItem = upItem;
     }
-
-    sendAjax() {
-
+    componentDidUpdate() {
         const _this = this;
+        // window.addEventListener('scroll', this.listScroll);
+
+    }
+    sendAjax() {
+        const _this = this;
+
+        const page = this.state.page;
         let upItem = '';
         fetch(urlRoot + '?g=WapSite&c=Exchange&a=search_goods', {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: 'keyword=' + keyword + '&page=' + page + '&volume=' + volume + '&by=' + price + '&cate_id=' + cate_id
+            body: 'keyword=' + keyword + '&page=' + this.state.page + '&volume=' + volume + '&by=' + price + '&cate_id=' + cate_id
         })
 
         .then((res) => res.json())
@@ -340,7 +357,6 @@ class ResultWrap extends React.Component {
 
                     });
                     $('.result-sort').show();
-
                     if (page === 0) {
                         this.setState({
                             goodsHtml: goodsList
@@ -349,9 +365,10 @@ class ResultWrap extends React.Component {
                         // $('.app-pd-list ul').append(searchHtml);
                         goodsHtml.push(goodsList);
                         this.setState({
-                            goodsHtml: goodsHtml
+                            goodsHtml: goodsHtml,
+                            page_state: 1
                         });
-                        page_state = 1;
+
                         $('.load-tip').hide();
                     }
                     $('a.upItem').on('click', function() {
@@ -367,8 +384,10 @@ class ResultWrap extends React.Component {
                     if (page > 0) {
                         $('.load-tip').show().html("没有更多数据了");
                     } else {
+                        this.setState({
+                            page_state: 0
+                        });
                         var liHtml = '';
-                        page_state = 0;
                         liHtml += '<div class="none-data"></div>';
 
                         $('.app-pd-list ul').html(liHtml);
@@ -379,22 +398,48 @@ class ResultWrap extends React.Component {
             }).catch(function(e) {
                 console.log("fetch fail");
             });
-        var winH = $(window).height();
-        $(window).scroll(function() {
-            console.log(_this.mounted);
 
-            var pageH = $(document.body).height();
-            var scrollT = $(window).scrollTop();
-            var rate = (pageH - winH - scrollT) / winH;
-            if (page_state === 1) {
-                if (_this.mounted && rate < 0.01) {
-                    page++;
-                    page_state = 0;
-                    _this.sendAjax();
-                    $('.load-tip').show().html('<i class="r-gif"></i><span>正在载入</span>');
-                }
+
+
+        // var winH = $(window).height();
+        // $(window).scroll(function() {
+        //     console.log(_this.mounted);
+
+        //     var pageH = $(document.body).height();
+        //     var scrollT = $(window).scrollTop();
+        //     var rate = (pageH - winH - scrollT) / winH;
+        //     if (page_state === 1) {
+        //         if (_this.mounted && rate < 0.01) {
+        //             page++;
+        //             page_state = 0;
+        //             _this.sendAjax();
+        //             $('.load-tip').show().html('<i class="r-gif"></i><span>正在载入</span>');
+        //         }
+        //     }
+        // });
+    }
+    listScroll() {
+        const _this = this;
+
+
+        var winH = $(window).height();
+        var pageH = $(document.body).height();
+        var scrollT = $(window).scrollTop();
+        var rate = (pageH - winH - scrollT) / winH;
+
+        // this.sendAjax();
+        // 
+
+        if (_this.state.page_state === 1) {
+            if (rate < 0.01) {
+                _this.state.page++;
+                console.log('我是page ' + _this.state.page);
+
+                _this.state.page_state = 0;
+                _this.sendAjax();
+                $('.load-tip').show().html('<i class="r-gif"></i><span>正在载入</span>');
             }
-        });
+        }
     }
     render() {
         return (
