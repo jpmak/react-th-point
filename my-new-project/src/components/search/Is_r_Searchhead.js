@@ -295,17 +295,25 @@
 
 
         componentDidMount() {
-            var proxyurl = '?g=WapSite&c=Exchange&a=get_index_Banner';
-            fetch(proxyurl, {
-                    method: 'get',
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    }
-                })
-                .then((res) => res.json())
-                .then(data => {
-                    console.log(data);
-                });
+            // var proxyurl = 'https://www.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner';
+            // fetch('?g=WapSite&c=Exchange&a=get_index_Banner', {
+            //         method: 'get',
+            //         headers: {
+            //             "Content-Type": "application/x-www-form-urlencoded"
+            //         }
+            //     })
+            //     .then((res) => res.json())
+            //     .then(data => {
+            //         console.log(data);
+            //     });
+
+
+                 $(function () {
+                    // https://www.thgo8.com/wap/?g=WapSite&c=Index&a=homebody
+            $.get("wap/?g=WapSite&c=Index&a=homebody", {}, function (result) {
+                console.log(result);
+            })
+        })
             // axios.get(`http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner`)
             //     .then(res => {
             //         console.log(res);
