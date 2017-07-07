@@ -18,7 +18,7 @@
         Route,
         Link
     } from 'react-router-dom';
-    const urlRoot = 'https://www.thgo8.com/';
+    const urlRoot = 'http://dev.thgo8.com/';
     const _this = this;
 
     let lis = [];
@@ -295,6 +295,17 @@
 
 
         componentDidMount() {
+            var proxyurl = '?g=WapSite&c=Exchange&a=get_index_Banner';
+            fetch(proxyurl, {
+                    method: 'get',
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    }
+                })
+                .then((res) => res.json())
+                .then(data => {
+                    console.log(data);
+                });
             // axios.get(`http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner`)
             //     .then(res => {
             //         console.log(res);
@@ -384,7 +395,6 @@
                                     items: data.goods_list,
                                     page: data.status
                                 });
-                                console.log(this.state.items);
 
                                 this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 500);
                             }
