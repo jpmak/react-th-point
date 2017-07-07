@@ -18,7 +18,7 @@
         Route,
         Link
     } from 'react-router-dom';
-    const urlRoot = 'http://dev.thgo8.com/';
+    const urlRoot = 'https://www.thgo8.com/';
     const _this = this;
 
     let lis = [];
@@ -259,6 +259,8 @@
                 items: [],
                 pullDownStatus: 3,
                 pullUpStatus: 0,
+                pageStatus: 1,
+
                 goodsHtml: [],
                 goodsList: []
             };
@@ -279,7 +281,9 @@
                 0: '上拉发起加载',
                 1: '松手即可加载',
                 2: '正在加载',
-                3: '加载成功'
+                3: '加载成功',
+                4: '没有更多数据'
+
             };
             this.isTouching = false;
             // this.onItemClicked = this.onItemClicked.bind(this);
@@ -291,6 +295,11 @@
 
 
         componentDidMount() {
+            // axios.get(`http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner`)
+            //     .then(res => {
+            //         console.log(res);
+            //     });
+
             const _this = this;
             $('.result-sort li').not('.icons-list').on('click', function() {
                 var liindex = $('.result-sort li').index(this);
@@ -358,53 +367,89 @@
             if (isRefresh) {
                 this.page = 0;
             }
-            console.log(this.page);
-            fetch(urlRoot + '?g=WapSite&c=Exchange&a=search_goods', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
+            $.ajax({
+                url: urlRoot + '?g=WapSite&c=Exchange&a=search_goods',
+                data: {
+                    page: this.page
                 },
-                body: 'keyword=' + keyword + '&page=' + this.page + '&volume=' + volume + '&by=' + price + '&cate_id=' + cate_id
-            })
+                type: 'POST',
+                dataType: 'json',
+                success: (data) => {
+                    if (data.goods_list) {
+                        if (isRefresh) { // 刷新操作
+                            if (this.state.pullDownStatus == 3) {
+                                this.setState({
+                                    pullDownStatus: 4,
+                                    page_state: 1,
+                                    items: data.goods_list,
+                                    page: data.status
+                                });
+                                console.log(this.state.items);
 
+                                this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 500);
+                            }
+                        } else { // 加载操作
+                            if (this.state.pullUpStatus == 2) {
+                                this.setState({
+                                    pullUpStatus: 0,
 
-            .then((res) => res.json())
-                .then((data) => {
-                    if (isRefresh) { // 刷新操作
-                        if (this.state.pullDownStatus == 3) {
-                            this.setState({
-                                pullDownStatus: 4,
-                                items: data.goods_list
-                            });
-                            this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 500);
+                                    items: this.state.items.concat(data.goods_list)
+                                });
+                                console.log(this.state.items);
+
+                            }
                         }
-                    } else { // 加载操作
-                        if (this.state.pullUpStatus == 2) {
-                            this.setState({
-                                pullUpStatus: 0,
-                                items: this.state.items.concat(data.goods_list)
-                            });
-                        }
+                        ++this.page;
+                        console.log(`fetchItems=effected isRefresh=${isRefresh}`);
+                    } else {
+                        this.setState({
+                            pullUpStatus: 4,
+                            pageStatus: 0
+                        });
                     }
-                    ++this.page;
-                    console.log(this.page);
-
-                    console.log(`fetchItems=effected isRefresh=${isRefresh}`);
-
-
-                }).catch(function(e) {
-                    console.log("fetch fail");
-                });
+                }
+            });
         }
 
-        // onItemClicked(ev) {
-        //     // 获取对应的DOM节点, 转换成jquery对象
-        //     let item = $(ev.target);
-        //     // 操作router实现页面切换
-        //     this.context.router.push(item.attr('to'));
-        //     this.context.router.goForward();
-        // }
 
+
+        // fetch(urlRoot + '?g=WapSite&c=Exchange&a=search_goods', {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/x-www-form-urlencoded"
+        //         },
+        //         body: 'keyword=' + keyword + '&page=' + this.page + '&volume=' + volume + '&by=' + price + '&cate_id=' + cate_id
+        //     })
+        //     .then((res) => res.json())
+        // .then((data) => {
+        //     if (isRefresh) { // 刷新操作
+        //         if (this.state.pullDownStatus == 3) {
+        //             this.setState({
+        //                 pullDownStatus: 4,
+        //                 items: data.goods_list
+        //             });
+        //             console.log(this.state.items);
+
+        //             this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 500);
+        //         }
+        //     } else { // 加载操作
+        //         console.log('ok');
+
+        //         if (this.state.pullUpStatus == 2) {
+        //             this.setState({
+        //                 pullUpStatus: 0,
+        //                 // items: data.goods_list
+        //                 items: this.state.items.concat(data.goods_list)
+        //             });
+        //         }
+        //     }
+        //     ++this.page;
+        //     console.log(`fetchItems=effected isRefresh=${isRefresh}`);
+        // }).catch(function(e) {
+        //     console.log("fetch fail");
+        // });
+        // }
+        // 
         onTouchStart(ev) {
             this.isTouching = true;
         }
@@ -435,10 +480,6 @@
                     this.state.pullUpStatus != 1 && this.setState({
                         pullUpStatus: 1
                     });
-                } else {
-                    this.state.pullUpStatus != 0 && this.setState({
-                        pullUpStatus: 0
-                    });
                 }
             }
         }
@@ -456,13 +497,14 @@
             }
 
             // 下拉区域
-            if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY + 5) {
+            if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY + 5 && this.state.pageStatus != 0) {
                 this.onPullUp();
             }
         }
 
         onScrollEnd() {
             console.log("onScrollEnd" + this.state.pullDownStatus);
+            console.log("状态 " + this.state.pageStatus);
 
             let pullDown = $(this.refs.PullDown);
 
@@ -472,7 +514,8 @@
                     this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 200);
                 } else if (this.state.pullDownStatus == 2) { // 发起了刷新,那么更新状态
                     this.setState({
-                        pullDownStatus: 3
+                        pullDownStatus: 3,
+                        pageStatus: 1
                     });
                     this.fetch(true);
                 }
@@ -480,11 +523,15 @@
 
             // 滑动结束后，停在加载区域
             if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY) {
-                if (this.state.pullUpStatus == 1) { // 发起了加载，那么更新状态
+                if (this.state.pullUpStatus == 1 && this.state.pageStatus == 1) { // 发起了加载，那么更新状态
                     this.setState({
                         pullUpStatus: 2
                     });
                     this.fetch(false);
+                } else if (this.state.pageStatus == 0) {
+                    this.setState({
+                        pullUpStatus: 4
+                    });
                 }
             }
         }

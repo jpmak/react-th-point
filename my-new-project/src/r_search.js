@@ -1,5 +1,6 @@
+require('styles/jf.scss');
+
 require('styles/base.scss');
-require('styles/jf.css');
 require('styles/slick.css');
 
 
