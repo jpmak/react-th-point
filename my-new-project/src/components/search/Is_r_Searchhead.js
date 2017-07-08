@@ -296,24 +296,26 @@
 
         componentDidMount() {
             // var proxyurl = 'https://www.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner';
-            // fetch('?g=WapSite&c=Exchange&a=get_index_Banner', {
-            //         method: 'get',
-            //         headers: {
-            //             "Content-Type": "application/x-www-form-urlencoded"
-            //         }
+            fetch('/wap/?g=WapSite&c=Exchange&a=search_goods', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: 'keyword=' + '2' + '&page=' + 0 + '&volume=' + volume + '&by=' + price + '&cate_id=' + cate_id
+                })
+                .then((res) => res.json())
+                .then(data => {
+                    console.log(data);
+                });
+
+
+            // $(function() {
+            //     // https://www.thgo8.com/wap/?g=WapSite&c=Index&a=homebody
+            //     $.get("wap/?g=WapSite&c=Index&a=homebody", {}, function(result) {
+            //         console.log(result);
             //     })
-            //     .then((res) => res.json())
-            //     .then(data => {
-            //         console.log(data);
-            //     });
+            // })
 
-
-                 $(function () {
-                    // https://www.thgo8.com/wap/?g=WapSite&c=Index&a=homebody
-            $.get("wap/?g=WapSite&c=Index&a=homebody", {}, function (result) {
-                console.log(result);
-            })
-        })
             // axios.get(`http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner`)
             //     .then(res => {
             //         console.log(res);
@@ -387,7 +389,7 @@
                 this.page = 0;
             }
             $.ajax({
-                url: urlRoot + '?g=WapSite&c=Exchange&a=search_goods',
+                url: 'wap/?g=WapSite&c=Exchange&a=search_goods',
                 data: {
                     page: this.page
                 },

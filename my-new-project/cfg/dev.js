@@ -4,11 +4,28 @@ let path = require('path');
 let webpack = require('webpack');
 let baseConfig = require('./base');
 let defaultSettings = require('./defaults');
+var httpProxyMiddleware = require('http-proxy-middleware');
+
 
 // Add needed plugins here
 let BowerWebpackPlugin = require('bower-webpack-plugin');
 
 let config = Object.assign({}, baseConfig, {
+  // devServer: {
+  //   historyApiFallback: true,
+  //   hot: true,
+  //   inline: true,
+  //   progress: true, //报错无法识别，删除后也能正常刷新
+  //   host: 'localhost',
+  //   port: 8000,
+  //   httpProxyMiddleware: {
+  //     '/wap': {
+  //       target: 'https://www.thgo8.com',
+  //       changeOrigin: true,
+  //       secure: false
+  //     }
+  //   }
+  // },
   entry: {
     'index': [
       'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,

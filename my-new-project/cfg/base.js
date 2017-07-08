@@ -1,6 +1,8 @@
 'use strict';
 let path = require('path');
 let defaultSettings = require('./defaults');
+var proxy = require('http-proxy-middleware');
+
 // Additional npm or bower modules to include in builds
 // Add all foreign plugins you may need into this array
 // @example:
@@ -16,7 +18,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/../dist/assets'), //打包输出的路径
 
-    filename: 'r_search.js', //打包后的名字 npm  run dist 需要设置 具体输出的名字 ======设置的名字需要与cfg/dist同步名字
+    filename: '[name].js', //打包后的名字 npm  run dist 需要设置 具体输出的名字 ======设置的名字需要与cfg/dist同步名字
     // filename: '[name].js' 或 r_search.js npm run serve
     publicPath: defaultSettings.publicPath //html引用路径，在这里是本地地址。
   },
@@ -26,7 +28,14 @@ module.exports = {
     hot: true,
     port: defaultSettings.port,
     publicPath: defaultSettings.publicPath,
-    noInfo: false
+    noInfo: false,
+    proxy: {
+      '/wap': {
+        target: 'https://www.thgo8.com',
+        changeOrigin: true,
+        secure: false
+      }
+    }
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
