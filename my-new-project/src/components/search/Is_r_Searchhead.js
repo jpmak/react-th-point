@@ -295,6 +295,9 @@
 
 
         componentDidMount() {
+        // document.addEventListener('touchmove', function(e) {
+        //     e.preventDefault();
+        // }, false);
             // var proxyurl = 'https://www.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner';
             fetch('/wap/?g=WapSite&c=Exchange&a=search_goods', {
                     method: "POST",
@@ -321,7 +324,6 @@
             //         console.log(res);
             //     });
 
-            const _this = this;
             $('.result-sort li').not('.icons-list').on('click', function() {
                 var liindex = $('.result-sort li').index(this);
                 $(this).addClass('cur').siblings().removeClass('cur');
@@ -364,6 +366,8 @@
                 preventDefault: false,
                 // 禁止缩放
                 zoom: false,
+                //滚动条可以拖动  
+                interactiveScrollbars: true,
                 // 支持鼠标事件，因为我开发是PC鼠标模拟的
                 mouseWheel: true,
                 // 滚动事件的探测灵敏度，1-3，越高越灵敏，兼容性越好，性能越差
@@ -383,8 +387,7 @@
         }
 
         fetch(isRefresh) {
-            const _this = this;
-            let upItem = '';
+
             if (isRefresh) {
                 this.page = 0;
             }
@@ -415,12 +418,9 @@
 
                                     items: this.state.items.concat(data.goods_list)
                                 });
-                                console.log(this.state.items);
-
                             }
                         }
                         ++this.page;
-                        console.log(`fetchItems=effected isRefresh=${isRefresh}`);
                     } else {
                         this.setState({
                             pullUpStatus: 4,
@@ -523,8 +523,7 @@
         }
 
         onScrollEnd() {
-            console.log("onScrollEnd" + this.state.pullDownStatus);
-            console.log("状态 " + this.state.pageStatus);
+
 
             let pullDown = $(this.refs.PullDown);
 
@@ -563,9 +562,15 @@
         }
 
         componentDidUpdate() {
+        // document.addEventListener('touchmove', function(e) {
+        //     e.preventDefault();
+        // }, false);
             // 仅当列表发生了变更，才调用iscroll的refresh重新计算滚动条信息
             if (this.itemsChanged) {
-                this.iScrollInstance.refresh();
+                setTimeout(function() {
+                    this.iScrollInstance.refresh();
+
+                }, 1000);
             }
             return true;
         }
@@ -579,11 +584,17 @@
                 );
             })
             return (
+                <div className="w result-wp">
+                <div className="result-sort">
+            <li className="cur">综合</li>
+        <li className="volume">兑换排行</li>
+            <li className="arrow price">香蕉</li>
+            <li className="icons-list ver-icon"></li>
+        </div>
 
+                <div id = "ScrollContainer">
 
-                <div id="ScrollContainer">
-
- <div id = "ListOutsite" style ={{height: window.innerHeight}}
+                <div id = "ListOutsite" style ={{height: window.innerHeight}}
                      onTouchStart={this.onTouchStart} onTouchEnd={this.onTouchEnd}>
             <ul id="ListInside"  className="app-pd-list hor-list">
                <p ref="PullDown" id="PullDown">{this.pullDownTips[this.state.pullDownStatus]}</p>
@@ -595,7 +606,8 @@
 
             </ul>
          </div>
-          </div>
+         </div>
+         </div>
             );
         }
     }

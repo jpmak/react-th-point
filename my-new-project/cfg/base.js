@@ -29,6 +29,7 @@ module.exports = {
     port: defaultSettings.port,
     publicPath: defaultSettings.publicPath,
     noInfo: false,
+    //跨域设置
     proxy: {
       '/wap': {
         target: 'https://www.thgo8.com',

@@ -1,7 +1,7 @@
 require('styles/jf.scss');
 
 require('styles/base.scss');
-require('styles/slick.css');
+// require('styles/slick.css');
 
 
 
@@ -22,7 +22,8 @@ import R_det from './r_det';
 
 import {
 	Searchhead,
-	ResultWrap
+	ResultWrap,
+	MsgListPage
 } from './components/search/Is_r_Searchhead';
 
 // './components/search/R_Searchhead';
