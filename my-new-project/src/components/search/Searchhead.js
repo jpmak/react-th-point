@@ -341,7 +341,7 @@ class ResultWrap extends React.Component {
     //         }
     //     });
 
-    //     var winH = $(window).height();
+    //     var winH = $(window).height();   
     //     $(window).scroll(function() {
     //         var pageH = $(document.body).height();
     //         var scrollT = $(window).scrollTop();

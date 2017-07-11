@@ -473,13 +473,20 @@
         }
     }
     
+
+    .th-search-container{display: block;position:fixed; opacity: 1;top:0px;}
     // 排序筛选
     .result-sort {
         width: 7.5rem;
         height: .98rem;
         background: #fff;
         margin-bottom: .1rem;
-        display: none;
+        z-index: 100;
+
+position:fixed;
+top:1.02rem;
+ opacity: 0;
+        // display: none;
         overflow: hidden;
         &.five-li {
             border-bottom: 1px solid $borderColor;

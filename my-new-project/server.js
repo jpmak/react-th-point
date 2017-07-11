@@ -5,7 +5,7 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const config = require('./webpack.config');
 const open = require('open');
-
+const localhost = '0.0.0.0';
 /**
  * Flag indicating whether webpack compiled for the first time.
  * @type {boolean}
@@ -15,7 +15,7 @@ let isInitialCompilation = true;
 const compiler = webpack(config);
 
 new WebpackDevServer(compiler, config.devServer)
-  .listen(config.port, 'localhost', (err) => {
+  .listen(config.port, localhost, (err) => {
     if (err) {
       console.log(err);
     }

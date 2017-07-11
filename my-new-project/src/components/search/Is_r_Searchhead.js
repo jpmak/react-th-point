@@ -225,8 +225,8 @@
             // <input type="text" value={this.state.value} onChange={this.handleClick} />
             return (
                 <div>
-            {/*
-        <div className= {'th-search-container th-nav-list pr on-focus'}>
+            {/**/}
+        <div className= {'th-search-container th-nav-list pr on-focus'} >
          
             <div className="th-search-box">
                 <div className="th-search-shadow"></div>
@@ -243,9 +243,10 @@
      
                 </div>
             </div>
-        </div>
 <SearchResult ref="getarr"/>
-*/}
+
+        </div>
+       {/**/}
 <ResultWrap ref="getload"/>
             </div>
             );
@@ -258,12 +259,14 @@
             this.state = {
                 items: [],
                 pullDownStatus: 3,
-                pullUpStatus: 0,
+                pullUpStatus: 5,
                 pageStatus: 1,
-
                 goodsHtml: [],
-                goodsList: []
+                goodsList: [],
+                opacity: true
             };
+            this.listScroll_new = this.listScroll.bind(this);
+
             this.page = 1;
             this.itemsChanged = false;
 
@@ -273,7 +276,8 @@
                 1: '继续下拉刷新',
                 2: '松手即可刷新',
                 3: '正在刷新',
-                4: '刷新成功'
+                4: '刷新成功',
+                5: ' '
             };
 
             this.pullUpTips = {
@@ -282,7 +286,8 @@
                 1: '松手即可加载',
                 2: '正在加载',
                 3: '加载成功',
-                4: '没有更多数据'
+                4: '没有更多数据',
+                5: ' '
 
             };
             this.isTouching = false;
@@ -295,21 +300,23 @@
 
 
         componentDidMount() {
-        // document.addEventListener('touchmove', function(e) {
-        //     e.preventDefault();
-        // }, false);
+            window.addEventListener('scroll', this.listScroll_new);
+
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, false);
             // var proxyurl = 'https://www.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner';
-            fetch('/wap/?g=WapSite&c=Exchange&a=search_goods', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    },
-                    body: 'keyword=' + '2' + '&page=' + 0 + '&volume=' + volume + '&by=' + price + '&cate_id=' + cate_id
-                })
-                .then((res) => res.json())
-                .then(data => {
-                    console.log(data);
-                });
+            // fetch('/wap/?g=WapSite&c=Exchange&a=search_goods', {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "application/x-www-form-urlencoded"
+            //         },
+            //         body: 'keyword=' + '2' + '&page=' + 0 + '&volume=' + volume + '&by=' + price + '&cate_id=' + cate_id
+            //     })
+            //     .then((res) => res.json())
+            //     .then(data => {
+            //         console.log(data);
+            //     });
 
 
             // $(function() {
@@ -410,6 +417,12 @@
                                 });
 
                                 this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 500);
+                                if (this.state.pullUpStatus == 5) {
+                                    this.setState({
+                                        pullUpStatus: 0,
+                                        opacity: false
+                                    });
+                                }
                             }
                         } else { // 加载操作
                             if (this.state.pullUpStatus == 2) {
@@ -431,47 +444,10 @@
             });
         }
 
-
-
-        // fetch(urlRoot + '?g=WapSite&c=Exchange&a=search_goods', {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/x-www-form-urlencoded"
-        //         },
-        //         body: 'keyword=' + keyword + '&page=' + this.page + '&volume=' + volume + '&by=' + price + '&cate_id=' + cate_id
-        //     })
-        //     .then((res) => res.json())
-        // .then((data) => {
-        //     if (isRefresh) { // 刷新操作
-        //         if (this.state.pullDownStatus == 3) {
-        //             this.setState({
-        //                 pullDownStatus: 4,
-        //                 items: data.goods_list
-        //             });
-        //             console.log(this.state.items);
-
-        //             this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 500);
-        //         }
-        //     } else { // 加载操作
-        //         console.log('ok');
-
-        //         if (this.state.pullUpStatus == 2) {
-        //             this.setState({
-        //                 pullUpStatus: 0,
-        //                 // items: data.goods_list
-        //                 items: this.state.items.concat(data.goods_list)
-        //             });
-        //         }
-        //     }
-        //     ++this.page;
-        //     console.log(`fetchItems=effected isRefresh=${isRefresh}`);
-        // }).catch(function(e) {
-        //     console.log("fetch fail");
-        // });
-        // }
-        // 
         onTouchStart(ev) {
+
             this.isTouching = true;
+
         }
 
         onTouchEnd(ev) {
@@ -480,6 +456,7 @@
 
         onPullDown() {
             // 手势
+
             if (this.isTouching) {
                 if (this.iScrollInstance.y > 5) {
                     this.state.pullDownStatus != 2 && this.setState({
@@ -503,10 +480,37 @@
                 }
             }
         }
+        listScroll() {
+            const _this = this;
 
+
+            var winH = $(window).height();
+            var pageH = $(document.body).height();
+            var scrollT = $(window).scrollTop();
+            var rate = (pageH - winH - scrollT) / winH;
+
+            // this.sendAjax();
+            // 
+
+            console.log(rate);
+        }
         onScroll() {
-            let pullDown = $(this.refs.PullDown);
+            // var scrollT = $(window).scrollTop();
+            // var winH = $(window).height();
+            // var rate = (pageH - winH - scrollT) / winH;
+            // var pageH = $(document.body).height();
 
+
+            // var st = window.innerHeight;
+            // // var left = $(window).scrollLeft() + 320;
+            // console.log(st);
+            // $('.th-search-container').animate({
+            //     'top': st + 'px'
+            // }, 30); //方式一 效果比较理想
+            // //$("#editInfo").css({ left: left + "px", top: top + "px" }); 方式二 有阴影
+
+
+            let pullDown = $(this.refs.PullDown);
             // 上拉区域
             if (this.iScrollInstance.y > -1 * pullDown.height()) {
                 this.onPullDown();
@@ -521,7 +525,12 @@
                 this.onPullUp();
             }
         }
+        onRefresh() {
 
+            () => {
+                this.iScrollInstance.refresh()
+            }
+        }
         onScrollEnd() {
 
 
@@ -531,10 +540,15 @@
             if (this.iScrollInstance.y > -1 * pullDown.height()) {
                 if (this.state.pullDownStatus <= 1) { // 没有发起刷新,那么弹回去
                     this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 200);
+                    this.setState({
+                        opacity: true
+
+                    })
                 } else if (this.state.pullDownStatus == 2) { // 发起了刷新,那么更新状态
                     this.setState({
                         pullDownStatus: 3,
-                        pageStatus: 1
+                        pageStatus: 1,
+                        opacity: false
                     });
                     this.fetch(true);
                 }
@@ -545,6 +559,7 @@
                 if (this.state.pullUpStatus == 1 && this.state.pageStatus == 1) { // 发起了加载，那么更新状态
                     this.setState({
                         pullUpStatus: 2
+
                     });
                     this.fetch(false);
                 } else if (this.state.pageStatus == 0) {
@@ -562,15 +577,21 @@
         }
 
         componentDidUpdate() {
-        // document.addEventListener('touchmove', function(e) {
-        //     e.preventDefault();
-        // }, false);
+            document.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+            }, false);
+            if (this.state.pullDownStatus == 4) {
+                this.setState({
+                    pullDownStatus: 5
+
+                });
+            }
             // 仅当列表发生了变更，才调用iscroll的refresh重新计算滚动条信息
             if (this.itemsChanged) {
-                setTimeout(function() {
-                    this.iScrollInstance.refresh();
 
-                }, 1000);
+                this.iScrollInstance.refresh();
+
+
             }
             return true;
         }
@@ -579,28 +600,29 @@
 
             let lis = [];
             this.state.items.forEach((goods, index) => {
-                lis.push(
-                    <li key={index}><Link  to={'/r_search.html/R_det/'+goods.item_id} className='upItem' data-id={goods.item_id}><div className="info-img"><LazyLoad height={0} offset={100} ><img alt="" className="lazy" src={goods.list_image}/></LazyLoad></div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link>      </li>
-                );
-            })
+                    lis.push(
+                        <li key={index}><Link  to={'/r_search.html/R_det/'+goods.item_id} className='upItem' data-id={goods.item_id}><div className="info-img">{/*<LazyLoad offset={100} once>*/}<img alt="" className="lazy" src={goods.list_image}/>{/*</LazyLoad>*/}</div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link>      </li>
+                    );
+                })
+                // style={{'opacity':this.state.opacity?'1':'0'}}
             return (
-                <div className="w result-wp">
-                <div className="result-sort">
+                <div className="w result-wp"  >
+        <div className="result-sort">
             <li className="cur">综合</li>
         <li className="volume">兑换排行</li>
             <li className="arrow price">香蕉</li>
             <li className="icons-list ver-icon"></li>
         </div>
 
-                <div id = "ScrollContainer">
+                <div id = "ScrollContainer" >
 
                 <div id = "ListOutsite" style ={{height: window.innerHeight}}
                      onTouchStart={this.onTouchStart} onTouchEnd={this.onTouchEnd}>
             <ul id="ListInside"  className="app-pd-list hor-list">
-               <p ref="PullDown" id="PullDown">{this.pullDownTips[this.state.pullDownStatus]}</p>
+               <p ref="PullDown" id="PullDown"  >{this.pullDownTips[this.state.pullDownStatus]}</p>
 
         {
-      lis
+            lis
         }
                         <p ref="PullUp" id="PullUp">{this.pullUpTips[this.state.pullUpStatus]}</p>
 
@@ -612,76 +634,7 @@
         }
     }
 
-    // class MsgListPage extends React.Component {
 
-
-
-    //     fetchItems(isRefresh) {
-    //         if (isRefresh) {
-    //             this.page = 1;
-    //         }
-    //         $.ajax({
-    //             url: 'https://yuerblog.cc/wp-content/uploads/2016/09/spa/msg-list/msg-list/',
-    //             data: {
-    //                 page: this.page
-    //             },
-    //             type: 'GET',
-    //             dataType: 'json',
-    //             success: (response) => {
-    //                 if (isRefresh) { // 刷新操作
-    //                     if (this.state.pullDownStatus == 3) {
-    //                         this.setState({
-    //                             pullDownStatus: 4,
-    //                             items: response.data.items
-    //                         });
-    //                         this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 500);
-    //                     }
-    //                 } else { // 加载操作
-    //                     if (this.state.pullUpStatus == 2) {
-    //                         this.setState({
-    //                             pullUpStatus: 0,
-    //                             items: this.state.items.concat(response.data.items)
-    //                         });
-    //                     }
-    //                 }
-    //                 ++this.page;
-    //                 console.log(`fetchItems=effected isRefresh=${isRefresh}`);
-    //             }
-    //         });
-    //     }
-
-    //     /**
-    //      * 点击跳转详情页
-    //      */
-
-
-    //     render() {
-    //         console.log(window.innerHeight);
-    //         let lis = [];
-    //         this.state.items.forEach((item, index) => {
-    //             lis.push(
-    //                 <li key={index} to={`/msg-detail-page/${index}`} onClick={this.onItemClicked}>
-    //                     {item.title}{index}
-    //                 </li>
-    //             );
-    //         })
-
-    //         // 外层容器要固定高度，才能使用滚动条
-    //         return (
-    //             <div id="ScrollContainer">
-    //                 <div id="ListOutsite" style={{height: window.innerHeight}}
-    //                      onTouchStart={this.onTouchStart} onTouchEnd={this.onTouchEnd}>
-    //                     <ul id="ListInside">
-    //                         <p ref="PullDown" id="PullDown">{this.pullDownTips[this.state.pullDownStatus]}</p>
-    //                         {lis}
-    //                         <p ref="PullUp" id="PullUp">{this.pullUpTips[this.state.pullUpStatus]}</p>
-    //                     </ul>
-    //                 </div>
-
-    //             </div>
-    //         );
-    //     }
-    // }
 
     export {
         Searchhead,
