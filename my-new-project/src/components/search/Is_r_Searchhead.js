@@ -50,8 +50,6 @@
                 <a className="backbtn" onClick={this.handClick}></a>
 </div>
             )
-
-
         }
     }
 
@@ -254,7 +252,6 @@
     }
     class ResultWrap extends React.Component {
         constructor(props, context) {
-
             super(props, context);
             this.state = {
                 items: [],
@@ -263,9 +260,9 @@
                 pageStatus: 1,
                 goodsHtml: [],
                 goodsList: [],
-                opacity: true
+                opacity: true,
+                rs_once: ''
             };
-            this.listScroll_new = this.listScroll.bind(this);
 
             this.page = 1;
             this.itemsChanged = false;
@@ -290,21 +287,29 @@
                 5: ' '
 
             };
+            this.isToDown = true;
             this.isTouching = false;
+            this.listScroll = this.listScroll.bind(this);
             // this.onItemClicked = this.onItemClicked.bind(this);
             this.onScroll = this.onScroll.bind(this);
             this.onScrollEnd = this.onScrollEnd.bind(this);
             this.onTouchStart = this.onTouchStart.bind(this);
             this.onTouchEnd = this.onTouchEnd.bind(this);
         }
+        listScroll() {
 
+        }
 
         componentDidMount() {
-            window.addEventListener('scroll', this.listScroll_new);
+            let rs_once = parseInt($('.result-sort').css('top'))
+            this.setState({
+                rs_once: rs_once,
+            });
 
-        document.addEventListener('touchmove', function(e) {
-            e.preventDefault();
-        }, false);
+
+            document.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+            }, false);
             // var proxyurl = 'https://www.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner';
             // fetch('/wap/?g=WapSite&c=Exchange&a=search_goods', {
             //         method: "POST",
@@ -456,7 +461,7 @@
 
         onPullDown() {
             // 手势
-
+            // 
             if (this.isTouching) {
                 if (this.iScrollInstance.y > 5) {
                     this.state.pullDownStatus != 2 && this.setState({
@@ -480,36 +485,8 @@
                 }
             }
         }
-        listScroll() {
-            const _this = this;
 
-
-            var winH = $(window).height();
-            var pageH = $(document.body).height();
-            var scrollT = $(window).scrollTop();
-            var rate = (pageH - winH - scrollT) / winH;
-
-            // this.sendAjax();
-            // 
-
-            console.log(rate);
-        }
         onScroll() {
-            // var scrollT = $(window).scrollTop();
-            // var winH = $(window).height();
-            // var rate = (pageH - winH - scrollT) / winH;
-            // var pageH = $(document.body).height();
-
-
-            // var st = window.innerHeight;
-            // // var left = $(window).scrollLeft() + 320;
-            // console.log(st);
-            // $('.th-search-container').animate({
-            //     'top': st + 'px'
-            // }, 30); //方式一 效果比较理想
-            // //$("#editInfo").css({ left: left + "px", top: top + "px" }); 方式二 有阴影
-
-
             let pullDown = $(this.refs.PullDown);
             // 上拉区域
             if (this.iScrollInstance.y > -1 * pullDown.height()) {
@@ -519,7 +496,45 @@
                     pullDownStatus: 0
                 });
             }
+            // console.log(this.iScrollInstance.y);
+            // console.log(this.iScrollInstance.maxScrollY);
+            var isy = this.iScrollInstance.y;
+            // console.log(isy);
+            const rs_once = this.state.rs_once;
 
+            let rs_t = parseInt($('.result-sort').css('top'));
+            let rs_t_down = rs_t;
+            let rs_t_up = rs_t;
+
+            rs_t_down = (rs_t_down == 0) ? rs_t_down == 0 : rs_t_down -= 1;
+            rs_t_up = (rs_t_up == rs_once) ? rs_t_up = rs_once : rs_t += 1;
+            // console.log(rs_t_get);
+            // console.log(rs_t += '1px');
+            // console.log(rs_t);
+
+            if (this.isToDown) {
+                if (this.iScrollInstance.y < this.iScrollInstance.maxScrollY / 3) {
+                    if (rs_t_down == 0) {
+                        this.isToDown = false;
+                    }
+                    $('.result-sort').css('top', rs_t_down + 'px');
+
+                    // console.log('我还在向下');
+                }
+            }
+
+
+            if (this.isToDown == 0) {
+                if (this.iScrollInstance.y > this.iScrollInstance.maxScrollY / 3) {
+                    if (rs_t_up == rs_once) {
+                        this.isToDown = true;
+                    }
+                    $('.result-sort').css('top', rs_t_up + 'px');
+                    console.log('我还在向上');
+
+                }
+            }
+            console.log(this.iScrollInstance.y);
             // 下拉区域
             if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY + 5 && this.state.pageStatus != 0) {
                 this.onPullUp();
@@ -553,7 +568,6 @@
                     this.fetch(true);
                 }
             }
-
             // 滑动结束后，停在加载区域
             if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY) {
                 if (this.state.pullUpStatus == 1 && this.state.pageStatus == 1) { // 发起了加载，那么更新状态
@@ -606,7 +620,7 @@
                 })
                 // style={{'opacity':this.state.opacity?'1':'0'}}
             return (
-                <div className="w result-wp"  >
+                <div className="w result-wp" >
         <div className="result-sort">
             <li className="cur">综合</li>
         <li className="volume">兑换排行</li>
