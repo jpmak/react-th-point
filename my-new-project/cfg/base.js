@@ -26,7 +26,7 @@ module.exports = {
     contentBase: './src/',
     historyApiFallback: true,
     hot: true,
-    host: '0.0.0.0',
+    host: '192.168.1.160',
     inline: true,
     progress: true,
     port: defaultSettings.port,

@@ -37,6 +37,11 @@ let config = Object.assign({}, baseConfig, {
       'webpack/hot/only-dev-server',
       './src/r_search'
     ],
+    'redux_search': [
+      'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
+      'webpack/hot/only-dev-server',
+      './src/redux_search'
+    ],
     'search': [
       'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
       'webpack/hot/only-dev-server',

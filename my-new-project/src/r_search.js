@@ -1,32 +1,21 @@
 require('styles/jf.scss');
-
 require('styles/base.scss');
-// require('styles/slick.css');
-
-
-
-// import '';
 import 'core-js/fn/object/assign';
 import React from 'react';
-
 import ReactDOM from 'react-dom';
-// import $ from 'jquery';
 
 import {
 	BrowserRouter as Router,
 	hashHistory,
-	Route,
-	Link
+	Route
 } from 'react-router-dom'
 import R_det from './r_det';
 
 import {
-	Searchhead,
-	ResultWrap,
-	MsgListPage
-} from './components/search/Is_r_Searchhead';
+	Searchhead
+} from './components/search/R_Searchhead';
 
-// './components/search/R_Searchhead';
+
 
 const R_Searchhead = () => (
 		<Router history={hashHistory}>
@@ -39,7 +28,6 @@ const R_Searchhead = () => (
 	)
 	// ReactDOM.render( < Searchhead onName = ' on-focus ' / > );
 ReactDOM.render( < R_Searchhead / > , document.getElementById('js-search-box'));
-
 
 // import Js_banner from './components/Js_banner';
 // Render the main component into the dom

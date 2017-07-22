@@ -18,7 +18,9 @@
         Route,
         Link
     } from 'react-router-dom';
-    const urlRoot = 'http://dev.thgo8.com/';
+    // const urlRoot = 'http://dev.thgo8.com/';
+    const urlRoot = '';
+
     const _this = this;
 
     let lis = [];
@@ -223,7 +225,7 @@
             // <input type="text" value={this.state.value} onChange={this.handleClick} />
             return (
                 <div>
-            {/**/}
+        { /**/ }
         <div className= {'th-search-container th-nav-list pr on-focus'} >
          
             <div className="th-search-box">
@@ -261,7 +263,8 @@
                 goodsHtml: [],
                 goodsList: [],
                 opacity: true,
-                rs_once: ''
+                rs_once: '',
+                ScrollVal: ''
             };
 
             this.page = 1;
@@ -272,7 +275,7 @@
                 0: '下拉发起刷新',
                 1: '继续下拉刷新',
                 2: '松手即可刷新',
-                3: '正在刷新',
+                3: '<i class="r-gif"></i>正在刷新',
                 4: '刷新成功',
                 5: ' '
             };
@@ -281,35 +284,38 @@
                 // 上拉状态
                 0: '上拉发起加载',
                 1: '松手即可加载',
-                2: '正在加载',
+                2: '<i class="r-gif"></i>正在加载',
                 3: '加载成功',
                 4: '没有更多数据',
                 5: ' '
 
             };
-            this.isToDown = true;
+            this.isToDown = true
             this.isTouching = false;
-            this.listScroll = this.listScroll.bind(this);
             // this.onItemClicked = this.onItemClicked.bind(this);
             this.onScroll = this.onScroll.bind(this);
             this.onScrollEnd = this.onScrollEnd.bind(this);
             this.onTouchStart = this.onTouchStart.bind(this);
             this.onTouchEnd = this.onTouchEnd.bind(this);
         }
-        listScroll() {
 
+        PreventDefault(e) {
+            e.preventDefault();
         }
-
         componentDidMount() {
+            const _this = this;
+
             let rs_once = parseInt($('.result-sort').css('top'))
             this.setState({
-                rs_once: rs_once,
+                rs_once: rs_once
             });
 
+            document.addEventListener('touchmove', this.PreventDefault, false);
+            // document.addEventListener('touchmove', function(e) {
 
-            document.addEventListener('touchmove', function(e) {
-                e.preventDefault();
-            }, false);
+            //     e.preventDefault();
+            // }, false);
+            // 
             // var proxyurl = 'https://www.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner';
             // fetch('/wap/?g=WapSite&c=Exchange&a=search_goods', {
             //         method: "POST",
@@ -360,6 +366,7 @@
             });
 
             $('.result-sort li.icons-list').on('click', function() {
+                _this.iScrollInstance.refresh();
                 if ($('.result-sort li.icons-list').hasClass('ver-icon')) {
                     $('.result-sort li.icons-list').removeClass('ver-icon');
                     $('.result-sort li.icons-list').addClass('hor-icon');
@@ -404,9 +411,10 @@
                 this.page = 0;
             }
             $.ajax({
-                url: 'wap/?g=WapSite&c=Exchange&a=search_goods',
+                url: urlRoot + 'wap/?g=WapSite&c=Exchange&a=search_goods',
                 data: {
                     page: this.page
+
                 },
                 type: 'POST',
                 dataType: 'json',
@@ -424,7 +432,7 @@
                                 this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 500);
                                 if (this.state.pullUpStatus == 5) {
                                     this.setState({
-                                        pullUpStatus: 0,
+                                        pullUpStatus: 0, //
                                         opacity: false
                                     });
                                 }
@@ -432,31 +440,43 @@
                         } else { // 加载操作
                             if (this.state.pullUpStatus == 2) {
                                 this.setState({
-                                    pullUpStatus: 0,
+                                    pullUpStatus: 0, //
 
                                     items: this.state.items.concat(data.goods_list)
                                 });
                             }
                         }
                         ++this.page;
-                    } else {
+                    } else if (this.page == 0) {
+                        this.setState({
+                            pullDownStatus: 5,
+                            pullUpStatus: 5,
+
+                            pageStatus: 0
+                        })
+                        var liHtml = '';
+                        liHtml += '<div class="none-data"></div>';
+
+                        $('#ListInside').html(liHtml);
+                    } else if (this.page > 0) {
+
                         this.setState({
                             pullUpStatus: 4,
                             pageStatus: 0
                         });
+
                     }
                 }
             });
         }
 
-        onTouchStart(ev) {
 
-            this.isTouching = true;
-
-        }
 
         onTouchEnd(ev) {
             this.isTouching = false;
+            this.onTouch = false;
+
+
         }
 
         onPullDown() {
@@ -485,8 +505,21 @@
                 }
             }
         }
+        onTouchStart(ev) {
+            this.isTouching = true;
+            this.onTouch = true;
 
+
+        }
         onScroll() {
+            const rs_once = this.state.rs_once;
+            let isy = this.iScrollInstance.y;
+            if (this.onTouch) {
+                this.setState({
+                    ScrollVal: isy
+                });
+            }
+
             let pullDown = $(this.refs.PullDown);
             // 上拉区域
             if (this.iScrollInstance.y > -1 * pullDown.height()) {
@@ -496,45 +529,32 @@
                     pullDownStatus: 0
                 });
             }
-            // console.log(this.iScrollInstance.y);
-            // console.log(this.iScrollInstance.maxScrollY);
-            var isy = this.iScrollInstance.y;
-            // console.log(isy);
-            const rs_once = this.state.rs_once;
 
-            let rs_t = parseInt($('.result-sort').css('top'));
-            let rs_t_down = rs_t;
-            let rs_t_up = rs_t;
 
-            rs_t_down = (rs_t_down == 0) ? rs_t_down == 0 : rs_t_down -= 1;
-            rs_t_up = (rs_t_up == rs_once) ? rs_t_up = rs_once : rs_t += 1;
-            // console.log(rs_t_get);
-            // console.log(rs_t += '1px');
-            // console.log(rs_t);
-
-            if (this.isToDown) {
-                if (this.iScrollInstance.y < this.iScrollInstance.maxScrollY / 3) {
-                    if (rs_t_down == 0) {
-                        this.isToDown = false;
-                    }
-                    $('.result-sort').css('top', rs_t_down + 'px');
-
-                    // console.log('我还在向下');
-                }
+            if (this.onTouch && this.isToDown && this.iScrollInstance.y <= -200) {
+                $('.result-sort').stop().animate({
+                    top: $('.result-sort').height() - rs_once + 'px'
+                }, 500, function() {
+                    this.onTouch = false;
+                });
+                $('.th-search-container').stop().animate({
+                    top: -rs_once + 'px'
+                }, 500);
+                this.isToDown = false
             }
 
 
-            if (this.isToDown == 0) {
-                if (this.iScrollInstance.y > this.iScrollInstance.maxScrollY / 3) {
-                    if (rs_t_up == rs_once) {
-                        this.isToDown = true;
-                    }
-                    $('.result-sort').css('top', rs_t_up + 'px');
-                    console.log('我还在向上');
+            if (this.onTouch && this.isToUp) {
+                $('.result-sort').stop().animate({
+                    top: rs_once + 'px'
+                }, 500, function() {
+                    this.onTouch = false;
+                });
+                $('.th-search-container').stop().animate({
+                    top: 0 + 'px'
+                }, 500);
 
-                }
             }
-            console.log(this.iScrollInstance.y);
             // 下拉区域
             if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY + 5 && this.state.pageStatus != 0) {
                 this.onPullUp();
@@ -587,13 +607,20 @@
         shouldComponentUpdate(nextProps, nextState) {
             // 列表发生了变化, 那么应该在componentDidUpdate时调用iscroll进行refresh
             this.itemsChanged = nextState.items !== this.state.items;
+            this.isToDown = nextState.ScrollVal <= this.state.ScrollVal;
+            this.isToUp = nextState.ScrollVal > this.state.ScrollVal;
+
             return true;
         }
 
         componentDidUpdate() {
-            document.addEventListener('touchmove', function(e) {
-                e.preventDefault();
-            }, false);
+            const _this = this;
+            // document.addEventListener('touchmove', function(e) {
+            //     e.preventDefault();
+            // }, false);
+            $('.result-sort li.icons-list').on('click', function() {
+                _this.iScrollInstance.refresh();
+            });
             if (this.state.pullDownStatus == 4) {
                 this.setState({
                     pullDownStatus: 5
@@ -610,15 +637,21 @@
             return true;
         }
 
+        componentWillUnmount() {
+
+
+            document.removeEventListener('touchmove', this.PreventDefault, false);
+
+
+        }
         render() {
 
             let lis = [];
             this.state.items.forEach((goods, index) => {
-                    lis.push(
-                        <li key={index}><Link  to={'/r_search.html/R_det/'+goods.item_id} className='upItem' data-id={goods.item_id}><div className="info-img">{/*<LazyLoad offset={100} once>*/}<img alt="" className="lazy" src={goods.list_image}/>{/*</LazyLoad>*/}</div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link>      </li>
-                    );
-                })
-                // style={{'opacity':this.state.opacity?'1':'0'}}
+                lis.push(
+                    <li key={index}><Link  to={'/r_search.html/R_det/'+goods.item_id} className='upItem' data-id={goods.item_id}><div className="info-img">{/*<LazyLoad offset={100} once>*/}<img alt="" className="lazy" src={goods.list_image}/>{/*</LazyLoad>*/}</div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link>      </li>
+                );
+            })
             return (
                 <div className="w result-wp" >
         <div className="result-sort">
@@ -633,12 +666,12 @@
                 <div id = "ListOutsite" style ={{height: window.innerHeight}}
                      onTouchStart={this.onTouchStart} onTouchEnd={this.onTouchEnd}>
             <ul id="ListInside"  className="app-pd-list hor-list">
-               <p ref="PullDown" id="PullDown"  >{this.pullDownTips[this.state.pullDownStatus]}</p>
+               <p ref="PullDown" id="PullDown" dangerouslySetInnerHTML={{__html:this.pullDownTips[this.state.pullDownStatus]}} />
 
         {
             lis
         }
-                        <p ref="PullUp" id="PullUp">{this.pullUpTips[this.state.pullUpStatus]}</p>
+                        <p ref="PullUp" id="PullUp" dangerouslySetInnerHTML={{__html:this.pullUpTips[this.state.pullUpStatus]}} />
 
             </ul>
          </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+require('styles/slick.css');
 
 import $ from 'jquery';
 // 
@@ -7,6 +8,8 @@ import Banner from '../det/Banner';
 
 import LazyLoad from 'react-lazyload';
 const urlRoot = 'http://dev.thgo8.com/'
+    // const urlRoot = 'wap/'
+
 
 let upItem = '';
 let p_type = '';
@@ -262,7 +265,8 @@ class Scrollup extends React.Component {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
                 },
-                body: 'id=' + this.props.goods_id
+                // body: 'id=' + this.props.goods_id
+                body: 'id=' + 'this.props.goods_id'
 
             })
             .then((res) => res.json())
@@ -447,7 +451,9 @@ class DetBody extends React.Component {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
                 },
-                body: 'id=' + this.props.paramsId
+                // body: 'id=' + this.props.paramsId
+                body: 'id=' + '385'
+
             })
             .then((res) => res.json())
             .then((json) => {
@@ -496,13 +502,14 @@ class DetBody extends React.Component {
     componentWillMount() {
         this.getUpItem();
 
-        console.log('will-detBody');
 
         window.scrollTo(0, 0);
 
     }
     componentDidMount() {
+        console.log(112);
 
+        $("body").unbind("touchmove");
         this.setState({
             goods_body: 2
         });

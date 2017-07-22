@@ -336,36 +336,36 @@ class ResultWrap extends React.Component {
         .then((res) => res.json())
             .then((data) => {
                 this.setState({
-                    goodsList: data.goods_list,
                     searchState: data.status
                 });
                 let searchState = this.state.searchState;
 
                 if (searchState) {
-                    let searchHtml = '';
-                    let goodsHtml = this.state.goodsHtml;
-                    let goodsLists = this.state.goodsList;
+                    // let searchHtml = '';
+                    // let goodsHtml = this.state.goodsHtml;
+                    // let goodsLists = this.state.goodsList;
 
-                    let goodsList = goodsLists.map(function(goods, index) {
+                    // let goodsList = goodsLists.map(function(goods, index) {
 
-                        return (
+                    //     return (
 
 
-                            <li key={index} >     <Link  to={'/r_search.html/R_det/'+goods.item_id} className="upItem" data-id={goods.item_id}><div className="info-img"><LazyLoad height={0} offset={100} ><img alt="" className="lazy" src={goods.list_image}/></LazyLoad></div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link>        </li>
+                    //         <li key={index} >     <Link  to={'/r_search.html/R_det/'+goods.item_id} className="upItem" data-id={goods.item_id}><div className="info-img"><LazyLoad height={0} offset={100} ><img alt="" className="lazy" src={goods.list_image}/></LazyLoad></div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link>        </li>
 
-                        )
+                    //     )
 
-                    });
+                    // });
                     $('.result-sort').show();
                     if (page === 0) {
                         this.setState({
-                            goodsHtml: goodsList
+                            goodsList: data.goods_list
                         });
                     } else {
+                        console.log('test');
                         // $('.app-pd-list ul').append(searchHtml);
-                        goodsHtml.push(goodsList);
+
                         this.setState({
-                            goodsHtml: goodsHtml,
+                            goodsList: this.state.goodsList.concat(data.goods_list),
                             page_state: 1
                         });
 
@@ -442,6 +442,12 @@ class ResultWrap extends React.Component {
         }
     }
     render() {
+        let lis = [];
+        this.state.goodsList.forEach((goods, index) => {
+            lis.push(
+                <li key={index} >     <Link  to={'/r_search.html/R_det/'+goods.item_id} className="upItem" data-id={goods.item_id}><div className="info-img"><LazyLoad height={0} offset={100} ><img alt="" className="lazy" src={goods.list_image}/></LazyLoad></div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link>        </li>
+            );
+        })
         return (
             <div className="w result-wp">
         <div className="result-sort">
@@ -452,8 +458,8 @@ class ResultWrap extends React.Component {
         </div>
         <div className="app-pd-list hor-list">
             <ul>
-     {
-            this.state.goodsHtml
+   {
+        lis
         }
             </ul>
         </div>
