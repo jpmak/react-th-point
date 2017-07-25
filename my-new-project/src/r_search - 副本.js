@@ -2,8 +2,10 @@ require('styles/jf.scss');
 require('styles/base.scss');
 import 'core-js/fn/object/assign';
 import React from 'react';
-import ReactDOM from 'react-dom';
-
+import {
+	render,
+	ReactDOM
+} from 'react-dom';
 import {
 	BrowserRouter as Router,
 	hashHistory,
@@ -13,10 +15,31 @@ import R_det from './r_det';
 
 import {
 	Searchhead
-} from './components/search/Is_r_Searchhead';
+} from './components/search/Redux_Searchhead';
+import reducer from './reducers'
 
+import {
+	createStore,
+	applyMiddleware
+} from 'redux'
 
+import {
+	Provider
+} from 'react-redux'
+import thunk from 'redux-thunk'
 
+import {
+	createLogger
+} from 'redux-logger'
+
+const middleware = [thunk]
+if (process.env.NODE_ENV !== 'production') {
+	middleware.push(createLogger())
+}
+const store = createStore(
+	reducer,
+	applyMiddleware(...middleware)
+)
 const R_Searchhead = () => (
 		<Router history={hashHistory}>
       <div>
@@ -27,7 +50,13 @@ const R_Searchhead = () => (
 
 	)
 	// ReactDOM.render( < Searchhead onName = ' on-focus ' / > );
-ReactDOM.render( < R_Searchhead / > , document.getElementById('js-search-box'));
+	// ReactDOM.render( < R_Searchhead / > , document.getElementById('js-search-box'));
+ReactDOM.render(
+	<Provider store={store}>
+	<R_Searchhead/>
+	</Provider>,
+	document.getElementById('js-search-box')
+)
 
 // import Js_banner from './components/Js_banner';
 // Render the main component into the dom

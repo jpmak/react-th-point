@@ -1,15 +1,238 @@
-import React from 'react';
-require('styles/iscroll.css');
-import iScroll from 'iscroll/build/iscroll-probe'
+    require('styles/iscroll.css');
+    import React from 'react';
+    import Goback from '../public/Goback';
+    import $ from 'jquery';
+    import iScroll from 'iscroll/build/iscroll-probe'
+    import LazyLoad from 'react-lazyload';
+    import {
+        BrowserRouter as Router,
+        Route,
+        Link
+    } from 'react-router-dom';
 
-import $ from 'jquery';
-import {
-    connect
-} from 'react-redux'
-import {
-    fetchPostsIfNeeded
-} from 'actions/search'
-class ResultWrap extends React.Component {
+    const urlRoot = '';
+    let keyword = '';
+    let price = '';
+    let searchMsg = '';
+    let arrval = new Array();
+    // let sVal = '';
+    class Goback_up extends React.Component {
+        componentDidMount() {}
+        handClick() {
+
+            $('#searchInput').blur();
+            $('#js-list,.class,.result-wp').show();
+            $('.search-wrap,.th-search-box .backbtn').hide();
+        }
+
+        render() {
+            return (
+                <div>
+       <Goback/>
+                <a className="backbtn" onClick={this.handClick}></a>
+</div>
+            )
+        }
+    }
+
+
+
+    class SearchResult extends React.Component {
+        componentDidMount() {
+            const _this = this;
+            if (window.localStorage.searchhistory) {
+                searchMsg = JSON.parse(window.localStorage.searchhistory);
+                // arrval.push(searchMsg);
+                this.historyHtml();
+                arrval = arrval.concat(searchMsg);
+            } else {
+                $('.search-keywords').hide();
+            }
+            $('.search-keywords-list li a').on('click', function() {
+                var sVal = $('#searchInput').val();
+                var hVal = $(this).html();
+                $('#searchInput').val(hVal);
+                _this.funStoreHistory();
+
+            });
+            $('.delbtn').on('click', function() {
+                if (confirm("确定要清空吗？")) {
+                    localStorage.removeItem("searchhistory");
+                    $('.search-wrap').remove();
+                    arrval = [];
+
+                }
+
+            });
+        }
+
+        funStoreHistory() {
+            arrval.unshift($('#searchInput').val());
+            if (arrval.length > 9) {
+                arrval.pop(9);
+            }
+            // arrval=unique(arrval);
+            arrval = this.unique(arrval);
+            window.localStorage.searchhistory = JSON.stringify(arrval);
+            keyword = arrval[0];
+            window.location.reload();
+        }
+        unique(arr) {
+            var res = [];
+            var json = {};
+            for (var i = 0; i < arr.length; i++) {
+                if (!json[arr[i]]) {
+                    res.push(arr[i]);
+                    json[arr[i]] = 1;
+                }
+            }
+            return res;
+        }
+        historyHtml() {
+            let history_Html = '';
+            for (var i = 0; i < searchMsg.length; i++) {
+                history_Html += '<li><a >' + searchMsg[i] + '</a></li>';
+            }
+            $('.search-keywords-list').html(history_Html);
+
+        }
+        render() {
+            return (
+                <div className = "search-wrap" >
+            <div className="search-keywords bor-b">
+                <div className="search-keywords-name">
+                    <span>历史记录 <i className="delbtn"></i></span>
+                </div>
+                <div className="search-keywords-list ">
+                </div>
+            </div>
+            </div>
+            )
+        }
+    }
+
+    class Searchhead extends React.Component {
+        constructor(props) {
+            super(props);
+
+            this.state = {
+                value: '',
+                message: ''
+            };
+
+            this.handleChange = (event) => {
+                this.setState({
+                    value: event.target.value
+                });
+            }
+
+            $('.delbtn').on('click', function() {
+                if (confirm("确定要清空吗？")) {
+                    localStorage.removeItem("searchhistory");
+                    $('.search-wrap').remove();
+                    arrval = [];
+
+                }
+
+            });
+
+            this._handleClick = () => {
+                var sVal = $('#searchInput').val();
+
+                if (sVal != '') {
+                    const _this = this;
+                    keyword = sVal;
+                    _this.refs.getarr.funStoreHistory();
+                }
+            }
+        }
+        funloadHistory() {
+            if (window.localStorage.searchhistory) {
+                keyword = arrval[0];
+            } else {
+                keyword = '';
+            }
+
+            $('#searchInput').val(keyword);
+            // this.refs.getload.fetch();
+        }
+
+        componentDidMount() {
+            const _this = this;
+            $('#searchInput').on('keyup focus', function(e) {
+                $('.search-bar input').css('width', '80%');
+                var uVal = $('#searchInput').val();
+                if (uVal != '') {
+                    if (e.keyCode === 13) {
+                        _this._handleClick();
+                    }
+                    $('#del').show();
+                } else {
+                    $('#del').hide();
+                }
+            });
+            $('#searchInput').on('click', function() {
+                $('#js-list,.class,.result-wp').hide();
+                $('.search-wrap,.th-search-box .backbtn').show();
+                $('.th-active,.th-active body').css('overflow', 'auto');
+
+            });
+            $('#searchInput').on('keyup focus', function(e) {
+                $('.search-bar input').css('width', '80%');
+                var uVal = $('#searchInput').val();
+                if (uVal !== '') {
+                    if (e.keyCode === 13) {
+                        _this._handleClick();
+                    }
+                    $('#del').show();
+                } else {
+                    $('#del').hide();
+                }
+            });
+            this.funloadHistory();
+
+
+        }
+
+        handleDel() {
+            $('#searchInput').val('').focus();
+            $('#del').hide();
+            $('.search-bar input').css('width', '100%');
+        }
+
+        render() {
+            var value = this.state.value;
+            // <input type="text" value={this.state.value} onChange={this.handleClick} />
+            return (
+                <div>
+        { /**/ }
+        <div className= {'th-search-container th-nav-list pr on-focus'} >
+         
+            <div className="th-search-box">
+                <div className="th-search-shadow"></div>
+         <Goback_up/>
+        <a className="search-btn" onClick={this._handleClick.bind(this)}>搜索</a>
+                    <div className="wbox search-bar" >
+                    <i className="th-search-iconbtn"></i>
+                    <div id="del" className="delete" onClick={this.handleDel} ></div>
+                    <div className="wbox-flex">
+               <div className="th-search-form">
+        <input id="searchInput" className="th-search-form" type="text" placeholder="搜索商品关键字"  value={value}  onChange={this.handleChange}/>
+                        </div>
+                    </div>
+     
+                </div>
+            </div>
+<SearchResult ref="getarr"/>
+
+        </div>
+       {/**/}
+<ResultWrap ref="getload"/>
+            </div>
+            );
+        }
+    }
+    class ResultWrap extends React.Component {
         constructor(props, context) {
             super(props, context);
             this.state = {
@@ -59,46 +282,45 @@ class ResultWrap extends React.Component {
         PreventDefault(e) {
             e.preventDefault();
         }
-        componentWillReceiveProps(nextProps) {
-            console.log(this.props.status);
-            console.log(nextProps.status);
-
-            if (nextProps.status !== this.props.status && nextProps.status !== undefined) {
-            console.log('test');
-                if (this.state.pullDownStatus == 3) {
-                    this.setState({
-                        pullDownStatus: 4
-                            // page_state: 1,
-
-                    });
-
-                    this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 500);
-                    // if (this.state.pullUpStatus == 5) {
-                    //     this.setState({
-                    //         pullUpStatus: 0, //
-                    //         opacity: false
-                    //     });
-                    // }
-                }
-
-            }
-
-        }
         componentDidMount() {
-            this.props.fetchPostsIfNeeded();
-
-
-            // if (this.props.status == 1) {
-
-            // }
-            // this.fetch(true);
             const _this = this;
 
             let rs_once = parseInt($('.result-sort').css('top'))
-                // this.setState({
-                //     rs_once: rs_once
-                // });
+            this.setState({
+                rs_once: rs_once
+            });
+
             document.addEventListener('touchmove', this.PreventDefault, false);
+            // document.addEventListener('touchmove', function(e) {
+
+            //     e.preventDefault();
+            // }, false);
+            // 
+            // var proxyurl = 'https://www.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner';
+            // fetch('/wap/?g=WapSite&c=Exchange&a=search_goods', {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "application/x-www-form-urlencoded"
+            //         },
+            //         body: 'keyword=' + '2' + '&page=' + 0 + '&volume=' + volume + '&by=' + price + '&cate_id=' + cate_id
+            //     })
+            //     .then((res) => res.json())
+            //     .then(data => {
+            //         console.log(data);
+            //     });
+
+
+            // $(function() {
+            //     // https://www.thgo8.com/wap/?g=WapSite&c=Index&a=homebody
+            //     $.get("wap/?g=WapSite&c=Index&a=homebody", {}, function(result) {
+            //         console.log(result);
+            //     })
+            // })
+
+            // axios.get(`http://dev.thgo8.com/?g=WapSite&c=Exchange&a=get_index_Banner`)
+            //     .then(res => {
+            //         console.log(res);
+            //     });
 
             $('.result-sort li').not('.icons-list').on('click', function() {
                 var liindex = $('.result-sort li').index(this);
@@ -157,7 +379,7 @@ class ResultWrap extends React.Component {
             this.iScrollInstance = new iScroll('#ListOutsite', options);
             this.iScrollInstance.on('scroll', this.onScroll);
             this.iScrollInstance.on('scrollEnd', this.onScrollEnd);
-
+            this.fetch(true);
         }
         funStoreUpItem(upItem) {
             window.localStorage.upItem = upItem;
@@ -204,7 +426,6 @@ class ResultWrap extends React.Component {
                                 });
                             }
                         }
-
                         ++this.page;
                     } else if (this.page == 0) {
                         this.setState({
@@ -218,6 +439,7 @@ class ResultWrap extends React.Component {
 
                         $('#ListInside').html(liHtml);
                     } else if (this.page > 0) {
+
                         this.setState({
                             pullUpStatus: 4,
                             pageStatus: 0
@@ -227,6 +449,7 @@ class ResultWrap extends React.Component {
                 }
             });
         }
+
 
 
         onTouchEnd(ev) {
@@ -265,6 +488,8 @@ class ResultWrap extends React.Component {
         onTouchStart(ev) {
             this.isTouching = true;
             this.onTouch = true;
+
+
         }
         onScroll() {
             const rs_once = this.state.rs_once;
@@ -316,14 +541,16 @@ class ResultWrap extends React.Component {
             }
         }
         onRefresh() {
+
             () => {
                 this.iScrollInstance.refresh()
             }
         }
         onScrollEnd() {
 
-            const _this = this;
+
             let pullDown = $(this.refs.PullDown);
+
             // 滑动结束后，停在刷新区域
             if (this.iScrollInstance.y > -1 * pullDown.height()) {
                 if (this.state.pullDownStatus <= 1) { // 没有发起刷新,那么弹回去
@@ -338,10 +565,7 @@ class ResultWrap extends React.Component {
                         pageStatus: 1,
                         opacity: false
                     });
-
-                    _this.props.pageChange();
-                    // dispatch(fetchPostsIfNeeded(searchPagedReddit))
-                    // this.fetch(true);
+                    this.fetch(true);
                 }
             }
             // 滑动结束后，停在加载区域
@@ -351,8 +575,7 @@ class ResultWrap extends React.Component {
                         pullUpStatus: 2
 
                     });
-                    // dispatch(fetchPostsIfNeeded(searchPagedReddit))
-                    // this.fetch(false);
+                    this.fetch(false);
                 } else if (this.state.pageStatus == 0) {
                     this.setState({
                         pullUpStatus: 4
@@ -360,47 +583,53 @@ class ResultWrap extends React.Component {
                 }
             }
         }
+
         shouldComponentUpdate(nextProps, nextState) {
             // 列表发生了变化, 那么应该在componentDidUpdate时调用iscroll进行refresh
             this.itemsChanged = nextState.items !== this.state.items;
             this.isToDown = nextState.ScrollVal <= this.state.ScrollVal;
             this.isToUp = nextState.ScrollVal > this.state.ScrollVal;
+
             return true;
         }
 
         componentDidUpdate() {
             const _this = this;
-
-
             // document.addEventListener('touchmove', function(e) {
             //     e.preventDefault();
             // }, false);
             $('.result-sort li.icons-list').on('click', function() {
                 _this.iScrollInstance.refresh();
             });
-            // if (this.state.pullDownStatus == 4) {
-            //     this.setState({
-            //         pullDownStatus: 5
+            if (this.state.pullDownStatus == 4) {
+                this.setState({
+                    pullDownStatus: 5
 
-            //     });
-            // }
+                });
+            }
             // 仅当列表发生了变更，才调用iscroll的refresh重新计算滚动条信息
             if (this.itemsChanged) {
+
                 this.iScrollInstance.refresh();
+
+
             }
             return true;
         }
 
         componentWillUnmount() {
+
+
             document.removeEventListener('touchmove', this.PreventDefault, false);
+
+
         }
         render() {
 
-
             let lis = [];
-            this.props.posts.forEach((goods, index) => {
+            this.state.items.forEach((goods, index) => {
                 lis.push(
-                    <li key={index}><a  className='upItem' data-id={goods.item_id}><div className="info-img">{/*<LazyLoad offset={100} once>*/}<img alt="" className="lazy" src={goods.list_image}/>{/*</LazyLoad>*/}</div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></a>      </li>
+                    <li key={index}><Link  to={'/r_search.html/R_det/'+goods.item_id} className='upItem' data-id={goods.item_id}><div className="info-img">{/*<LazyLoad offset={100} once>*/}<img alt="" className="lazy" src={goods.list_image}/>{/*</LazyLoad>*/}</div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link>      </li>
                 );
             })
             return (
@@ -431,27 +660,11 @@ class ResultWrap extends React.Component {
             );
         }
     }
-    // const mapStateToProps = state => {
-    //     const {
-    //         searchPagedReddit,
-    //         postsByReddit
-    //     } = state
-    //     const {
-    //         isFetching,
 
-//         items: posts
-//     } = postsByReddit[searchPagedReddit] || {
-//         isFetching: true,
-//         items: []
-//     }
-//     return {
-//         searchPagedReddit,
-//         posts,
-//         status,
-//         isFetching
 
-//     }
-// }
-// export default connect(mapStateToProps)(ResultWrap)
 
-export default ResultWrap;
+    export {
+        Searchhead,
+        ResultWrap,
+        Goback_up
+    }
