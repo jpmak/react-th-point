@@ -413,7 +413,9 @@
             $.ajax({
                 url: urlRoot + 'wap/?g=WapSite&c=Exchange&a=search_goods',
                 data: {
-                    page: this.page
+                    page: this.page,
+                    keyword: '1'
+
 
                 },
                 type: 'POST',
@@ -471,18 +473,23 @@
         }
 
 
-
+        onTouchStart(ev) {
+            this.isTouching = true;
+            this.onTouch = true;
+        }
         onTouchEnd(ev) {
             this.isTouching = false;
             this.onTouch = false;
 
 
         }
-
         onPullDown() {
             // 手势
             // 
+
+
             if (this.isTouching) {
+                console.log(this.iScrollInstance.y);
                 if (this.iScrollInstance.y > 5) {
                     this.state.pullDownStatus != 2 && this.setState({
                         pullDownStatus: 2
@@ -505,12 +512,7 @@
                 }
             }
         }
-        onTouchStart(ev) {
-            this.isTouching = true;
-            this.onTouch = true;
 
-
-        }
         onScroll() {
             const rs_once = this.state.rs_once;
             let isy = this.iScrollInstance.y;

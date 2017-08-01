@@ -9,22 +9,32 @@ import {
 import {
     fetchPostsIfNeeded
 } from 'actions/search'
+import {
+    BrowserRouter as Router,
+    Route,
+    Link
+} from 'react-router-dom';
+import LoadingLayer from '../LoadingLayer/LoadingLayer';
+// import loadingImg from '../LoadingLayer/loading.svg';
 class ResultWrap extends React.Component {
         constructor(props, context) {
             super(props, context);
             this.state = {
-                items: [],
-                pullDownStatus: 3,
-                pullUpStatus: 5,
-                pageStatus: 1,
-                goodsHtml: [],
-                goodsList: [],
+                // pullDownStatus: 3,
+                // pullUpStatus: 5,
+                // pageStatus: 1,
+                // goodsHtml: [],
+                // goodsList: [],
                 opacity: true,
                 rs_once: '',
                 ScrollVal: ''
             };
+            this.p = 0;
+            this.t = 0;
+            this.page = 0;
 
-            this.page = 1;
+
+
             this.itemsChanged = false;
 
             this.pullDownTips = {
@@ -34,7 +44,8 @@ class ResultWrap extends React.Component {
                 2: '松手即可刷新',
                 3: '<i class="r-gif"></i>正在刷新',
                 4: '刷新成功',
-                5: ' '
+                5: '刷新失败',
+                6: ''
             };
 
             this.pullUpTips = {
@@ -44,9 +55,12 @@ class ResultWrap extends React.Component {
                 2: '<i class="r-gif"></i>正在加载',
                 3: '加载成功',
                 4: '没有更多数据',
-                5: ' '
+                5: '刷新失败',
+                6: ''
+
 
             };
+            this.isToUp = true;
             this.isToDown = true
             this.isTouching = false;
             // this.onItemClicked = this.onItemClicked.bind(this);
@@ -60,32 +74,43 @@ class ResultWrap extends React.Component {
             e.preventDefault();
         }
         componentWillReceiveProps(nextProps) {
-            console.log(this.props.status);
-            console.log(nextProps.status);
 
-            if (nextProps.status !== this.props.status && nextProps.status !== undefined) {
-            console.log('test');
-                if (this.state.pullDownStatus == 3) {
-                    this.setState({
-                        pullDownStatus: 4
-                            // page_state: 1,
 
-                    });
+            // if (nextProps.status !== this.props.status && nextProps.status !== undefined) {
+            //     console.log('test');
+            //     if (this.state.pullDownStatus == 3) {
+            //         this.setState({
+            //             pullDownStatus: 4
+            //                 // page_state: 1,
 
-                    this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 500);
-                    // if (this.state.pullUpStatus == 5) {
-                    //     this.setState({
-                    //         pullUpStatus: 0, //
-                    //         opacity: false
-                    //     });
-                    // }
-                }
+            //         });
 
-            }
+            //         this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 500);
+            //         // if (this.state.pullUpStatus == 5) {
+            //         //     this.setState({
+            //         //         pullUpStatus: 0, //
+            //         //         opacity: false
+            //         //     });
+            //         // }
+            //     }
+
+            // }
 
         }
         componentDidMount() {
-            this.props.fetchPostsIfNeeded();
+            // 首次进入列表页，那么异步加载数据
+            if (this.props.loadingStatus == 1) {
+                this.props.beginRefresh();
+            } else {
+                this.ensureIScrollInstalled();
+                // 非首次进入，那么恢复滚动条的位置 (如果离开页面时处于下拉位置, 那么进行修正)
+                let y = this.props.y;
+                if (y > -1 * $(this.refs.PullDown).height()) {
+                    y = -1 * $(this.refs.PullDown).height();
+                }
+                this.iScrollInstance.scrollTo(0, y);
+            }
+            // this.props.fetchPostsIfNeeded();
 
 
             // if (this.props.status == 1) {
@@ -95,10 +120,11 @@ class ResultWrap extends React.Component {
             const _this = this;
 
             let rs_once = parseInt($('.result-sort').css('top'))
-                // this.setState({
-                //     rs_once: rs_once
-                // });
+            this.setState({
+                rs_once: rs_once
+            });
             document.addEventListener('touchmove', this.PreventDefault, false);
+            // document.addEventListener('scroll', this.PreventDefault, false);
 
             $('.result-sort li').not('.icons-list').on('click', function() {
                 var liindex = $('.result-sort li').index(this);
@@ -138,13 +164,28 @@ class ResultWrap extends React.Component {
                     $('.app-pd-list').addClass('hor-list');
                 }
             });
+
+
+        }
+        funStoreUpItem(upItem) {
+            window.localStorage.upItem = upItem;
+        }
+
+
+        /**
+         * 加载完成后初始化一次iscroll
+         */
+        ensureIScrollInstalled() {
+            if (this.iScrollInstance) {
+
+                return this.iScrollInstance;
+
+            }
             const options = {
                 // 默认iscroll会拦截元素的默认事件处理函数，我们需要响应onClick，因此要配置
                 preventDefault: false,
                 // 禁止缩放
                 zoom: false,
-                //滚动条可以拖动  
-                interactiveScrollbars: true,
                 // 支持鼠标事件，因为我开发是PC鼠标模拟的
                 mouseWheel: true,
                 // 滚动事件的探测灵敏度，1-3，越高越灵敏，兼容性越好，性能越差
@@ -152,80 +193,18 @@ class ResultWrap extends React.Component {
                 // 拖拽超过上下界后出现弹射动画效果，用于实现下拉/上拉刷新
                 bounce: true,
                 // 展示滚动条
-                scrollbars: true
+                scrollbars: true,
             };
             this.iScrollInstance = new iScroll('#ListOutsite', options);
             this.iScrollInstance.on('scroll', this.onScroll);
             this.iScrollInstance.on('scrollEnd', this.onScrollEnd);
-
-        }
-        funStoreUpItem(upItem) {
-            window.localStorage.upItem = upItem;
+            this.iScrollInstance.refresh();
+            return this.iScrollInstance;
         }
 
-        fetch(isRefresh) {
-
-            if (isRefresh) {
-                this.page = 0;
-            }
-            $.ajax({
-                url: urlRoot + 'wap/?g=WapSite&c=Exchange&a=search_goods',
-                data: {
-                    page: this.page
-
-                },
-                type: 'POST',
-                dataType: 'json',
-                success: (data) => {
-                    if (data.goods_list) {
-                        if (isRefresh) { // 刷新操作
-                            if (this.state.pullDownStatus == 3) {
-                                this.setState({
-                                    pullDownStatus: 4,
-                                    page_state: 1,
-                                    items: data.goods_list,
-                                    page: data.status
-                                });
-
-                                this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 500);
-                                if (this.state.pullUpStatus == 5) {
-                                    this.setState({
-                                        pullUpStatus: 0, //
-                                        opacity: false
-                                    });
-                                }
-                            }
-                        } else { // 加载操作
-                            if (this.state.pullUpStatus == 2) {
-                                this.setState({
-                                    pullUpStatus: 0, //
-
-                                    items: this.state.items.concat(data.goods_list)
-                                });
-                            }
-                        }
-
-                        ++this.page;
-                    } else if (this.page == 0) {
-                        this.setState({
-                            pullDownStatus: 5,
-                            pullUpStatus: 5,
-
-                            pageStatus: 0
-                        })
-                        var liHtml = '';
-                        liHtml += '<div class="none-data"></div>';
-
-                        $('#ListInside').html(liHtml);
-                    } else if (this.page > 0) {
-                        this.setState({
-                            pullUpStatus: 4,
-                            pageStatus: 0
-                        });
-
-                    }
-                }
-            });
+        onTouchStart(ev) {
+            this.isTouching = true;
+            this.onTouch = true;
         }
 
 
@@ -238,16 +217,12 @@ class ResultWrap extends React.Component {
 
         onPullDown() {
             // 手势
-            // 
             if (this.isTouching) {
                 if (this.iScrollInstance.y > 5) {
-                    this.state.pullDownStatus != 2 && this.setState({
-                        pullDownStatus: 2
-                    });
+
+                    this.props.updatePullDownStatus(2);
                 } else {
-                    this.state.pullDownStatus != 1 && this.setState({
-                        pullDownStatus: 1
-                    });
+                    this.props.updatePullDownStatus(1);
                 }
             }
         }
@@ -256,17 +231,18 @@ class ResultWrap extends React.Component {
             // 手势
             if (this.isTouching) {
                 if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY - 5) {
-                    this.state.pullUpStatus != 1 && this.setState({
-                        pullUpStatus: 1
-                    });
+                    this.props.pullUpStatus != 1 && this.props.updatePullUpStatus(1);
+                } else {
+                    this.props.updatePullUpStatus(0);
                 }
             }
         }
-        onTouchStart(ev) {
-            this.isTouching = true;
-            this.onTouch = true;
-        }
+
         onScroll() {
+            const _this = this;
+            console.log(this.iScrollInstance.y);
+
+
             const rs_once = this.state.rs_once;
             let isy = this.iScrollInstance.y;
             if (this.onTouch) {
@@ -274,44 +250,64 @@ class ResultWrap extends React.Component {
                     ScrollVal: isy
                 });
             }
-
             let pullDown = $(this.refs.PullDown);
             // 上拉区域
             if (this.iScrollInstance.y > -1 * pullDown.height()) {
                 this.onPullDown();
+
             } else {
-                this.state.pullDownStatus != 0 && this.setState({
-                    pullDownStatus: 0
-                });
+                this.props.updatePullDownStatus(0);
             }
+            console.log(this.isToDown);
+            //顶部导航收缩
+            if (this.t < this.iScrollInstance.y && this.isToUp) {
+                this.isToDown = true;
+                this.isToUp = false;
 
-
-            if (this.onTouch && this.isToDown && this.iScrollInstance.y <= -200) {
-                $('.result-sort').stop().animate({
-                    top: $('.result-sort').height() - rs_once + 'px'
-                }, 500, function() {
-                    this.onTouch = false;
-                });
-                $('.th-search-container').stop().animate({
-                    top: -rs_once + 'px'
-                }, 500);
-                this.isToDown = false
-            }
-
-
-            if (this.onTouch && this.isToUp) {
+                console.log('上上');
                 $('.result-sort').stop().animate({
                     top: rs_once + 'px'
-                }, 500, function() {
+                }, 200, function() {
                     this.onTouch = false;
                 });
                 $('.th-search-container').stop().animate({
                     top: 0 + 'px'
-                }, 500);
+                }, 200);
+                //向上
+            } else if (this.t > this.iScrollInstance.y && this.isToDown && this.iScrollInstance.y <= -200) {
+                this.isToDown = false;
+                this.isToUp = true;
+
+                console.log('下下');
+                $('.result-sort').stop().animate({
+                    top: $('.result-sort').height() - rs_once + 'px'
+                }, 200);
+                $('.th-search-container').stop().animate({
+                    top: -rs_once + 'px'
+                }, 200);
+
+
+                //向下
 
             }
+            setTimeout(function() {
+                _this.t = _this.iScrollInstance.y;
+            }, 0);
+            //顶部导航收缩
+
+
             // 下拉区域
-            if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY + 5 && this.state.pageStatus != 0) {
+            if (this.props.pullUpStatus != 4)
+                if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY + 5) {
+                    this.onPullUp();
+                } else {
+                    this.props.updatePullUpStatus(0);
+                }
+
+
+
+                // 下拉区域
+            if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY + 5 && this.props.pageStatus != 0) {
                 this.onPullUp();
             }
         }
@@ -324,54 +320,77 @@ class ResultWrap extends React.Component {
 
             const _this = this;
             let pullDown = $(this.refs.PullDown);
+
             // 滑动结束后，停在刷新区域
             if (this.iScrollInstance.y > -1 * pullDown.height()) {
-                if (this.state.pullDownStatus <= 1) { // 没有发起刷新,那么弹回去
+                if (this.props.pullDownStatus <= 1) { // 没有发起刷新,那么弹回去
                     this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 200);
-                    this.setState({
-                        opacity: true
+                    // this.setState({
+                    //     opacity: true
+                    // })
+                } else if (this.props.pullDownStatus == 2) {
 
-                    })
-                } else if (this.state.pullDownStatus == 2) { // 发起了刷新,那么更新状态
-                    this.setState({
-                        pullDownStatus: 3,
-                        pageStatus: 1,
-                        opacity: false
-                    });
+                    // 发起了刷新,
+                    // 那么更新状态
+                    this.props.beginRefresh();
+                    // 发起了刷新,那么更新状态
+                    // this.setState({
+                    //     pullDownStatus: 3,
+                    //     pageStatus: 1,
+                    //     opacity: false
+                    // });
 
-                    _this.props.pageChange();
+                    // _this.props.pageChange();
                     // dispatch(fetchPostsIfNeeded(searchPagedReddit))
                     // this.fetch(true);
                 }
             }
             // 滑动结束后，停在加载区域
             if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY) {
-                if (this.state.pullUpStatus == 1 && this.state.pageStatus == 1) { // 发起了加载，那么更新状态
-                    this.setState({
-                        pullUpStatus: 2
+                if (this.props.pullUpStatus == 1 && this.props.pageStatus == 1) {
 
-                    });
-                    // dispatch(fetchPostsIfNeeded(searchPagedReddit))
-                    // this.fetch(false);
-                } else if (this.state.pageStatus == 0) {
-                    this.setState({
-                        pullUpStatus: 4
-                    });
+                    // if (this.props.pullUpStatus == 1) {
+                    // 发起了加载， 那么更新状态
+                    this.props.beginLoad();
                 }
             }
         }
         shouldComponentUpdate(nextProps, nextState) {
-            // 列表发生了变化, 那么应该在componentDidUpdate时调用iscroll进行refresh
-            this.itemsChanged = nextState.items !== this.state.items;
-            this.isToDown = nextState.ScrollVal <= this.state.ScrollVal;
-            this.isToUp = nextState.ScrollVal > this.state.ScrollVal;
+            // 列表对象变化，或者内容变化
+            this.itemsChanged = nextProps.items !== this.props.items;
+            // this.isToDown = nextState.ScrollVal <= this.state.ScrollVal;
+            // this.isToUp = nextState.ScrollVal > this.state.ScrollVal;
             return true;
         }
 
+        // shouldComponentUpdate(nextProps, nextState) {
+        //     // 列表发生了变化, 那么应该在componentDidUpdate时调用iscroll进行refresh
+        //     this.itemsChanged = nextState.items !== this.state.items;
+        //     this.isToDown = nextState.ScrollVal <= this.state.ScrollVal;
+        //     this.isToUp = nextState.ScrollVal > this.state.ScrollVal;
+        //     return true;
+        // }
+
         componentDidUpdate() {
             const _this = this;
+            // 加载屏结束,才可以初始化iscroll
+            $('.result-sort li.icons-list').on('click', function() {
+                _this.iScrollInstance.refresh();
+            });
+            if (this.props.loadingStatus == 2) {
 
-
+                this.ensureIScrollInstalled();
+                // 
+                // 当列表发生了变更 ，才调用iscroll的refresh重新计算滚动条信息
+                if (this.itemsChanged) {
+                    this.iScrollInstance.refresh();
+                    // 此前是刷新操作，需要回弹
+                    if (this.props.pullDownStatus == 4 || this.props.pullDownStatus == 5) {
+                        this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 500);
+                    }
+                }
+            }
+            return true;
             // document.addEventListener('touchmove', function(e) {
             //     e.preventDefault();
             // }, false);
@@ -385,22 +404,44 @@ class ResultWrap extends React.Component {
             //     });
             // }
             // 仅当列表发生了变更，才调用iscroll的refresh重新计算滚动条信息
-            if (this.itemsChanged) {
-                this.iScrollInstance.refresh();
-            }
+            // if (this.itemsChanged) {
+            //     this.iScrollInstance.refresh();
+            // }
             return true;
         }
 
         componentWillUnmount() {
-            document.removeEventListener('touchmove', this.PreventDefault, false);
+                // document.removeEventListener('scroll', this.PreventDefault, false);
+
+                document.removeEventListener('touchmove', this.PreventDefault, false);
+            }
+            // <li key={index}><a  className='upItem' data-id={goods.item_id}><div className="info-img">{/*<LazyLoad offset={100} once>*/}<img alt="" className="lazy" src={goods.list_image}/>{/*</LazyLoad>*/}</div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></a>      </li>
+        onRetryLoading() {
+            console.log('retry loading');
+            this.props.updateLoadingStatus(1); // 恢复loading界面
+            this.props.beginRefresh(); // 发起数据刷新
         }
-        render() {
+        renderLoading() {
 
+            const _this = this;
+            const onRetryLoading = this.onRetryLoading.bind(this)
+            let outerStyle = {
+                height: window.innerHeight
+            };
+            return (
+                <div>
+                <LoadingLayer outerStyle={outerStyle} onRetry={onRetryLoading}
+                    loadingStatus={this.props.loadingStatus}
+                />
+            </div>
+            );
+        }
+        renderPage() {
 
-            let lis = [];
-            this.props.posts.forEach((goods, index) => {
-                lis.push(
-                    <li key={index}><a  className='upItem' data-id={goods.item_id}><div className="info-img">{/*<LazyLoad offset={100} once>*/}<img alt="" className="lazy" src={goods.list_image}/>{/*</LazyLoad>*/}</div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></a>      </li>
+            let lis = this.props.items.map((goods, index) => {
+                return (
+                    <li key={index}><Link  to={'/redux_search.html/R_det/'+goods.item_id} className='upItem' data-id={goods.item_id}><div className="info-img">{/*<LazyLoad offset={100} once>*/}<img alt="" className="lazy" src={goods.list_image}/>{/*</LazyLoad>*/}</div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link>      </li>
+
                 );
             })
             return (
@@ -413,22 +454,31 @@ class ResultWrap extends React.Component {
         </div>
 
                 <div id = "ScrollContainer" >
-
                 <div id = "ListOutsite" style ={{height: window.innerHeight}}
                      onTouchStart={this.onTouchStart} onTouchEnd={this.onTouchEnd}>
             <ul id="ListInside"  className="app-pd-list hor-list">
-               <p ref="PullDown" id="PullDown" dangerouslySetInnerHTML={{__html:this.pullDownTips[this.state.pullDownStatus]}} />
+        <p ref="PullDown" id="PullDown" dangerouslySetInnerHTML={{__html:this.pullDownTips[this.props.pullDownStatus]}} />
 
         {
             lis
         }
-                        <p ref="PullUp" id="PullUp" dangerouslySetInnerHTML={{__html:this.pullUpTips[this.state.pullUpStatus]}} />
+                        <p ref="PullUp" id="PullUp" dangerouslySetInnerHTML={{__html:this.pullUpTips[this.props.pullUpStatus]}} />
 
             </ul>
          </div>
          </div>
          </div>
             );
+        }
+
+        render() {
+
+            // 首屏没有加载成功，那么均展示loading效果
+            if (this.props.loadingStatus != 2) {
+                return this.renderLoading();
+            } else {
+                return this.renderPage();
+            }
         }
     }
     // const mapStateToProps = state => {

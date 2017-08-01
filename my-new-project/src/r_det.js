@@ -17,7 +17,9 @@ import {
 
 
 
-const R_det = ({ match }) => (
+const R_det = ({
+	match
+}) => (
 
 
 	<div className="pdb120 th-block">

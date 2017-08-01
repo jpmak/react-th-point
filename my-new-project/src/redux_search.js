@@ -35,25 +35,27 @@ import {
 
 const middleware = [thunk]
 if (process.env.NODE_ENV !== 'production') {
-	middleware.push(createLogger())
+	// middleware.push(createLogger())
+	middleware
+
 }
 const store = createStore(
-		reducer,
-		applyMiddleware(...middleware)
-	)
-	const R_Searchhead = () => (
-		<Router history={hashHistory}>
+	reducer,
+	applyMiddleware(...middleware)
+)
+const R_Searchhead = () => (
+	<Router history={hashHistory}>
 	      <div>
-	<Route exact  path="/r_search.html" component={Searchhead} />
-	   <Route path="/r_search.html/R_det/:id" component={R_det}/>
+	<Route exact  path="/redux_search.html" component={Searchhead} />
+	   <Route path="/redux_search.html/R_det/:id" component={R_det}/>
 	    </div>
 	  </Router>
-	);
-	// ReactDOM.render( < Searchhead onName = ' on-focus ' / > );
-	// ReactDOM.render( < R_Searchhead / > , document.getElementById('js-search-box'));
+);
+// ReactDOM.render( < Searchhead onName = ' on-focus ' / > );
+// ReactDOM.render( < R_Searchhead / > , document.getElementById('js-search-box'));
 render(
 	<Provider store={store}>
-	<Searchhead/>
+	<R_Searchhead/>
 	</Provider>,
 	document.getElementById('js-search-box')
 )

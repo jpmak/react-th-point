@@ -7,7 +7,7 @@ import $ from 'jquery';
 import Banner from '../det/Banner';
 
 import LazyLoad from 'react-lazyload';
-const urlRoot = 'http://dev.thgo8.com/'
+const urlRoot = ''
     // const urlRoot = 'wap/'
 
 
@@ -446,13 +446,13 @@ class DetBody extends React.Component {
     }
 
     handleClick() {
-        fetch(urlRoot + '?g=WapSite&c=Exchange&a=get_goods_msg', {
+        fetch('/wap/?g=WapSite&c=Exchange&a=get_goods_msg', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
                 },
                 // body: 'id=' + this.props.paramsId
-                body: 'id=' + '385'
+                body: 'id=' + this.props.paramsId
 
             })
             .then((res) => res.json())

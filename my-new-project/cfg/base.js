@@ -35,9 +35,18 @@ module.exports = {
     //跨域设置
     proxy: {
       '/wap': {
-        target: 'https://www.thgo8.com',
+        target: 'http://dev.thgo8.com',
+
         changeOrigin: true,
-        secure: false
+        secure: false,
+        pathRewrite: {
+          '^/wap': '/wap'
+        },
+        router: {
+          // when request.headers.host == 'dev.localhost:3000', 
+          // override target 'http://www.example.org' to 'http://localhost:8000' 
+          // 'http://localhost:8000/r_search.html/R_det/': 'http://dev.thgo8.com'
+        }
       }
     }
   },

@@ -18,11 +18,19 @@ import Goback from 'components/public/Goback';
 import ResultWrap from 'components/search/ResultWrap';
 
 import {
+    beginRefresh,
+    beginRefresh_1,
+    updateLoadingStatus,
+    beginLoad,
+    updatePullUpStatus,
+    updatePullDownStatus,
     searchPageReddit,
     fetchPostsIfNeeded
 } from 'actions/search'
 
-
+import {
+    bindActionCreators
+} from 'redux'
 
 const urlRoot = '';
 let keyword = '';
@@ -163,6 +171,27 @@ class Searchhead extends React.Component {
         })
 
     }
+    beginRefresh() {
+
+        this.props.dispatch(beginRefresh())
+
+    }
+
+    updateLoadingStatus(e) {
+        this.props.dispatch(updateLoadingStatus(e))
+
+    }
+    beginLoad() {
+        this.props.dispatch(beginLoad())
+
+    }
+    updatePullDownStatus(e) {
+        // console.log(e);
+        this.props.dispatch(updatePullDownStatus(e))
+    }
+    updatePullUpStatus(e) {
+        this.props.dispatch(updatePullUpStatus(e))
+    }
     componentWillReceiveProps(nextProps) {
         if (nextProps.searchPagedReddit !== this.props.searchPagedReddit) {
 
@@ -179,13 +208,17 @@ class Searchhead extends React.Component {
         const _this = this;
 
         const {
-            posts,
-            status
+            items,
+            status,
+            pullDownStatus,
+            pullUpStatus,
+            loadingStatus,
+            pageStatus
         } = this.props
 
         return (
             <div>
-        { /**/ }
+        { /*fetchPostsIfNeeded={_this.fetchPostsIfNeeded.bind(this)} pageChange={_this.pageChange.bind(this)}*/ }
         <div className= {'th-search-container th-nav-list pr on-focus'} >
          
             <div className="th-search-box">
@@ -208,7 +241,7 @@ class Searchhead extends React.Component {
 
         </div>
 
-        <ResultWrap ref="getload" posts={posts} status={status} fetchPostsIfNeeded={_this.fetchPostsIfNeeded.bind(this)} pageChange={_this.pageChange.bind(this)}/>
+        <ResultWrap ref="getload" items={items} status={status} pageStatus={pageStatus} beginRefresh={_this.beginRefresh.bind(this)} beginLoad={_this.beginLoad.bind(this)} updateLoadingStatus={_this.updateLoadingStatus.bind(this)}pullDownStatus={pullDownStatus} pullUpStatus={pullUpStatus} loadingStatus={loadingStatus} updatePullDownStatus={_this.updatePullDownStatus.bind(this)}  updatePullUpStatus={_this.updatePullUpStatus.bind(this)} />
             </div>
         );
     }
@@ -317,20 +350,34 @@ const mapStateToProps = state => {
     } = state
     const {
         isFetching,
-        items: posts,
+        is_items: posts,
         status: status
     } = postsByReddit[searchPagedReddit] || {
         isFetching: true,
-        items: [],
+        is_items: [],
         status: 0
     }
     return {
+        //iscroll//
+        items: state.MsgListPageReducer.items,
+        pageStatus: state.MsgListPageReducer.pageStatus,
+        pullDownStatus: state.MsgListPageReducer.pullDownStatus, // 下拉状态
+        pullUpStatus: state.MsgListPageReducer.pullUpStatus, // 上拉状态
+        loadingStatus: state.MsgListPageReducer.loadingStatus, // 首屏加载状态
+        page: state.MsgListPageReducer.page,
+        y: state.MsgListPageReducer.y,
+        keyword: '',
+        //iscroll//
         searchPagedReddit,
         posts,
         status,
         isFetching
 
     }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(actions, dispatch);
 }
 
 export default connect(mapStateToProps)(Searchhead)
