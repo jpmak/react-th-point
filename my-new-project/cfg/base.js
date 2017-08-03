@@ -26,7 +26,9 @@ module.exports = {
     contentBase: './src/',
     historyApiFallback: true,
     hot: true,
-    host: '192.168.1.160',
+    // host: '0.0.0.0',
+
+    host: '0.0.0.0',
     inline: true,
     progress: true,
     port: defaultSettings.port,
@@ -45,7 +47,7 @@ module.exports = {
         router: {
           // when request.headers.host == 'dev.localhost:3000', 
           // override target 'http://www.example.org' to 'http://localhost:8000' 
-          // 'http://localhost:8000/r_search.html/R_det/': 'http://dev.thgo8.com'
+          // 'http://192.168.1.160:8000/': 'http://dev.thgo8.com'
         }
       }
     }

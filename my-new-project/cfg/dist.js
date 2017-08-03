@@ -11,7 +11,7 @@ let BowerWebpackPlugin = require('bower-webpack-plugin');
 
 let config = Object.assign({}, baseConfig, {
   // 编辑要输出的文件名
-  entry: path.join(__dirname, '../src/r_search'),///注意
+  entry: path.join(__dirname, '../src/redux_search'), ///注意
   cache: false,
   devtool: 'sourcemap',
   plugins: [

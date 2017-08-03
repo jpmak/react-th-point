@@ -8,7 +8,18 @@
     vertical-align: middle;
     display: table-cell;
 }
+#inner .f24{font-size: .24rem;color:#999; line-height: .48rem;}
+#inner .f36{font-size: .28rem; line-height: .52rem; color: #000}
+#inner .broder_f36{border-radius:50px;  border: 1px #000 solid;width: 1.8rem; margin: .12rem auto; padding: .06rem .12rem; }
 
+
+.error_404{
+        width: 3.75rem;
+    height: 3.75rem;
+    margin:0 auto;
+    background: url(./404.png) center no-repeat;
+    background-size: 2.9rem 2.56rem;
+}
 .overlayLoader {
     display: block;
     margin: auto;
@@ -50,6 +61,7 @@
     -webkit-animation-timing-function: linear;
     -moz-animation-timing-function: linear;
 }
+
 .loader div {
     width: 8px;
     height: 8px;
@@ -158,3 +170,7 @@
         -moz-transform: rotate(0deg);
     }
 }
+
+
+
+

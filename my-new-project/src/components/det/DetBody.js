@@ -500,9 +500,9 @@ class DetBody extends React.Component {
         }
     }
     componentWillMount() {
-        this.getUpItem();
+        // this.getUpItem();
 
-
+        this.handleClick();
         window.scrollTo(0, 0);
 
     }
@@ -535,7 +535,6 @@ class DetBody extends React.Component {
         // this.mounted = true;
         // window.scrollTo(0, 0);
 
-        console.log('Unwill-detBody');
 
     }
     render() {

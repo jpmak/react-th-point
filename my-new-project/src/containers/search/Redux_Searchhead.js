@@ -19,12 +19,14 @@ import ResultWrap from 'components/search/ResultWrap';
 
 import {
     beginRefresh,
-    beginRefresh_1,
+    tryRestoreComponent,
     updateLoadingStatus,
     beginLoad,
     updatePullUpStatus,
     updatePullDownStatus,
-    searchPageReddit,
+    backupIScrollY,
+    getKeyword,
+    begin,
     fetchPostsIfNeeded
 } from 'actions/search'
 
@@ -36,10 +38,11 @@ const urlRoot = '';
 let keyword = '';
 let price = '';
 let searchMsg = '';
-let arrval = new Array();
+// let arrval = new Array();
 // let sVal = '';
 
 class Searchhead extends React.Component {
+
     // static propTypes = {
     //     searchPagedReddit: PropTypes.number.isRequired,
     //     posts: PropTypes.array.isRequired,
@@ -69,7 +72,7 @@ class Searchhead extends React.Component {
             }
 
         });
-
+        this.searchMsg = window.localStorage.searchhistory ? JSON.parse(window.localStorage.searchhistory) : '';
         this._handleClick = () => {
             var sVal = $('#searchInput').val();
 
@@ -82,16 +85,29 @@ class Searchhead extends React.Component {
     }
     funloadHistory() {
         if (window.localStorage.searchhistory) {
-            keyword = arrval[0];
-        } else {
-            keyword = '';
+            // this.searchMsg = JSON.parse(window.localStorage.searchhistory);
+            this.props.dispatch(getKeyword(this.searchMsg[0]))
         }
+        // if (window.localStorage.searchhistory) {
 
-        $('#searchInput').val(keyword);
+        //     this.props.dispatch(getKeyword(this.arrval[0]))
+
+        // } else {
+        //     keyword = '';
+        // }
+        // this.props.dispatch(begin())
+
+        // this.props.dispatch(getkeyword(2))
+        console.log(this.searchMsg[0]);
+
         // this.refs.getload.fetch();
     }
-
+    componentWillMount() {
+        this.funloadHistory()
+            // this.funloadHistory();
+    }
     componentDidMount() {
+
         // this.fetchPostsIfNeeded()
         ///////////////////
         // const {
@@ -101,6 +117,7 @@ class Searchhead extends React.Component {
         // dispatch(fetchPostsIfNeeded(searchPagedReddit))
         ///////////////////
         const _this = this;
+
         $('#searchInput').on('keyup focus', function(e) {
             $('.search-bar input').css('width', '80%');
             var uVal = $('#searchInput').val();
@@ -131,7 +148,6 @@ class Searchhead extends React.Component {
                 $('#del').hide();
             }
         });
-        this.funloadHistory();
     }
 
     handleDel() {
@@ -150,17 +166,6 @@ class Searchhead extends React.Component {
 
 
 
-    // componentWillReceiveProps(nsextProps) {
-    //     if (nextProps.searchPagedReddit !== this.props.searchPagedReddit) {
-    //         const {
-    //             dispatch,
-    //             searchPagedReddit
-    //         } = nextProps
-    //         dispatch(fetchPostsIfNeeded(searchPagedReddit))
-    //     }
-    // }
-
-
     pageChange = () => {
         console.log(this.props.searchPagedReddit);
         // {
@@ -171,6 +176,10 @@ class Searchhead extends React.Component {
         })
 
     }
+    tryRestoreComponent() {
+        this.props.dispatch(tryRestoreComponent())
+
+    }
     beginRefresh() {
 
         this.props.dispatch(beginRefresh())
@@ -179,6 +188,14 @@ class Searchhead extends React.Component {
 
     updateLoadingStatus(e) {
         this.props.dispatch(updateLoadingStatus(e))
+
+    }
+    backupIScrollY(e) {
+        this.props.dispatch(backupIScrollY(e))
+
+    }
+    getKeyword(e) {
+        this.props.dispatch(getKeyword(e))
 
     }
     beginLoad() {
@@ -210,16 +227,16 @@ class Searchhead extends React.Component {
         const {
             items,
             status,
+            y,
+            keyword,
             pullDownStatus,
             pullUpStatus,
             loadingStatus,
             pageStatus
         } = this.props
 
-        return (
-            <div>
-        { /*fetchPostsIfNeeded={_this.fetchPostsIfNeeded.bind(this)} pageChange={_this.pageChange.bind(this)}*/ }
-        <div className= {'th-search-container th-nav-list pr on-focus'} >
+        return (<div> { /*fetchPostsIfNeeded={_this.fetchPostsIfNeeded.bind(this)} pageChange={_this.pageChange.bind(this)}*/ }
+            <div className= {'th-search-container th-nav-list pr on-focus'} >
          
             <div className="th-search-box">
                 <div className="th-search-shadow"></div>
@@ -237,13 +254,40 @@ class Searchhead extends React.Component {
                 </div>
             </div>
 
-<SearchResult ref="getarr"/>
+<SearchResult ref="getarr" getKeyword={_this.getKeyword.bind(this)}/>
 
         </div>
 
-        <ResultWrap ref="getload" items={items} status={status} pageStatus={pageStatus} beginRefresh={_this.beginRefresh.bind(this)} beginLoad={_this.beginLoad.bind(this)} updateLoadingStatus={_this.updateLoadingStatus.bind(this)}pullDownStatus={pullDownStatus} pullUpStatus={pullUpStatus} loadingStatus={loadingStatus} updatePullDownStatus={_this.updatePullDownStatus.bind(this)}  updatePullUpStatus={_this.updatePullUpStatus.bind(this)} />
-            </div>
-        );
+            <ResultWrap ref = "getload" items = {items} status = {status} y = {y}             backupIScrollY = {_this.backupIScrollY.bind(this)} pageStatus = {               pageStatus
+            }
+            tryRestoreComponent = {
+                _this.tryRestoreComponent.bind(this)
+            }
+            beginRefresh = {
+                _this.beginRefresh.bind(this)
+            }
+            beginLoad = {
+                _this.beginLoad.bind(this)
+            }
+            updateLoadingStatus = {
+                _this.updateLoadingStatus.bind(this)
+            }
+            pullDownStatus = {
+                pullDownStatus
+            }
+            pullUpStatus = {
+                pullUpStatus
+            }
+            loadingStatus = {
+                loadingStatus
+            }
+            updatePullDownStatus = {
+                _this.updatePullDownStatus.bind(this)
+            }
+            updatePullUpStatus = {
+                _this.updatePullUpStatus.bind(this)
+            }
+            /> </div>);
     }
 }
 
@@ -269,13 +313,20 @@ class Goback_up extends React.Component {
 }
 
 class SearchResult extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+        this.arrval = [];
+    }
+    componentWillMount() {
+
+    }
     componentDidMount() {
         const _this = this;
         if (window.localStorage.searchhistory) {
             searchMsg = JSON.parse(window.localStorage.searchhistory);
             // arrval.push(searchMsg);
             this.historyHtml();
-            arrval = arrval.concat(searchMsg);
+            this.arrval = this.arrval.concat(searchMsg);
         } else {
             $('.search-keywords').hide();
         }

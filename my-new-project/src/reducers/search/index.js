@@ -12,6 +12,7 @@ import {
   MSG_LIST_PAGE_UPDATE_PULLDOWN_STATUS,
   MSG_LIST_PAGE_UPDATE_PULLUP_STATUS,
   MSG_LIST_PAGE_BACKUP_ISCROLL_Y,
+  MSG_LIST_PAGE_KEYWORD,
   MSG_LIST_PAGE_UPDATE_LOADING_STATUS,
 } from 'actions/search'
 
@@ -38,6 +39,7 @@ function MSG_LIST_PAGE_FETCH_ITEMS_SUCCESS_reducer(state, action) {
 
   if (action.pageStatus) {
     if (action.page == 0) { // 刷新操作
+
       if (state.pullDownStatus == 3) {
         nextState.pullDownStatus = 4;
         nextState.items = action.items;
@@ -56,9 +58,12 @@ function MSG_LIST_PAGE_FETCH_ITEMS_SUCCESS_reducer(state, action) {
       }
     }
   } else if (action.page == 0) {
+
+    nextState.loadingStatus = 4;
+
     nextState.pullDownStatus = 6;
     nextState.pullUpStatus = 6;
-
+    nextState.liHtmlStatus = 0;
 
   } else if (action.page > 0) {
     nextState.pullUpStatus = 4;
@@ -127,6 +132,12 @@ function MSG_LIST_PAGE_BACKUP_ISCROLL_Y_reducer(state, action) {
   });
 }
 
+function MSG_LIST_PAGE_KEYWORD_reducer(state, action) {
+  return Object.assign({}, state, {
+    keyword: action.keyword
+  });
+}
+
 // Reducer函数
 // 1, 在redux初始化，路由切换等时机，都会被唤醒，从而有机会返回初始化state，
 //    这将领先于componnent从而可以props传递
@@ -145,6 +156,8 @@ export function MsgListPageReducer(state = initState, action) {
       return MSG_LIST_PAGE_UPDATE_PULLUP_STATUS_reducer(state, action);
     case MSG_LIST_PAGE_BACKUP_ISCROLL_Y:
       return MSG_LIST_PAGE_BACKUP_ISCROLL_Y_reducer(state, action);
+    case MSG_LIST_PAGE_KEYWORD:
+      return MSG_LIST_PAGE_KEYWORD_reducer(state, action);
     case MSG_LIST_PAGE_UPDATE_LOADING_STATUS:
       return MSG_LIST_PAGE_UPDATE_LOADING_STATUS_reducer(state, action);
       // 有2类action.type会进入default

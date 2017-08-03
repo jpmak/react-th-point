@@ -10,6 +10,8 @@
     export const MSG_LIST_PAGE_FETCH_ITEMS_FAIL = 'MSG_LIST_PAGE_FETCH_ITEMS_FAIL';
     export const MSG_LIST_PAGE_UPDATE_PULLDOWN_STATUS = 'MSG_LIST_PAGE_UPDATE_PULLDOWN_STATUS';
     export const MSG_LIST_PAGE_UPDATE_PULLUP_STATUS = 'MSG_LIST_PAGE_UPDATE_PULLUP_STATUS';
+    export const MSG_LIST_PAGE_KEYWORD = 'MSG_LIST_PAGE_KEYWORD';
+
     export const MSG_LIST_PAGE_BACKUP_ISCROLL_Y = 'MSG_LIST_PAGE_BACKUP_ISCROLL_Y';
     export const MSG_LIST_PAGE_UPDATE_LOADING_STATUS = 'MSG_LIST_PAGE_UPDATE_LOADING_STATUS';
 
@@ -24,14 +26,13 @@
       };
     }
 
-    function _fetchItems(page, dispatch) {
+    function _fetchItems(page, keyword, dispatch) {
       setTimeout(() => { // 模拟延迟0.5秒
         $.ajax({
           url: '/wap/?g=WapSite&c=Exchange&a=search_goods',
           data: {
             page: page,
-            keyword: '1'
-
+            keyword: keyword,
           },
           type: 'POST',
           dataType: 'json',
@@ -57,14 +58,14 @@
 
     // 发起刷新
     export function beginRefresh() {
-      return (dispatch) => {
+      return (dispatch, getState) => {
         // 同步更新下拉状态
         dispatch({
           type: MSG_LIST_PAGE_UPDATE_PULLDOWN_STATUS,
           nextPullDownStatus: 3
         });
         // 异步网络请求
-        _fetchItems(0, dispatch);
+        _fetchItems(0, getState().MsgListPageReducer.keyword, dispatch);
       }
     }
 
@@ -77,7 +78,7 @@
           nextPullUpStatus: 2
         });
         // 异步网络请求
-        _fetchItems(getState().MsgListPageReducer.page, dispatch);
+        _fetchItems(getState().MsgListPageReducer.page, getState().MsgListPageReducer.keyword, dispatch);
       };
     }
     // 更新loading状态
@@ -102,13 +103,21 @@
         nextPullUpStatus: nextPullUpStatus
       };
     }
+    // 更新滚动条长度
 
     export function backupIScrollY(y) {
       return {
         type: MSG_LIST_PAGE_BACKUP_ISCROLL_Y,
-        y: y,
+        y: y
       };
     }
+    export function getKeyword(keyword) {
+      return {
+        type: MSG_LIST_PAGE_KEYWORD,
+        keyword: keyword
+      };
+    }
+
     //////iscrool///////
 
 
@@ -135,7 +144,7 @@
     export const fetchPosts = reddit => dispatch => {
       dispatch(requestPagePosts(reddit))
       $.ajax({
-        url: 'wap/?g=WapSite&c=Exchange&a=search_goods',
+        // url: '/wap/?g=WapSite&c=Exchange&a=search_goods',
         data: {
           page: `${reddit}`
 

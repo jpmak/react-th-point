@@ -10,8 +10,10 @@ import {
 	hashHistory,
 	Route
 } from 'react-router-dom'
+import {
+	browserHistory
+} from 'react-router';
 import R_det from './r_det';
-
 import Searchhead from './containers/search/Redux_Searchhead';
 
 
@@ -44,7 +46,7 @@ const store = createStore(
 	applyMiddleware(...middleware)
 )
 const R_Searchhead = () => (
-	<Router history={hashHistory}>
+	<Router history={browserHistory}>
 	      <div>
 	<Route exact  path="/redux_search.html" component={Searchhead} />
 	   <Route path="/redux_search.html/R_det/:id" component={R_det}/>

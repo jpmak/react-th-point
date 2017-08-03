@@ -1,7 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import style from './LoadingLayer.css';
-import loadingImg from './loading.svg';
+
 
 export default class LoadingLayer extends React.Component {
     constructor(props, context) {
@@ -33,13 +33,18 @@ export default class LoadingLayer extends React.Component {
         } else if (loadingStatus == 2) {
             loadingTips = (<span>加载完成</span>);
         } else if (loadingStatus == 3) {
-            loadingTips = (<span>加载失败，点击尝试刷新</span>);
-        }
 
-        console.log(loadingTips);
+            loadingTips = (<div><p className='error_404'></p><p className='f36'>服务竟然出错了</p><p className='f24'>别紧张，试试看刷新页面~</p><p className='broder_f36' onClick={onRetry}>重新加载</p></div>);
+            // loadingTips = (<div><span></span><span>服务竟然出错了</span><p>别紧张，试试看刷新页面~</p><p>重新加载</p></div>);
+
+        } else if (loadingStatus == 4) {
+            loadingTips = (<div className="none-data"></div>);
+            // loadingTips = (<div><span></span><span>服务竟然出错了</span><p>别紧张，试试看刷新页面~</p><p>重新加载</p></div>);
+
+        }
         return (
             <div id='outer' style={outerStyle}>
-                <div id='inner' style={innerStyle} onClick={onRetry}>
+                <div id='inner' style={innerStyle} >
                     {loadingTips}
                 </div>
             </div>
