@@ -32,11 +32,12 @@
           url: '/wap/?g=WapSite&c=Exchange&a=search_goods',
           data: {
             page: page,
-            keyword: keyword,
+            keyword: keyword
           },
           type: 'POST',
           dataType: 'json',
           success: (data) => {
+
             dispatch({
               type: MSG_LIST_PAGE_FETCH_ITEMS_SUCCESS,
               items: data.goods_list,

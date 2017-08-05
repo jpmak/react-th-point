@@ -68,13 +68,7 @@
             } else {
                 $('.search-keywords').hide();
             }
-            $('.search-keywords-list li a').on('click', function() {
-                var sVal = $('#searchInput').val();
-                var hVal = $(this).html();
-                $('#searchInput').val(hVal);
-                _this.funStoreHistory();
 
-            });
             $('.delbtn').on('click', function() {
                 if (confirm("确定要清空吗？")) {
                     localStorage.removeItem("searchhistory");
@@ -85,7 +79,15 @@
 
             });
         }
+        componentDidUpdate() {
+            $('.search-keywords-list li a').on('click', function() {
+                var sVal = $('#searchInput').val();
+                var hVal = $(this).html();
+                $('#searchInput').val(hVal);
+                _this.funStoreHistory();
 
+            });
+        }
         funStoreHistory() {
             arrval.unshift($('#searchInput').val());
             if (arrval.length > 9) {
@@ -268,7 +270,7 @@
             };
 
             this.page = 1;
-            this.itemsChanged = false;
+        this.itemsChanged = false;
 
             this.pullDownTips = {
                 // 下拉状态

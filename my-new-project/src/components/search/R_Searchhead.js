@@ -70,7 +70,9 @@ class SearchResult extends React.Component {
 
         });
     }
+    componentDidUpdate() {
 
+    }
     funStoreHistory() {
         arrval.unshift($('#searchInput').val());
         if (arrval.length > 9) {

@@ -55,9 +55,10 @@ class ResultWrap extends React.Component {
             1: '松手即可加载',
             2: '<i class="r-gif"></i>正在加载',
             3: '加载成功',
-            4: '没有更多数据',
+            4: '已经到底了,别址了',
             5: '刷新失败',
-            6: ''
+            6: '',
+            7: '没有更多数据了'
 
 
         };
@@ -167,9 +168,11 @@ class ResultWrap extends React.Component {
         // 手势
         if (this.isTouching) {
             if (this.iScrollInstance.y > 5) {
-                this.isToDown = false
+                this.isToDown = true;
                 this.props.updatePullDownStatus(2);
             } else {
+                // this.isToDown = true;
+
                 this.props.updatePullDownStatus(1);
             }
         }
@@ -188,9 +191,11 @@ class ResultWrap extends React.Component {
     }
 
     onScroll() {
-        this.isToUp
         const _this = this;
         const rs_once = this.state.rs_once;
+
+        // console.log(this.iScrollInstance.y);
+        // console.log(this.props.loadingStatus);
 
         let isy = this.iScrollInstance.y;
         if (this.onTouch) {
@@ -206,7 +211,7 @@ class ResultWrap extends React.Component {
         }
 
         //顶部导航收缩
-        if (this.t < this.iScrollInstance.y && this.isToUp) {
+        if (this.t < this.iScrollInstance.y && this.isToUp && this.iScrollInstance.y > this.iScrollInstance.maxScrollY) {
             this.isToDown = true;
             this.isToUp = false;
 
@@ -242,7 +247,7 @@ class ResultWrap extends React.Component {
             if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY + 5) {
                 this.onPullUp();
             } else {
-                this.props.updatePullUpStatus(0);
+                // this.props.updatePullUpStatus(0);
             }
 
             // 下拉区域
@@ -344,6 +349,7 @@ class ResultWrap extends React.Component {
         );
     }
     renderPage() {
+
 
         let lis = this.props.items.map((goods, index) => {
                 return (

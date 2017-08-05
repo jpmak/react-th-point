@@ -19,7 +19,7 @@ import {
 // 组件初始化状态，其实就是把component的constructor的挪到这里就完事了
 const initState = {
   pageStatus: 0, //返回状态标识
-  keyword: '',
+  keyword: '1',
   items: [], // 文章列表
   pullDownStatus: 3, // 下拉状态
   pullUpStatus: 6, // 上拉状态
@@ -46,8 +46,14 @@ function MSG_LIST_PAGE_FETCH_ITEMS_SUCCESS_reducer(state, action) {
         nextState.loadingStatus = 2;
 
         nextState.page = action.page + 1;
-        nextState.pullUpStatus = 0;
+
+        if (action.items.length == 10) {
+          nextState.pullUpStatus = 0;
+        } else {
+          nextState.pullUpStatus = 7;
+        }
       }
+
     } else { // 加载操作
       if (state.pullUpStatus == 2) {
         nextState.pullUpStatus = 0;

@@ -35,7 +35,7 @@ import {
 } from 'redux'
 
 const urlRoot = '';
-let keyword = '';
+
 let price = '';
 let searchMsg = '';
 // let arrval = new Array();
@@ -51,11 +51,12 @@ class Searchhead extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             value: '',
-            message: ''
+            message: '',
+            searchMsgStatus: false
         };
+        this.searchhistory_ev = false;
 
         this.handleChange = (event) => {
             this.setState({
@@ -63,95 +64,118 @@ class Searchhead extends React.Component {
             });
         }
 
-        $('.delbtn').on('click', function() {
-            if (confirm("确定要清空吗？")) {
-                localStorage.removeItem("searchhistory");
-                $('.search-wrap').remove();
-                arrval = [];
 
-            }
-
-        });
         this.searchMsg = window.localStorage.searchhistory ? JSON.parse(window.localStorage.searchhistory) : '';
         this._handleClick = () => {
             var sVal = $('#searchInput').val();
-
             if (sVal != '') {
                 const _this = this;
-                keyword = sVal;
-                _this.refs.getarr.funStoreHistory();
+                // keyword = sVal;
+                _this.refs.getarr.funStoreHistory(sVal);
             }
         }
+    }
+    searchhistory(ev) {
+        this.searchhistory_ev = ev;
     }
     funloadHistory() {
         if (window.localStorage.searchhistory) {
             // this.searchMsg = JSON.parse(window.localStorage.searchhistory);
-            this.props.dispatch(getKeyword(this.searchMsg[0]))
+            this.props.dispatch(getKeyword(this.searchMsg[0]));
         }
-        // if (window.localStorage.searchhistory) {
-
-        //     this.props.dispatch(getKeyword(this.arrval[0]))
-
-        // } else {
-        //     keyword = '';
-        // }
-        // this.props.dispatch(begin())
-
-        // this.props.dispatch(getkeyword(2))
-        console.log(this.searchMsg[0]);
-
-        // this.refs.getload.fetch();
     }
     componentWillMount() {
-        this.funloadHistory()
-            // this.funloadHistory();
+        this.funloadHistory();
+        if (window.localStorage.searchhistory) {
+            this.setState({
+                searchMsgStatus: true
+            });
+            // this.searchhistory_ev = true;
+        }
     }
-    componentDidMount() {
+    componentDidMount(e) {
 
-        // this.fetchPostsIfNeeded()
-        ///////////////////
-        // const {
-        //     dispatch,
-        //     searchPagedReddit
-        // } = this.props
-        // dispatch(fetchPostsIfNeeded(searchPagedReddit))
-        ///////////////////
+        this.setState({
+            value: this.searchMsg[0]
+        });
+
         const _this = this;
 
-        $('#searchInput').on('keyup focus', function(e) {
-            $('.search-bar input').css('width', '80%');
-            var uVal = $('#searchInput').val();
-            if (uVal != '') {
-                if (e.keyCode === 13) {
-                    _this._handleClick();
-                }
-                $('#del').show();
-            } else {
-                $('#del').hide();
-            }
-        });
-        $('#searchInput').on('click', function() {
-            $('#js-list,.class,.result-wp').hide();
-            $('.search-wrap,.th-search-box .backbtn').show();
-            $('.th-active,.th-active body').css('overflow', 'auto');
+        // $('#searchInput').on('click', function() {
 
-        });
-        $('#searchInput').on('keyup focus', function(e) {
-            $('.search-bar input').css('width', '80%');
-            var uVal = $('#searchInput').val();
-            if (uVal !== '') {
-                if (e.keyCode === 13) {
-                    _this._handleClick();
-                }
-                $('#del').show();
-            } else {
-                $('#del').hide();
+        //     // $('#js-list,.class,.result-wp').hide();
+        //     // $('.th-search-box .backbtn').show();
+
+        //     // $('.th-active,.th-active body').css('overflow', 'auto');
+
+        // });
+        // $('#searchInput').on('keyup focus', function(e) {
+
+        //     $('.search-bar input').css('width', '80%');
+        //     var uVal = $('#searchInput').val();
+        //     if (_this.searchhistory_ev) {
+        //         $('.search-wrap').css('display', 'block');
+
+        //     }
+        //     if (uVal !== '') {
+        //         if (e.keyCode === 13) {
+        //             _this._handleClick();
+        //         }
+        //         $('#del').show();
+        //     } else {
+        //         $('#del').hide();
+        //     }
+        // });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.keyword !== this.props.keyword) {
+            this.setState({
+                value: nextProps.keyword
+            });
+
+        }
+    }
+
+
+    searchInputonKeyUp(e) {
+        if (this.state.value != '') {
+            if (e.keyCode === 13) {
+                this._handleClick();
             }
+            $('#del').show();
+        }
+
+    }
+    searchMsgStatus_fun(e) {
+        this.setState({
+            searchMsgStatus: e
         });
+    }
+    searchInputClick() {
+
+        $('#js-list,.class,.result-wp').hide();
+        $('.th-search-box .backbtn').show();
+
+        $('.th-active,.th-active body').css('overflow', 'auto');
+
+
+        $('.search-bar input').css('width', '80%');
+        if (this.state.value != '') {
+            $('#del').show();
+        }
+        if (this.state.searchMsgStatus) {
+            $('.search-wrap').css('display', 'block');
+        }
+
     }
 
     handleDel() {
+        this.setState({
+            value: ''
+        });
         $('#searchInput').val('').focus();
+
         $('#del').hide();
         $('.search-bar input').css('width', '100%');
     }
@@ -160,17 +184,13 @@ class Searchhead extends React.Component {
             dispatch,
             searchPagedReddit
         } = this.props
-        console.log(searchPagedReddit);
         dispatch(fetchPostsIfNeeded(searchPagedReddit))
     }
 
 
 
     pageChange = () => {
-        console.log(this.props.searchPagedReddit);
-        // {
-        //     type: 'SEARCHPAGE_REDDIT'
-        // }
+
         this.props.dispatch({
             type: 'SEARCHPAGE_REDDIT'
         })
@@ -195,6 +215,7 @@ class Searchhead extends React.Component {
 
     }
     getKeyword(e) {
+
         this.props.dispatch(getKeyword(e))
 
     }
@@ -209,19 +230,9 @@ class Searchhead extends React.Component {
     updatePullUpStatus(e) {
         this.props.dispatch(updatePullUpStatus(e))
     }
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.searchPagedReddit !== this.props.searchPagedReddit) {
 
-            const {
-                dispatch,
-                searchPagedReddit
-            } = nextProps
-
-            dispatch(fetchPostsIfNeeded(searchPagedReddit))
-        }
-    }
     render() {
-        var value = this.state.value;
+        const value = this.state.value;
         const _this = this;
 
         const {
@@ -240,21 +251,40 @@ class Searchhead extends React.Component {
          
             <div className="th-search-box">
                 <div className="th-search-shadow"></div>
-         <Goback_up/>
+         <Goback_up ref='Goback_up'/>
         <a className="search-btn" onClick={this._handleClick.bind(this)}>搜索</a>
                     <div className="wbox search-bar" >
                     <i className="th-search-iconbtn"></i>
-                    <div id="del" className="delete" onClick={this.handleDel} ></div>
+                    <div id="del" className="delete" onClick={this.handleDel.bind(this)} ></div>
                     <div className="wbox-flex">
                <div className="th-search-form">
-        <input id="searchInput" className="th-search-form" type="text" placeholder="搜索商品关键字"  value={value}  onChange={this.handleChange}/>
+        <input id="searchInput" className="th-search-form" type="text" placeholder="搜索商品关键字"  value={value} onClick={this.searchInputClick.bind(this)} onKeyUp={this.searchInputonKeyUp.bind(this)} onChange={this.handleChange}/>
                         </div>
                     </div>
      
                 </div>
             </div>
 
-<SearchResult ref="getarr" getKeyword={_this.getKeyword.bind(this)}/>
+ <SearchResult ref = "getarr" handleDel={_this.handleDel.bind(this)} 
+ searchMsgStatus_fun={ _this.searchMsgStatus_fun.bind(this)}     
+  searchhistory = {_this.searchhistory.bind(this)}
+        keyword = {keyword}
+           pullDownStatus = {
+                pullDownStatus
+            }
+                 loadingStatus = {
+                loadingStatus
+            }
+     getKeyword = {_this.getKeyword.bind(this)}
+   beginRefresh = {_this.beginRefresh.bind(this)}
+   beginLoad = {_this.beginLoad.bind(this)}
+
+   updateLoadingStatus = {_this.updateLoadingStatus.bind(this) }
+   updatePullDownStatus = {_this.updatePullDownStatus.bind(this)}
+        updatePullUpStatus = {
+            _this.updatePullUpStatus.bind(this)
+        }
+            />
 
         </div>
 
@@ -296,7 +326,6 @@ class Searchhead extends React.Component {
 class Goback_up extends React.Component {
     componentDidMount() {}
     handClick() {
-
         $('#searchInput').blur();
         $('#js-list,.class,.result-wp').show();
         $('.search-wrap,.th-search-box .backbtn').hide();
@@ -315,49 +344,96 @@ class Goback_up extends React.Component {
 class SearchResult extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.arrval = [];
-    }
-    componentWillMount() {
+        // this.arrval = [];
+        this.searchMsg = '';
+        this._props = this.props;
+        this.state = {
+            history_Html: '',
+            arrval: []
+        };
+
 
     }
-    componentDidMount() {
-        const _this = this;
+    componentWillMount() {
         if (window.localStorage.searchhistory) {
-            searchMsg = JSON.parse(window.localStorage.searchhistory);
+            this.searchMsg = JSON.parse(window.localStorage.searchhistory);
             // arrval.push(searchMsg);
-            this.historyHtml();
-            this.arrval = this.arrval.concat(searchMsg);
+            // this.historyHtml();
+            this.state.arrval = this.state.arrval.concat(this.searchMsg);
         } else {
             $('.search-keywords').hide();
         }
-        $('.search-keywords-list li a').on('click', function() {
-            var sVal = $('#searchInput').val();
-            var hVal = $(this).html();
-            $('#searchInput').val(hVal);
-            _this.funStoreHistory();
-
-        });
-        $('.delbtn').on('click', function() {
-            if (confirm("确定要清空吗？")) {
-                localStorage.removeItem("searchhistory");
-                $('.search-wrap').remove();
-                arrval = [];
-
-            }
-
-        });
     }
 
-    funStoreHistory() {
-        arrval.unshift($('#searchInput').val());
-        if (arrval.length > 9) {
-            arrval.pop(9);
+    componentDidMount() {
+
+        const _this = this;
+        // $('.search-keywords-list li a').on('click', function() {
+        //     let hVal = $(this).html();
+        //     _this.funStoreHistory(hVal);
+        // });
+
+
+    }
+    PreventDefault(e) {
+        e.preventDefault();
+    }
+    componentDidUpdate() {
+        const _this = this;
+
+
+
+    }
+    delbtnClick() {
+        const _this = this;
+        this.setState({
+            arrval: []
+        });
+        if (confirm('确定要清空吗？')) {
+            // this.arrval.length = 0;
+
+            localStorage.removeItem('searchhistory');
+            $('.search-wrap').hide();
+            // $('#searchInput').val('').focus();
+            // _this.props.searchhistory(false);
+            this.props.searchMsgStatus_fun(false);
+            this.props.handleDel();
+        }
+
+    }
+    handClick() {
+        $('#searchInput').blur();
+        $('#js-list,.class,.result-wp').show();
+        $('.search-wrap,.th-search-box .backbtn').hide();
+    }
+    funStoreHistory(e) {
+
+        // 
+
+
+        this.props.searchMsgStatus_fun(true);
+        var sVal = $('#searchInput').val();
+        this.state.arrval.unshift(e);
+        if (this.state.arrval.length > 9) {
+            this.state.arrval.pop(9);
         }
         // arrval=unique(arrval);
-        arrval = this.unique(arrval);
-        window.localStorage.searchhistory = JSON.stringify(arrval);
-        keyword = arrval[0];
-        window.location.reload();
+        this.state.arrval = this.unique(this.state.arrval);
+        window.localStorage.searchhistory = JSON.stringify(this.state.arrval);
+        this.handClick();
+        this.props.getKeyword(this.state.arrval[0]);
+        // this.props.updateLoadingStatus(1);
+        // this.props.updatePullDownStatus(3);
+        // this.props.updatePullUpStatus(6);
+        console.log(this.props.keyword);
+        setTimeout(() => {
+            // this.props.updateLoadingStatus(1); // 恢复loading界面
+
+            this.props.beginRefresh()
+        }, 0);
+        // this.props.beginRefresh();
+        // this.props.beginLoad()
+        // window.location.reload();
     }
     unique(arr) {
         var res = [];
@@ -370,22 +446,29 @@ class SearchResult extends React.Component {
         }
         return res;
     }
-    historyHtml() {
-        let history_Html = '';
-        for (var i = 0; i < searchMsg.length; i++) {
-            history_Html += '<li><a >' + searchMsg[i] + '</a></li>';
-        }
-        $('.search-keywords-list').html(history_Html);
 
-    }
+
     render() {
+        const _this = this;
+        let history_Html = this.state.arrval.map(function(Msg, index) {
+            return (
+                <li key={index}><a onClick={_this.funStoreHistory.bind(_this,Msg)}>{Msg}</a></li>
+                // 
+                // <li key={index}><a onClick={(e) => {e.preventDefault();this.hand_li_Click.bind(this);}}>{Msg}</a></li>
+            )
+
+        });
         return (
+
             <div className = "search-wrap" >
             <div className="search-keywords bor-b">
                 <div className="search-keywords-name">
-                    <span>历史记录 <i className="delbtn"></i></span>
+                    <span>历史记录 <i className="delbtn" onClick={this.delbtnClick.bind(this)}></i></span>
                 </div>
                 <div className="search-keywords-list ">
+        {
+       history_Html
+        }
                 </div>
             </div>
             </div>
@@ -417,7 +500,7 @@ const mapStateToProps = state => {
         loadingStatus: state.MsgListPageReducer.loadingStatus, // 首屏加载状态
         page: state.MsgListPageReducer.page,
         y: state.MsgListPageReducer.y,
-        keyword: '',
+        keyword: state.MsgListPageReducer.keyword,
         //iscroll//
         searchPagedReddit,
         posts,
