@@ -37,11 +37,12 @@ export default class LoadingLayer extends React.Component {
             loadingTips = (<div><p className='error_404'></p><p className='f36'>服务竟然出错了</p><p className='f24'>别紧张，试试看刷新页面~</p><p className='broder_f36' onClick={onRetry}>重新加载</p></div>);
             // loadingTips = (<div><span></span><span>服务竟然出错了</span><p>别紧张，试试看刷新页面~</p><p>重新加载</p></div>);
 
-        } else if (loadingStatus == 4) {
-            loadingTips = (<div className="none-data"></div>);
-            // loadingTips = (<div><span></span><span>服务竟然出错了</span><p>别紧张，试试看刷新页面~</p><p>重新加载</p></div>);
-
         }
+        //  else if (loadingStatus == 4) {
+        //     loadingTips = (<div className="none-data"></div>);
+        //     // loadingTips = (<div><span></span><span>服务竟然出错了</span><p>别紧张，试试看刷新页面~</p><p>重新加载</p></div>);
+
+        // }
         return (
             <div id='outer' style={outerStyle}>
                 <div id='inner' style={innerStyle} >

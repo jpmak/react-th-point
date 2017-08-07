@@ -64,11 +64,13 @@ function MSG_LIST_PAGE_FETCH_ITEMS_SUCCESS_reducer(state, action) {
       }
     }
   } else if (action.page == 0) {
-
-    nextState.loadingStatus = 4;
+    nextState.items = 0;
+    // nextState.loadingStatus = 4;
+    // nextState.items = '';
+    nextState.loadingStatus = 2;
 
     nextState.pullDownStatus = 6;
-    nextState.pullUpStatus = 6;
+    nextState.pullUpStatus = 8;
     nextState.liHtmlStatus = 0;
 
   } else if (action.page > 0) {

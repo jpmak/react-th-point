@@ -59,9 +59,14 @@ class Searchhead extends React.Component {
         this.searchhistory_ev = false;
 
         this.handleChange = (event) => {
-            this.setState({
-                value: event.target.value
-            });
+            let val = event.target.value;
+
+            val = val.replace(/["'<>%;)(&+, ]/g, '');
+            setTimeout(() => {
+                this.setState({
+                    value: val
+                });
+            }, 0)
         }
 
 
@@ -75,6 +80,18 @@ class Searchhead extends React.Component {
             }
         }
     }
+
+    stripscript(value) {
+        console.log('test');
+        // var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]")
+        // var rs = "";
+        // for (var i = 0; i < value.length; i++) {
+        //     rs = rs + s.substr(i, 1).replace(pattern, '');
+        // }
+        // return rs;
+    }
+
+
     searchhistory(ev) {
         this.searchhistory_ev = ev;
     }
@@ -223,6 +240,14 @@ class Searchhead extends React.Component {
         this.props.dispatch(beginLoad())
 
     }
+    onloadScroll() {
+        console.log('test');
+        this.refs.getload.onloadScroll();
+    }
+    ensureIScrollInstalled() {
+        this.refs.getload.ensureIScrollInstalled();
+
+    }
     updatePullDownStatus(e) {
         // console.log(e);
         this.props.dispatch(updatePullDownStatus(e))
@@ -258,19 +283,23 @@ class Searchhead extends React.Component {
                     <div id="del" className="delete" onClick={this.handleDel.bind(this)} ></div>
                     <div className="wbox-flex">
                <div className="th-search-form">
-        <input id="searchInput" className="th-search-form" type="text" placeholder="搜索商品关键字"  value={value} onClick={this.searchInputClick.bind(this)} onKeyUp={this.searchInputonKeyUp.bind(this)} onChange={this.handleChange}/>
+        <input id="searchInput" className="th-search-form" type="text" placeholder="搜索商品关键字"  value={value} onClick={this.searchInputClick.bind(this)} onKeyUp={this.searchInputonKeyUp.bind(this)}  onChange={this.handleChange}/>
                         </div>
                     </div>
      
                 </div>
             </div>
 
- <SearchResult ref = "getarr" handleDel={_this.handleDel.bind(this)} 
+ <SearchResult ref = "getarr" handleDel={_this.handleDel.bind(this)} onloadScroll={_this.onloadScroll.bind(this)}
+ ensureIScrollInstalled={_this.ensureIScrollInstalled.bind(this)}
  searchMsgStatus_fun={ _this.searchMsgStatus_fun.bind(this)}     
   searchhistory = {_this.searchhistory.bind(this)}
         keyword = {keyword}
-           pullDownStatus = {
+         pullDownStatus = {
                 pullDownStatus
+            }
+            pullUpStatus = {
+                pullUpStatus
             }
                  loadingStatus = {
                 loadingStatus
@@ -280,7 +309,9 @@ class Searchhead extends React.Component {
    beginLoad = {_this.beginLoad.bind(this)}
 
    updateLoadingStatus = {_this.updateLoadingStatus.bind(this) }
-   updatePullDownStatus = {_this.updatePullDownStatus.bind(this)}
+        updatePullDownStatus = {
+            _this.updatePullDownStatus.bind(this)
+        }
         updatePullUpStatus = {
             _this.updatePullUpStatus.bind(this)
         }
@@ -293,6 +324,7 @@ class Searchhead extends React.Component {
             tryRestoreComponent = {
                 _this.tryRestoreComponent.bind(this)
             }
+
             beginRefresh = {
                 _this.beginRefresh.bind(this)
             }
@@ -425,11 +457,17 @@ class SearchResult extends React.Component {
         // this.props.updateLoadingStatus(1);
         // this.props.updatePullDownStatus(3);
         // this.props.updatePullUpStatus(6);
-        console.log(this.props.keyword);
+        // console.log('keyword= ' + this.props.keyword);
+        // 
         setTimeout(() => {
+            // console.log('keyword= ' + this.props.keyword);
+            // this.props.onloadScroll();
+            if (this.props.loadingStatus != 4) {
+                this.props.onloadScroll()
+            }
             // this.props.updateLoadingStatus(1); // 恢复loading界面
-
-            this.props.beginRefresh()
+            // this.props.ensureIScrollInstalled(); //refresh重新计算滚动条信息
+            this.props.beginRefresh();
         }, 0);
         // this.props.beginRefresh();
         // this.props.beginLoad()
@@ -453,7 +491,6 @@ class SearchResult extends React.Component {
         let history_Html = this.state.arrval.map(function(Msg, index) {
             return (
                 <li key={index}><a onClick={_this.funStoreHistory.bind(_this,Msg)}>{Msg}</a></li>
-                // 
                 // <li key={index}><a onClick={(e) => {e.preventDefault();this.hand_li_Click.bind(this);}}>{Msg}</a></li>
             )
 
