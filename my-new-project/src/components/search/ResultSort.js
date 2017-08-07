@@ -4,7 +4,7 @@ import $ from 'jquery';
 class ResultSort extends React.Component {
     componentDidMount() {
         const _this = this;
-
+let price=''
         $('.result-sort li').not('.icons-list').on('click', function() {
             var liindex = $('.result-sort li').index(this);
             $(this).addClass('cur').siblings().removeClass('cur');
@@ -44,12 +44,22 @@ class ResultSort extends React.Component {
         });
 
     }
+    defaultClick(){
+        this.props.defaultClick()
+    }
+volumeClick(){
+        this.props.volumeClick('')
+}
+priceClick(){
+        this.props.volumeClick('')
+
+}
     render() {
         return (
 
             <div className="result-sort">
-            <li className="cur">综合</li>
-        <li className="volume">兑换排行</li>
+            <li className="cur" onClick={this.defaultClick.bind(this)}>综合</li>
+        <li className="volume" onClick={this.volumeClick.bind(this)}>兑换排行</li>
             <li className="arrow price">香蕉</li>
             <li className="icons-list ver-icon"></li>
         </div>

@@ -26,6 +26,8 @@ import {
     updatePullDownStatus,
     backupIScrollY,
     getKeyword,
+    price,
+    volume,
     begin,
     fetchPostsIfNeeded
 } from 'actions/search'
@@ -36,7 +38,7 @@ import {
 
 const urlRoot = '';
 
-let price = '';
+
 let searchMsg = '';
 // let arrval = new Array();
 // let sVal = '';
@@ -236,12 +238,33 @@ class Searchhead extends React.Component {
         this.props.dispatch(getKeyword(e))
 
     }
+        defaultClick(){
+       this.onloadScroll();
+        this.props.dispatch(beginRefresh())
+    
+
+    }
+    volumeClick(e){
+        this.props.dispatch(volume(e))
+           this.onloadScroll();
+                    setTimeout(() => {
+        this.props.dispatch(beginRefresh())
+        }, 0);
+
+    }
+      priceClick(e){
+        this.props.dispatch(price(e));
+        this.onloadScroll();
+                setTimeout(() => {
+        this.props.dispatch(beginRefresh())
+        }, 0);
+
+    }
     beginLoad() {
         this.props.dispatch(beginLoad())
 
     }
     onloadScroll() {
-        console.log('test');
         this.refs.getload.onloadScroll();
     }
     ensureIScrollInstalled() {
@@ -324,7 +347,16 @@ class Searchhead extends React.Component {
             tryRestoreComponent = {
                 _this.tryRestoreComponent.bind(this)
             }
+                      defaultClick = {
+                _this.defaultClick.bind(this)
+            }
+   priceClick = {
+                _this.priceClick.bind(this)
+            }
 
+               volumeClick = {
+                _this.volumeClick.bind(this)
+            }
             beginRefresh = {
                 _this.beginRefresh.bind(this)
             }
@@ -538,6 +570,9 @@ const mapStateToProps = state => {
         page: state.MsgListPageReducer.page,
         y: state.MsgListPageReducer.y,
         keyword: state.MsgListPageReducer.keyword,
+        volume: state.MsgListPageReducer.volume,
+        price: state.MsgListPageReducer.price,
+
         //iscroll//
         searchPagedReddit,
         posts,

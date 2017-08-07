@@ -13,13 +13,17 @@ import {
   MSG_LIST_PAGE_UPDATE_PULLUP_STATUS,
   MSG_LIST_PAGE_BACKUP_ISCROLL_Y,
   MSG_LIST_PAGE_KEYWORD,
-  MSG_LIST_PAGE_UPDATE_LOADING_STATUS,
+  MSG_LIST_PAGE_VOLUME,
+  MSG_LIST_PAGE_PRICE,
+  MSG_LIST_PAGE_UPDATE_LOADING_STATUS
 } from 'actions/search'
 
 // 组件初始化状态，其实就是把component的constructor的挪到这里就完事了
 const initState = {
   pageStatus: 0, //返回状态标识
-  keyword: '1',
+  keyword: '',//关键词
+  volume:'',//排行
+  price:'',//积分次序 desc asc
   items: [], // 文章列表
   pullDownStatus: 3, // 下拉状态
   pullUpStatus: 6, // 上拉状态
@@ -146,6 +150,19 @@ function MSG_LIST_PAGE_KEYWORD_reducer(state, action) {
   });
 }
 
+function MSG_LIST_PAGE_VOLUME_reducer(state, action) {
+  return Object.assign({}, state, {
+    volume: action.volume
+  });
+}
+
+
+function MSG_LIST_PAGE_PRICE_reducer(state, action) {
+  return Object.assign({}, state, {
+    price: action.price
+  });
+}
+
 // Reducer函数
 // 1, 在redux初始化，路由切换等时机，都会被唤醒，从而有机会返回初始化state，
 //    这将领先于componnent从而可以props传递
@@ -166,6 +183,10 @@ export function MsgListPageReducer(state = initState, action) {
       return MSG_LIST_PAGE_BACKUP_ISCROLL_Y_reducer(state, action);
     case MSG_LIST_PAGE_KEYWORD:
       return MSG_LIST_PAGE_KEYWORD_reducer(state, action);
+         case MSG_LIST_PAGE_VOLUME:
+      return MSG_LIST_PAGE_VOLUME_reducer(state, action);
+               case MSG_LIST_PAGE_PRICE:
+      return MSG_LIST_PAGE_PRICE_reducer(state, action);
     case MSG_LIST_PAGE_UPDATE_LOADING_STATUS:
       return MSG_LIST_PAGE_UPDATE_LOADING_STATUS_reducer(state, action);
       // 有2类action.type会进入default

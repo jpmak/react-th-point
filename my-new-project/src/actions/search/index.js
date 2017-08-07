@@ -11,6 +11,8 @@
     export const MSG_LIST_PAGE_UPDATE_PULLDOWN_STATUS = 'MSG_LIST_PAGE_UPDATE_PULLDOWN_STATUS';
     export const MSG_LIST_PAGE_UPDATE_PULLUP_STATUS = 'MSG_LIST_PAGE_UPDATE_PULLUP_STATUS';
     export const MSG_LIST_PAGE_KEYWORD = 'MSG_LIST_PAGE_KEYWORD';
+    export const MSG_LIST_PAGE_VOLUME = 'MSG_LIST_PAGE_VOLUME';
+    export const MSG_LIST_PAGE_PRICE = 'MSG_LIST_PAGE_PRICE';
 
     export const MSG_LIST_PAGE_BACKUP_ISCROLL_Y = 'MSG_LIST_PAGE_BACKUP_ISCROLL_Y';
     export const MSG_LIST_PAGE_UPDATE_LOADING_STATUS = 'MSG_LIST_PAGE_UPDATE_LOADING_STATUS';
@@ -26,13 +28,15 @@
       };
     }
 
-    function _fetchItems(page, keyword, dispatch) {
+    function _fetchItems(page, keyword,volume,price, dispatch) {
       setTimeout(() => { // 模拟延迟0.5秒
         $.ajax({
           url: '/wap/?g=WapSite&c=Exchange&a=search_goods',
           data: {
             page: page,
-            keyword: keyword
+            keyword: keyword,
+            volume:volume,
+            price:price
           },
           type: 'POST',
           dataType: 'json',
@@ -59,14 +63,14 @@
 
     // 发起刷新
     export function beginRefresh() {
-      return (dispatch, getState) => {
+      return (dispatch, getState,volume,) => {
         // 同步更新下拉状态
         dispatch({
           type: MSG_LIST_PAGE_UPDATE_PULLDOWN_STATUS,
           nextPullDownStatus: 3
         });
         // 异步网络请求
-        _fetchItems(0, getState().MsgListPageReducer.keyword, dispatch);
+        _fetchItems(0, getState().MsgListPageReducer.keyword,getState().MsgListPageReducer.volume, getState().MsgListPageReducer.price, dispatch);
       }
     }
 
@@ -79,7 +83,7 @@
           nextPullUpStatus: 2
         });
         // 异步网络请求
-        _fetchItems(getState().MsgListPageReducer.page, getState().MsgListPageReducer.keyword, dispatch);
+        _fetchItems(getState().MsgListPageReducer.page, getState().MsgListPageReducer.keyword, getState().MsgListPageReducer.volume, getState().MsgListPageReducer.price,dispatch);
       };
     }
     // 更新loading状态
@@ -112,13 +116,26 @@
         y: y
       };
     }
+  
+
     export function getKeyword(keyword) {
       return {
         type: MSG_LIST_PAGE_KEYWORD,
         keyword: keyword
       };
     }
-
+  export function volume(volume) {
+      return {
+        type: MSG_LIST_PAGE_VOLUME,
+        volume: volume
+      };
+    }
+      export function price(price) {
+      return {
+        type: MSG_LIST_PAGE_PRICE,
+        price: price
+      };
+    }
     //////iscrool///////
 
 
