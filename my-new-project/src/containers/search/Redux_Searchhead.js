@@ -62,13 +62,11 @@ class Searchhead extends React.Component {
 
         this.handleChange = (event) => {
             let val = event.target.value;
-
             val = val.replace(/["'<>%;)(&+, ]/g, '');
-            setTimeout(() => {
-                this.setState({
-                    value: val
-                });
-            }, 0)
+            this.setState({
+                value: val
+            });
+
         }
 
 
@@ -83,15 +81,6 @@ class Searchhead extends React.Component {
         }
     }
 
-    stripscript(value) {
-        console.log('test');
-        // var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]")
-        // var rs = "";
-        // for (var i = 0; i < value.length; i++) {
-        //     rs = rs + s.substr(i, 1).replace(pattern, '');
-        // }
-        // return rs;
-    }
 
 
     searchhistory(ev) {
@@ -238,25 +227,28 @@ class Searchhead extends React.Component {
         this.props.dispatch(getKeyword(e))
 
     }
-        defaultClick(){
-       this.onloadScroll();
+    defaultClick() {
+        this.onloadScroll();
+        this.props.dispatch(price(''))
         this.props.dispatch(beginRefresh())
-    
+
 
     }
-    volumeClick(e){
+    volumeClick(e) {
         this.props.dispatch(volume(e))
-           this.onloadScroll();
-                    setTimeout(() => {
+        this.props.dispatch(price(''))
+
+        this.onloadScroll();
+
         this.props.dispatch(beginRefresh())
-        }, 0);
+
 
     }
-      priceClick(e){
+    priceClick(e) {
         this.props.dispatch(price(e));
         this.onloadScroll();
-                setTimeout(() => {
-        this.props.dispatch(beginRefresh())
+        setTimeout(() => {
+            this.props.dispatch(beginRefresh())
         }, 0);
 
     }
@@ -288,6 +280,7 @@ class Searchhead extends React.Component {
             status,
             y,
             keyword,
+            price,
             pullDownStatus,
             pullUpStatus,
             loadingStatus,
@@ -328,9 +321,9 @@ class Searchhead extends React.Component {
                 loadingStatus
             }
      getKeyword = {_this.getKeyword.bind(this)}
+     priceClick = {_this.priceClick.bind(this)}
    beginRefresh = {_this.beginRefresh.bind(this)}
    beginLoad = {_this.beginLoad.bind(this)}
-
    updateLoadingStatus = {_this.updateLoadingStatus.bind(this) }
         updatePullDownStatus = {
             _this.updatePullDownStatus.bind(this)
@@ -342,7 +335,7 @@ class Searchhead extends React.Component {
 
         </div>
 
-            <ResultWrap ref = "getload" items = {items} status = {status} y = {y}             backupIScrollY = {_this.backupIScrollY.bind(this)} pageStatus = {               pageStatus
+            <ResultWrap ref = "getload" items = {items} status = {status} y = {y}   price={price}  keyword={keyword}    backupIScrollY = {_this.backupIScrollY.bind(this)} pageStatus = {               pageStatus
             }
             tryRestoreComponent = {
                 _this.tryRestoreComponent.bind(this)
@@ -442,12 +435,7 @@ class SearchResult extends React.Component {
     PreventDefault(e) {
         e.preventDefault();
     }
-    componentDidUpdate() {
-        const _this = this;
 
-
-
-    }
     delbtnClick() {
         const _this = this;
         this.setState({
@@ -485,22 +473,30 @@ class SearchResult extends React.Component {
         this.state.arrval = this.unique(this.state.arrval);
         window.localStorage.searchhistory = JSON.stringify(this.state.arrval);
         this.handClick();
-        this.props.getKeyword(this.state.arrval[0]);
         // this.props.updateLoadingStatus(1);
         // this.props.updatePullDownStatus(3);
         // this.props.updatePullUpStatus(6);
         // console.log('keyword= ' + this.props.keyword);
         // 
-        setTimeout(() => {
-            // console.log('keyword= ' + this.props.keyword);
-            // this.props.onloadScroll();
-            if (this.props.loadingStatus != 4) {
-                this.props.onloadScroll()
-            }
-            // this.props.updateLoadingStatus(1); // 恢复loading界面
-            // this.props.ensureIScrollInstalled(); //refresh重新计算滚动条信息
-            this.props.beginRefresh();
-        }, 0);
+        // 
+        // setTimeout(() => {
+        // console.log('keyword= ' + this.props.keyword);
+        // this.props.onloadScroll();
+        if (this.props.loadingStatus != 4) {
+            this.props.onloadScroll()
+        }
+        // this.props.updateLoadingStatus(1); // 恢复loading界面
+        // this.props.ensureIScrollInstalled(); //refresh重新计算滚动条信息
+        // let p = new Promise();
+        let p = new Promise(function(resolve, reject) {
+            // console.log('start new Promise...');
+        });
+        p.then(this.props.getKeyword(this.state.arrval[0]))
+            .then(this.props.priceClick(''))
+
+
+
+        // }, 0);
         // this.props.beginRefresh();
         // this.props.beginLoad()
         // window.location.reload();

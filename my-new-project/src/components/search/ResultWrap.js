@@ -167,7 +167,7 @@ class ResultWrap extends React.Component {
 
     }
     onloadScroll() {
-        this.iScrollInstance.scrollTo(0, this.state.rs_once, 200);
+        this.iScrollInstance.scrollTo(0, this.state.rs_once, 100);
     }
 
     onPullDown() {
@@ -345,14 +345,14 @@ class ResultWrap extends React.Component {
         this.props.updateLoadingStatus(1); // 恢复loading界面
         this.props.beginRefresh(); // 发起数据刷新
     }
-    defaultClick(){
+    defaultClick() {
 
         this.props.defaultClick();
     }
-        volumeClick(e){
+    volumeClick(e) {
         this.props.priceClick(e);
     }
-            priceClick(e){
+    priceClick(e) {
         this.props.priceClick(e);
     }
     renderLoading() {
@@ -391,7 +391,7 @@ class ResultWrap extends React.Component {
         return (
             <div className="w result-wp" >
      
-<ResultSort defaultClick={this.defaultClick.bind(this)} volumeClick={this.volumeClick.bind(this)} priceClick={this. priceClick.bind(this)}/>
+<ResultSort defaultClick={this.defaultClick.bind(this)} volumeClick={this.volumeClick.bind(this)} priceClick={this. priceClick.bind(this)} price={this.props.price} keyword={this.props.keyword}/>
                 <div id = "ScrollContainer" >
                 <div id = "ListOutsite" style ={{height: window.innerHeight}}
                      onTouchStart={this.onTouchStart} onTouchEnd={this.onTouchEnd}>

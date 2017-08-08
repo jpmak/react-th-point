@@ -28,15 +28,15 @@
       };
     }
 
-    function _fetchItems(page, keyword,volume,price, dispatch) {
+    function _fetchItems(page, keyword, volume, price, dispatch) {
       setTimeout(() => { // 模拟延迟0.5秒
         $.ajax({
           url: '/wap/?g=WapSite&c=Exchange&a=search_goods',
           data: {
             page: page,
             keyword: keyword,
-            volume:volume,
-            price:price
+            volume: volume,
+            by: price
           },
           type: 'POST',
           dataType: 'json',
@@ -63,14 +63,14 @@
 
     // 发起刷新
     export function beginRefresh() {
-      return (dispatch, getState,volume,) => {
+      return (dispatch, getState, volume, ) => {
         // 同步更新下拉状态
         dispatch({
           type: MSG_LIST_PAGE_UPDATE_PULLDOWN_STATUS,
           nextPullDownStatus: 3
         });
         // 异步网络请求
-        _fetchItems(0, getState().MsgListPageReducer.keyword,getState().MsgListPageReducer.volume, getState().MsgListPageReducer.price, dispatch);
+        _fetchItems(0, getState().MsgListPageReducer.keyword, getState().MsgListPageReducer.volume, getState().MsgListPageReducer.price, dispatch);
       }
     }
 
@@ -83,7 +83,7 @@
           nextPullUpStatus: 2
         });
         // 异步网络请求
-        _fetchItems(getState().MsgListPageReducer.page, getState().MsgListPageReducer.keyword, getState().MsgListPageReducer.volume, getState().MsgListPageReducer.price,dispatch);
+        _fetchItems(getState().MsgListPageReducer.page, getState().MsgListPageReducer.keyword, getState().MsgListPageReducer.volume, getState().MsgListPageReducer.price, dispatch);
       };
     }
     // 更新loading状态
@@ -116,7 +116,7 @@
         y: y
       };
     }
-  
+
 
     export function getKeyword(keyword) {
       return {
@@ -124,13 +124,13 @@
         keyword: keyword
       };
     }
-  export function volume(volume) {
+    export function volume(volume) {
       return {
         type: MSG_LIST_PAGE_VOLUME,
         volume: volume
       };
     }
-      export function price(price) {
+    export function price(price) {
       return {
         type: MSG_LIST_PAGE_PRICE,
         price: price
