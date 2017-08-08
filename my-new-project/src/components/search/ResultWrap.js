@@ -391,7 +391,7 @@ class ResultWrap extends React.Component {
         return (
             <div className="w result-wp" >
      
-<ResultSort defaultClick={this.defaultClick.bind(this)} volumeClick={this.volumeClick.bind(this)} priceClick={this. priceClick.bind(this)} price={this.props.price} keyword={this.props.keyword}/>
+<ResultSort  defaultClick={this.defaultClick.bind(this)} volumeClick={this.volumeClick.bind(this)} priceClick={this. priceClick.bind(this)} price={this.props.price}  searchNum={this.props.searchNum}/>
                 <div id = "ScrollContainer" >
                 <div id = "ListOutsite" style ={{height: window.innerHeight}}
                      onTouchStart={this.onTouchStart} onTouchEnd={this.onTouchEnd}>

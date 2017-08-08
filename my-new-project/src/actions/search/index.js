@@ -13,6 +13,7 @@
     export const MSG_LIST_PAGE_KEYWORD = 'MSG_LIST_PAGE_KEYWORD';
     export const MSG_LIST_PAGE_VOLUME = 'MSG_LIST_PAGE_VOLUME';
     export const MSG_LIST_PAGE_PRICE = 'MSG_LIST_PAGE_PRICE';
+    export const MSG_LIST_UPDATE_SEARCHNUM = 'MSG_LIST_UPDATE_SEARCHNUM';
 
     export const MSG_LIST_PAGE_BACKUP_ISCROLL_Y = 'MSG_LIST_PAGE_BACKUP_ISCROLL_Y';
     export const MSG_LIST_PAGE_UPDATE_LOADING_STATUS = 'MSG_LIST_PAGE_UPDATE_LOADING_STATUS';
@@ -136,6 +137,13 @@
         price: price
       };
     }
+
+    export function searchNum() {
+      return {
+        type: MSG_LIST_UPDATE_SEARCHNUM
+      };
+    }
+
     //////iscrool///////
 
 

@@ -26,6 +26,7 @@ import {
     updatePullDownStatus,
     backupIScrollY,
     getKeyword,
+    searchNum,
     price,
     volume,
     begin,
@@ -56,7 +57,8 @@ class Searchhead extends React.Component {
         this.state = {
             value: '',
             message: '',
-            searchMsgStatus: false
+            searchMsgStatus: false,
+            pushSearch:true
         };
         this.searchhistory_ev = false;
 
@@ -177,7 +179,11 @@ class Searchhead extends React.Component {
         }
 
     }
-
+updataPushSearch(){
+     this.setState({
+            pushSearch: true
+        });
+}
     handleDel() {
         this.setState({
             value: ''
@@ -209,11 +215,12 @@ class Searchhead extends React.Component {
 
     }
     beginRefresh() {
-
         this.props.dispatch(beginRefresh())
-
     }
-
+    searchNum() {
+        console.log('+++++++++')
+        this.props.dispatch(searchNum())
+    }
     updateLoadingStatus(e) {
         this.props.dispatch(updateLoadingStatus(e))
 
@@ -280,6 +287,7 @@ class Searchhead extends React.Component {
             status,
             y,
             keyword,
+            searchNum,
             price,
             pullDownStatus,
             pullUpStatus,
@@ -306,7 +314,7 @@ class Searchhead extends React.Component {
                 </div>
             </div>
 
- <SearchResult ref = "getarr" handleDel={_this.handleDel.bind(this)} onloadScroll={_this.onloadScroll.bind(this)}
+ <SearchResult ref = "getarr" handleDel={_this.handleDel.bind(this)} searchNum={_this.searchNum.bind(this)} onloadScroll={_this.onloadScroll.bind(this)}
  ensureIScrollInstalled={_this.ensureIScrollInstalled.bind(this)}
  searchMsgStatus_fun={ _this.searchMsgStatus_fun.bind(this)}     
   searchhistory = {_this.searchhistory.bind(this)}
@@ -320,6 +328,7 @@ class Searchhead extends React.Component {
                  loadingStatus = {
                 loadingStatus
             }
+            updataPushSearch={_this.updataPushSearch.bind(this)}
      getKeyword = {_this.getKeyword.bind(this)}
      priceClick = {_this.priceClick.bind(this)}
    beginRefresh = {_this.beginRefresh.bind(this)}
@@ -335,7 +344,7 @@ class Searchhead extends React.Component {
 
         </div>
 
-            <ResultWrap ref = "getload" items = {items} status = {status} y = {y}   price={price}  keyword={keyword}    backupIScrollY = {_this.backupIScrollY.bind(this)} pageStatus = {               pageStatus
+            <ResultWrap ref = "getload" items = {items} status = {status} y = {y}  price={price}  searchNum={searchNum}    backupIScrollY = {_this.backupIScrollY.bind(this)} pageStatus = {               pageStatus
             }
             tryRestoreComponent = {
                 _this.tryRestoreComponent.bind(this)
@@ -491,6 +500,7 @@ class SearchResult extends React.Component {
         let p = new Promise(function(resolve, reject) {
             // console.log('start new Promise...');
         });
+        this.props.searchNum();
         p.then(this.props.getKeyword(this.state.arrval[0]))
             .then(this.props.priceClick(''))
 
@@ -500,6 +510,8 @@ class SearchResult extends React.Component {
         // this.props.beginRefresh();
         // this.props.beginLoad()
         // window.location.reload();
+
+   
     }
     unique(arr) {
         var res = [];
@@ -568,6 +580,7 @@ const mapStateToProps = state => {
         keyword: state.MsgListPageReducer.keyword,
         volume: state.MsgListPageReducer.volume,
         price: state.MsgListPageReducer.price,
+        searchNum:state.MsgListPageReducer.searchNum,
 
         //iscroll//
         searchPagedReddit,

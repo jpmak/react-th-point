@@ -11,6 +11,7 @@ import {
   MSG_LIST_PAGE_FETCH_ITEMS_FAIL,
   MSG_LIST_PAGE_UPDATE_PULLDOWN_STATUS,
   MSG_LIST_PAGE_UPDATE_PULLUP_STATUS,
+  MSG_LIST_UPDATE_SEARCHNUM,
   MSG_LIST_PAGE_BACKUP_ISCROLL_Y,
   MSG_LIST_PAGE_KEYWORD,
   MSG_LIST_PAGE_VOLUME,
@@ -29,7 +30,8 @@ const initState = {
   pullUpStatus: 6, // 上拉状态
   loadingStatus: 1, // 首屏加载状态
   page: 0,
-  y: 0 // 上一次滚动偏移量
+  y: 0 ,// 上一次滚动偏移量
+  searchNum:0// //搜索次数
 };
 
 function MSG_LIST_PAGE_TRY_RESTORE_COMPONENT_reducer(state, action) {
@@ -40,7 +42,6 @@ function MSG_LIST_PAGE_TRY_RESTORE_COMPONENT_reducer(state, action) {
 function MSG_LIST_PAGE_FETCH_ITEMS_SUCCESS_reducer(state, action) {
   let nextState = Object.assign({}, state);
   nextState.pageStatus = action.pageStatus;
-
   if (action.pageStatus) {
     if (action.page == 0) { // 刷新操作
 
@@ -48,9 +49,7 @@ function MSG_LIST_PAGE_FETCH_ITEMS_SUCCESS_reducer(state, action) {
         nextState.pullDownStatus = 4;
         nextState.items = action.items;
         nextState.loadingStatus = 2;
-
         nextState.page = action.page + 1;
-
         if (action.items.length == 10) {
           nextState.pullUpStatus = 0;
         } else {
@@ -138,6 +137,15 @@ function MSG_LIST_PAGE_UPDATE_PULLUP_STATUS_reducer(state, action) {
   return state;
 }
 
+function MSG_LIST_UPDATE_SEARCHNUM_reducer(state, action) {
+      console.log(action.searchNum+1)
+
+    return Object.assign({}, state, {
+      searchNum: state.searchNum+1
+    });
+  return state;
+}
+
 function MSG_LIST_PAGE_BACKUP_ISCROLL_Y_reducer(state, action) {
   return Object.assign({}, state, {
     y: action.y
@@ -187,6 +195,8 @@ export function MsgListPageReducer(state = initState, action) {
       return MSG_LIST_PAGE_VOLUME_reducer(state, action);
                case MSG_LIST_PAGE_PRICE:
       return MSG_LIST_PAGE_PRICE_reducer(state, action);
+                     case MSG_LIST_UPDATE_SEARCHNUM:
+      return MSG_LIST_UPDATE_SEARCHNUM_reducer(state, action);
     case MSG_LIST_PAGE_UPDATE_LOADING_STATUS:
       return MSG_LIST_PAGE_UPDATE_LOADING_STATUS_reducer(state, action);
       // 有2类action.type会进入default

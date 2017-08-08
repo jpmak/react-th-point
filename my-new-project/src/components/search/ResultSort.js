@@ -7,8 +7,9 @@ class ResultSort extends React.Component {
         this.state = {
             price: true,
             priceVal: '',
-            redColor: '',
-            indexColor: ''
+            priceColor: '',
+            indexColor: '',
+            volumeColor:''
         }
     }
     componentDidUpdate() {
@@ -60,20 +61,28 @@ class ResultSort extends React.Component {
         this.props.defaultClick();
         this.setState({
             priceVal: '',
-            redColor: '#666'
+            priceColor: '#666',
+            volumeColor:'#666',
+            indexColor: '#FF3838'
         })
     }
     volumeClick() {
         this.props.volumeClick('')
         this.setState({
             priceVal: '',
-            redColor: '#666'
+            priceColor: '#666',
+            indexColor: '#666',
+            volumeColor:'#FF3838'
+
         })
     }
     priceClick() {
         this.setState({
             price: !this.state.price,
-            redColor: '#FF3838'
+            priceColor: '#FF3838',
+            indexColor:'#666',
+            volumeColor:'#666'
+
         })
         this.state.priceVal = this.state.price ? 'asc' : 'desc';
         this.props.priceClick(this.state.priceVal)
@@ -82,22 +91,25 @@ class ResultSort extends React.Component {
         if (nextProps.price == '') {
             this.setState({
                 priceVal: '',
-                redColor: '#666'
+                priceColor: '#666'
             })
         }
-        if (nextProps.keyword != this.props.keyword) {
-            this.setState({
-                indexColor: '#FF3838'
+        if(nextProps.searchNum!==this.props.searchNum){
+                this.setState({
+                indexColor: '#FF3838',
+                volumeColor:'#666'
             })
         }
+
     }
     render() {
-        console.log(this.props.keyword);
+        console.log(this.props.searchNum)
+         // this.state.indexColor=this.props.pushSearch?'#FF3838':'#666'
         return (
             <div className="result-sort">
             <li className="cur" onClick={this.defaultClick.bind(this)} style={{'color':this.state.indexColor}}>综合</li>
-        <li className="volume" onClick={this.volumeClick.bind(this)}>兑换排行</li>
-        <li className={this.state.priceVal +' arrow price'} onClick={this.priceClick.bind(this)} style={{'color':this.state.redColor}}>香蕉</li>
+        <li className="volume" onClick={this.volumeClick.bind(this)} style={{'color':this.state.volumeColor}}>兑换排行</li>
+        <li className={this.state.priceVal +' arrow price'} onClick={this.priceClick.bind(this)} style={{'color':this.state.priceColor}}>香蕉</li>
             <li className="icons-list ver-icon"></li>
         </div>
         );
