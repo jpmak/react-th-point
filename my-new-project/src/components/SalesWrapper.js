@@ -4,62 +4,14 @@ import {
     Route,
     Link
 } from 'react-router-dom'
-const urlRoot = 'http://dev.thgo8.com/'
 
 class SalesWrapper extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            Shtml: [],
-            loading: true,
-            error: null,
-            data: null
-        };
-
-    }
-    funStoreUpItem(upItem) {
-        window.localStorage.upItem = upItem;
-    }
-    componentDidMount() {
-        fetch(urlRoot + '?g=WapSite&c=Exchange&a=sales_volume', {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                }
-            })
-            .then((res) => res.json())
-            .then((data) => {
-                this.setState({
-                    Shtml: data.goods_list
-
-                });
 
 
 
-                // 
-                $("img.lazy").show().lazyload({
-                    container: $("#sales-wrapper"),
-                    effect: "fadeIn"
-                });
-
-            })
-            .catch(function(e) {
-                console.log("加载失败");
-            });
-    }
-
-
-    componentDidUpdate() {
-        let upItem = '';
-        const _this = this
-        $('a.upItem').on('click', function() {
-            upItem = $(this).attr('data-id');
-            _this.funStoreUpItem(upItem);
-        });
-    }
     render() {
 
-        let goodsHtmls = this.state.Shtml;
+        let goodsHtmls = this.props.salesItems;
         let goodsList = goodsHtmls.map(function(goods, index) {
             var sales_top = 'top '
             switch (index) {

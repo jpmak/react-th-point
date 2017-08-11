@@ -16,6 +16,9 @@ import R_det from './r_det';
 import {
 	Searchhead
 } from './components/search/Redux_Searchhead';
+
+
+
 import reducer from './reducers'
 
 import {
@@ -31,7 +34,7 @@ import thunk from 'redux-thunk'
 import {
 	createLogger
 } from 'redux-logger'
-import App from './containers/App'
+
 const middleware = [thunk]
 if (process.env.NODE_ENV !== 'production') {
 	middleware.push(createLogger())
@@ -43,8 +46,8 @@ const store = createStore(
 const R_Searchhead = () => (
 	<Router history={hashHistory}>
       <div>
-<Route exact  path="/r_search.html" component={Searchhead} />
-   <Route path="/r_search.html/R_det/:id" component={R_det}/>
+<Route exact  path="/" component={Searchhead} />
+
     </div>
   </Router>
 )

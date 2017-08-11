@@ -37,7 +37,7 @@ module.exports = {
     //跨域设置
     proxy: {
       '/wap': {
-        target: 'https://www.thgo8.com',
+        target: 'http://dev.thgo8.com',
 
         changeOrigin: true,
         secure: false,

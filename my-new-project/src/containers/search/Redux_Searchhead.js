@@ -58,7 +58,7 @@ class Searchhead extends React.Component {
             value: '',
             message: '',
             searchMsgStatus: false,
-            pushSearch:true
+            pushSearch: true
         };
         this.searchhistory_ev = false;
 
@@ -179,11 +179,11 @@ class Searchhead extends React.Component {
         }
 
     }
-updataPushSearch(){
-     this.setState({
+    updataPushSearch() {
+        this.setState({
             pushSearch: true
         });
-}
+    }
     handleDel() {
         this.setState({
             value: ''
@@ -218,7 +218,7 @@ updataPushSearch(){
         this.props.dispatch(beginRefresh())
     }
     searchNum() {
-        console.log('+++++++++')
+
         this.props.dispatch(searchNum())
     }
     updateLoadingStatus(e) {
@@ -511,7 +511,7 @@ class SearchResult extends React.Component {
         // this.props.beginLoad()
         // window.location.reload();
 
-   
+
     }
     unique(arr) {
         var res = [];
@@ -525,9 +525,9 @@ class SearchResult extends React.Component {
         return res;
     }
 
-
     render() {
         const _this = this;
+
         let history_Html = this.state.arrval.map(function(Msg, index) {
             return (
                 <li key={index}><a onClick={_this.funStoreHistory.bind(_this,Msg)}>{Msg}</a></li>
@@ -580,7 +580,7 @@ const mapStateToProps = state => {
         keyword: state.MsgListPageReducer.keyword,
         volume: state.MsgListPageReducer.volume,
         price: state.MsgListPageReducer.price,
-        searchNum:state.MsgListPageReducer.searchNum,
+        searchNum: state.MsgListPageReducer.searchNum,
 
         //iscroll//
         searchPagedReddit,
@@ -592,7 +592,7 @@ const mapStateToProps = state => {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(actions, dispatch);
+    return bindActionCreators(dispatch);
 }
 
 export default connect(mapStateToProps)(Searchhead)

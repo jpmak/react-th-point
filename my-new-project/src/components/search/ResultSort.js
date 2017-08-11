@@ -9,7 +9,7 @@ class ResultSort extends React.Component {
             priceVal: '',
             priceColor: '',
             indexColor: '',
-            volumeColor:''
+            volumeColor: ''
         }
     }
     componentDidUpdate() {
@@ -62,7 +62,7 @@ class ResultSort extends React.Component {
         this.setState({
             priceVal: '',
             priceColor: '#666',
-            volumeColor:'#666',
+            volumeColor: '#666',
             indexColor: '#FF3838'
         })
     }
@@ -72,7 +72,7 @@ class ResultSort extends React.Component {
             priceVal: '',
             priceColor: '#666',
             indexColor: '#666',
-            volumeColor:'#FF3838'
+            volumeColor: '#FF3838'
 
         })
     }
@@ -80,8 +80,8 @@ class ResultSort extends React.Component {
         this.setState({
             price: !this.state.price,
             priceColor: '#FF3838',
-            indexColor:'#666',
-            volumeColor:'#666'
+            indexColor: '#666',
+            volumeColor: '#666'
 
         })
         this.state.priceVal = this.state.price ? 'asc' : 'desc';
@@ -94,17 +94,18 @@ class ResultSort extends React.Component {
                 priceColor: '#666'
             })
         }
-        if(nextProps.searchNum!==this.props.searchNum){
-                this.setState({
+        if (nextProps.searchNum !== this.props.searchNum) {
+            this.setState({
                 indexColor: '#FF3838',
-                volumeColor:'#666'
+                volumeColor: '#666'
             })
         }
 
     }
     render() {
+        console.log('+++++++++')
         console.log(this.props.searchNum)
-         // this.state.indexColor=this.props.pushSearch?'#FF3838':'#666'
+            // this.state.indexColor=this.props.pushSearch?'#FF3838':'#666'
         return (
             <div className="result-sort">
             <li className="cur" onClick={this.defaultClick.bind(this)} style={{'color':this.state.indexColor}}>综合</li>

@@ -43,23 +43,10 @@ class Banner extends React.Component {
         if (!repos.length) {
             repoList = <div></div>
         }
-        // console.log(repos)
 
-        // // console.log(repoList) 
-        //  {
-        //     this.props.imgsrc.map(function(repo, index) {
-
-        //         return (
-
-        //         <div className = "swiper-slide" key = { index } ><img className = ""  src = {repo}/> </div>
-
-        //         )
-        //     })
-        // } ;
         return (
             <div>
 <Slider {...settings}>
-          
 {repoList}
      </Slider>
      
