@@ -1,0 +1,51 @@
+import React from 'react';
+import Slider from 'react-slick';
+import '../styles/slick.css';
+
+
+class SlickBanner_2 extends React.Component {
+    componentDidMount() {
+        if (this.props.bannerItems_2 == '') {
+            document.getElementById("AppBanner_2").style.display = "none";
+        }
+    }
+    render() {
+
+        let settings = {
+            autoplay: true,
+            autoplaySpeed: 3000,
+            dots: true,
+            arrows: false,
+            nextArrow: true,
+            prevArrow: true,
+            lazyLoad: true,
+            infinite: true,
+            slidesToShow: 1,
+            slidesToScroll: 1
+        };
+
+        let repos = this.props.bannerItems_2;
+        let repoList = (repos || []).map(function(repo, index) {
+            return (
+                <div className = "swiper-slide" key = { index } ><a href={repo.adv_url}><img className = "" alt={repo.adv_title} src = {repo.adv_img}/></a> </div>
+
+            );
+        });
+        if (!repos.length) {
+            repoList = <div>loading...</div>
+        }
+        if (repos == '') {
+
+        }
+        return (
+            <div>
+<Slider {...settings}>
+{repoList}
+     </Slider>
+     
+</div>
+
+        )
+    }
+}
+export default SlickBanner_2;

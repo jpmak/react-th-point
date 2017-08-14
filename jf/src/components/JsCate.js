@@ -171,9 +171,14 @@ class JsCate extends React.Component {
             open: 0
         };
     };
-    handleClick() {
+    handleClick(e) {
+        var widths = '';
+        for (let i = 0; i < e; i++) {
+            widths += parseInt($('.app-scroller li').eq(i).width());
+        }
+        console.log(widths);
         this.setState({
-            open: 30
+            open: widths
         });
         console.log('test');
         var nav_w = $('.app-scroller li').first().width();
@@ -223,7 +228,7 @@ class JsCate extends React.Component {
             //     this.state.goodsHtml
             // }
             return (
-                <li key={index} className={act} id={Cate.cate_id} onClick={this.handleClick.bind(this)}><a><span>{Cate.cate_name}</span></a></li>
+                <li key={index} className={act} id={Cate.cate_id} onClick={this.handleClick.bind(this,index)}><a><span>{Cate.cate_name}</span></a></li>
             )
         }, this)
         return (
