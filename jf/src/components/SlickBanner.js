@@ -19,15 +19,18 @@ class SlickBanner extends React.Component {
             slidesToScroll: 1
         };
 
-        let repos = this.props.bannerItems
-        let repoList = (repos || [1, 2]).map(function(repo, index) {
+        let repos = this.props.bannerItems;
+
+
+
+        let repoList = (repos || []).map(function(repo, index) {
             return (
                 <div className = "swiper-slide" key = { index } ><a href={repo.adv_url}><img className = "" alt={repo.adv_title} src = {repo.adv_img}/></a> </div>
 
             );
-
-
         });
+
+        // 
         if (!repos.length) {
             repoList = <div>loading...</div>
         }

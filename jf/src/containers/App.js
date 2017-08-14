@@ -11,86 +11,36 @@ import {
 	Link
 } from 'react-router-dom';
 import $ from 'jquery';
-
-
 import SearchBox from '../components/SearchBox';
 import SlickBanner from '../components/SlickBanner';
+import SlickBanner_2 from '../components/SlickBanner_2';
 import SalesWrapper from '../components/SalesWrapper';
-
-
+import JsCate from '../components/JsCate';
 import {
 	beginRefresh
 } from '../actions'
-
 import {
 	bindActionCreators
 } from 'redux'
 
-
-
 class App extends React.Component {
-
-
-	constructor(props) {
-		super(props);
-		this.state = {
-
-		};
-
-	}
-
-
-
-	componentWillMount() {
-
-
-	}
+	componentWillMount() {}
 	componentDidMount() {
 		this.props.dispatch(beginRefresh())
-
 	}
-
-	componentWillReceiveProps(nextProps) {
-
-	}
-
+	componentWillReceiveProps(nextProps) {}
 	tryRestoreComponent() {
 		// this.props.dispatch(tryRestoreComponent())
-
 	}
-
 	beginRefresh() {}
-
 	render() {
-		// const value = this.state.value;
-		// const _this = this;
 		const {
 			bannerItems,
-			salesItems
+			bannerItems_2,
+			salesItems,
+			cateList,
 		} = this.props
-			// 
-			//       <div id='search'>
-			//     <SearchBox /> 
-			//    </div>
-
-		//    <div id='banner'>
-		//    <SwiperBanner/>
-		//    </div> 
-		//    <div id='record'>
-		//    <Record handhref = "exchangeLog.html"/>
-		//    </div>
-		//    <div id = 'js_banner' >
-		//    <Js_banner/>
-		//    </div>
-		// <div id = 'SalesWrapper'>
-		//    <SalesWrapper/>
-		//    </div>
-		//       <div id = 'Js_banner_2'>
-		//    <js_banner_2/>
-		//    </div>
-		//    
-		//      <TopNav titleName = "兑换商城"    icon = "jf-record-icon"
-		// icon_link = "search.html" />
+		console.log(cateList);
 		return (
 			<div className='w'>
 	<header  id='search'>
@@ -104,6 +54,10 @@ class App extends React.Component {
 		<div className='jf-bsell-box'>
        <SalesWrapper salesItems={salesItems}/>
        </div>
+  			   <div id="AppBanner_2">
+		<SlickBanner_2 bannerItems_2={bannerItems_2}/>
+		</div>
+	<JsCate cateList={cateList}/>
             </div>
 
 		);
@@ -115,6 +69,8 @@ class App extends React.Component {
 const mapStateToProps = state => {
 	return {
 		bannerItems: state.MsgAppReducer.bannerItems,
+		bannerItems_2: state.MsgAppReducer.bannerItems_2,
+		cateList: state.MsgAppReducer.cateList,
 		salesItems: state.MsgAppReducer.salesItems
 
 

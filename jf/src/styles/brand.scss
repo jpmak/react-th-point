@@ -55,15 +55,16 @@
     
     .app-scroller-wrap {
         width: 100%;
+        height: .8rem;
         position: relative;
-        background-color: #fff;
+        background-color: #763A0A;
         margin-bottom: .2rem;
         overflow: auto;
         /* winphone8和android4+ */
         -webkit-overflow-scrolling: touch;
         overflow-y: hidden;
         /* ios5+ */
-        height: 1.2rem;
+   
         // &::-webkit-scrollbar {
         //     width: 0px;
         //     background-color: #000;
@@ -81,19 +82,20 @@
         width: auto;
         font-size: 0;
         li {
-            color: $scrllerColor;
+          height: .8rem;
             -webkit-box-flex: 1;
             display: inline-block;
             vertical-align: middle;
             text-align: center;
             list-style: none;
-            padding: .2rem 0 0;
             a {
+                height:.8rem;
+                  color: #FFD8B9;
                 padding: 0 .2rem;
                 display: block;
             }
             &.act a {
-                color: $activeColor;
+                color: $yellowColor;
 
             }
             &.act{
@@ -108,8 +110,10 @@
         li {
             span {
                 font-size: .28rem;
-                line-height: .46rem;
-                display: block;
+                height:.8rem;
+
+                line-height: .8rem;
+                display: inline-block;
                 &.quick-box {
                     margin: 0 auto;
                     height: .4rem;
@@ -131,9 +135,9 @@
         p {
             position: absolute;
      
-            top: 1.1rem;
+            top: .74rem;
             left: 0px;
-            border-top: 0.06rem solid $redColor;
+            border-top: 0.06rem solid $yellowColor;
             text-align: center;
             z-index: 100;
         }

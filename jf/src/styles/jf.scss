@@ -106,13 +106,29 @@ a.th-btn.th-btn-assertive.th-btn-outline {
 /*兑换排行榜*/
 
 #sales-wrapper{
+    background:#fff;
     z-index: 1;
     width: 100%;
     overflow-y:hidden; 
-
-
     -webkit-overflow-scrolling: touch;
 }
+.hor-view{
+        display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+     .tag {
+    margin-left: .2rem;
+    height: .56rem;
+    line-height: .56rem;
+    font-size: .28rem;
+    font-weight: bold;
+    color: $redColor;
+    margin-right: .1rem;
+}
+
+}
+
+
 
 .jf-bsell-box {
 
@@ -131,32 +147,32 @@ a.th-btn.th-btn-assertive.th-btn-outline {
         display: table;
         table-layout: fixed;
         white-space: nowrap;
-        padding: .2rem .2rem 0rem 0;
-        margin-bottom: .2rem;
-        height: 2.64rem;
+        padding: .0rem .2rem 0rem 0;
+
+        height: 2.2rem;
        -webkit-overflow-scrolling: touch;
         li {
-            width: 2.4rem;
-            height: 3.24rem;
-            border: 1px solid $borderColor;
+            width: 1.4rem;
+            height: 1.4rem;
+         
             display: inline-block;
-            margin-left: .2rem;
+            margin:0 .1rem 0 .2rem;
             a {
                 display: block;
             }
             .info-img {
-                width: 1.6rem;
-                height: 1.6rem;
+                width: 1.4rem;
+                height: 1.4rem;
                 position: relative;
                 display: table-cell;
                 text-align: center;
                 vertical-align: middle;
-                padding: .4rem .4rem .2rem;
+                // padding: .4rem .4rem .2rem;
                 text-align: center;
                 background-color: #fff;
                 img {
-                    max-width: 1.6rem;
-                    max-height: 1.6rem;
+                    max-width: 1.4rem;
+                    max-height: 1.4 rem;
                     vertical-align: middle;
                     text-align: center;
                 }
@@ -183,27 +199,32 @@ a.th-btn.th-btn-assertive.th-btn-outline {
                     position: absolute;
                     top: 0;
                     left: 0;
+                      border:0;
                     background-size: .64rem .64rem;
                 }
             }
             .info-bar {
-                padding: 0 .28rem 0;
+                // padding: 0 .28rem 0;
+                overflow: hidden;
+                   width: 1.4rem;
                 background-color: #fff;
                 .pro-title {
-                    width: 1.86rem;
+                 
                     font-size: .28rem;
                     overflow: hidden;
                     white-space: nowrap;
                     text-overflow: ellipsis;
                     color: #333;
+
                 }
                 .e-numb {
                     color: $yellowColor;
                     font-size: .18rem;
-                    text-align: center;
+                    text-align: left;
                     em {
-                        font-size: .28rem;
-                        padding-right: .08rem;
+                        font-weight: bold;
+                        font-size: .4rem;
+                        // padding-right: .08rem;
                     }
             
                     

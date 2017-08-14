@@ -31,11 +31,11 @@ class SalesWrapper extends React.Component {
             }
             return (
 
-                <li key={index}><Link to="/jf.html/R_det" className="upItem" data-id={goods.item_id}  ><div className="info-img"><div className={sales_top}></div>
+            <li key={index}><Link to="/jf.html/R_det" className="upItem" data-id={goods.item_id}  ><div className="info-img"><div className={sales_top}></div>
       <LazyLoad placeholder={<PlaceholderComponent />}  >
                 <img  src={goods.list_image} />
      </LazyLoad>
-                </div><div className="info-bar"><div className="pro-title">{goods.goods_name} </div><div className="e-numb"><span className="e-price"><em>{goods.item_price} </em>积分</span></div></div></Link> </li>
+                </div><div className="info-bar"><div className="e-numb"><span className="e-price"><em>{goods.item_price} </em>积分</span></div></div></Link> </li>
 
             )
 
@@ -47,6 +47,9 @@ class SalesWrapper extends React.Component {
 
 
             <div id="sales-wrapper">
+            <div className='hor-view'>
+<div className='tag'>热门推荐</div>
+            </div>
                 <div id="scroller" className="list">
                    
                         <ul>{goodsList}</ul>
