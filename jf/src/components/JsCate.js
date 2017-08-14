@@ -168,17 +168,22 @@ class JsCate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: 0
+            open: 0,
+            currentIndex :0,
+            width:0
         };
     };
     handleClick(e) {
-        var widths = '';
+        var widths = 0;
+        console.log(e)
         for (let i = 0; i < e; i++) {
-            widths += parseInt($('.app-scroller li').eq(i).width());
+            widths +=parseFloat($('.app-scroller li').eq(i).width());
         }
         console.log(widths);
         this.setState({
-            open: widths
+            open: widths,
+            currentIndex:e,
+            width:parseFloat($('.app-scroller li').eq(e).width())
         });
         console.log('test');
         var nav_w = $('.app-scroller li').first().width();
@@ -209,7 +214,9 @@ class JsCate extends React.Component {
         //     'left': fnl_l
         // }, 300);
     }
-
+cheack(index){
+return index===this.state.currentIndex?'act':'';
+}
 
     render() {
         let nav_w = $('.app-scroller li').first().width();
@@ -217,41 +224,44 @@ class JsCate extends React.Component {
 
         let CateLists = this.props.cateList;
         let CateList = CateLists.map(function(Cate, index) {
-            var act = ""
-            switch (index) {
-                case 0:
-                    act = "act"
-                    break;
+            // var act = ""
+            // switch (index) {
+            //     case 0:
+            //         act = "act"
+            //         break;
 
-            }
+            // }
             //           {
             //     this.state.goodsHtml
             // }
             return (
-                <li key={index} className={act} id={Cate.cate_id} onClick={this.handleClick.bind(this,index)}><a><span>{Cate.cate_name}</span></a></li>
+                <li key={index} className={this.cheack(index)} id={Cate.cate_id} onClick={this.handleClick.bind(this,index)}><a><span>{Cate.cate_name}</span></a></li>
             )
         }, this)
         return (
             <div>
+                   <Motion style={{x: spring(this.state.open ),width:spring(this.state.width)}}>
+                           {({x,width}) =>
                     <div id="app-scroller" className="app-scroller-wrap" >
                         <div className="app-scroller">
                             <ul className="choose-items-wp">
                             {CateList}
-                           <Motion style={{x: spring(this.state.open )}}>
-                           {({x}) =>
+                    
 
                                 <p style={{
                 WebkitTransform: `translate3d(${x}px, 0, 0)`,
                 transform: `translate3d(${x}px, 0, 0)`,
+                width:`${width}px`
               }}
               ><b></b></p>
 
-                                  }
-        </Motion>
+       
                        
                             </ul>
                         </div>
                     </div>
+                                         }
+        </Motion>
  <div className="app-pd-wp">
                 <div className="app-pd-list">
 
@@ -262,6 +272,8 @@ class JsCate extends React.Component {
                     </div>
                     </div>
                     <div className="load-tip"></div>
+
+      
                 </div>
         )
     }
