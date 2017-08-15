@@ -59,10 +59,13 @@
         position: relative;
         background-color: #763A0A;
         margin-bottom: .2rem;
-        overflow: auto;
+ 
         /* winphone8和android4+ */
         -webkit-overflow-scrolling: touch;
         overflow-y: hidden;
+       
+
+
         /* ios5+ */
    
         // &::-webkit-scrollbar {
@@ -76,7 +79,7 @@
         left: 0;
         display: table;
         table-layout: fixed;
-        
+     padding-right: 0.1rem;
         white-space: nowrap;
              -webkit-overflow-scrolling: touch;
         width: auto;
@@ -91,7 +94,8 @@
             a {
                 height:.8rem;
                   color: #FFD8B9;
-                padding: 0 .2rem;
+                  padding: 0 .2rem;
+                /*padding: 0 .2rem;*/
                 display: block;
             }
             &.act a {
@@ -99,7 +103,7 @@
 
             }
             &.act{
-            /*pointer-events:none;*/
+          /*pointer-events:none;*/
                 
             }
         }

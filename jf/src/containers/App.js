@@ -40,7 +40,6 @@ class App extends React.Component {
 			salesItems,
 			cateList,
 		} = this.props
-		console.log(cateList);
 		return (
 			<div className='w'>
 	<header  id='search'>

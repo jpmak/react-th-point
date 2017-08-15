@@ -1,8 +1,6 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload';
 import PlaceholderComponent from './public/Placeholder';
-
-
 import {
     BrowserRouter as Router,
     Route,
@@ -14,7 +12,15 @@ class SalesWrapper extends React.Component {
 
 
     render() {
-
+        let settings = {
+            touchAction: 'compute',
+            recognizers: {
+                tap: {
+                    time: 600,
+                    threshold: 100
+                }
+            }
+        };
         let goodsHtmls = this.props.salesItems;
         let goodsList = goodsHtmls.map(function(goods, index) {
             var sales_top = 'top '
@@ -31,7 +37,7 @@ class SalesWrapper extends React.Component {
             }
             return (
 
-            <li key={index}><Link to="/jf.html/R_det" className="upItem" data-id={goods.item_id}  ><div className="info-img"><div className={sales_top}></div>
+                <li key={index}><Link to="/jf.html/R_det" className="upItem" data-id={goods.item_id}  ><div className="info-img"><div className={sales_top}></div>
       <LazyLoad placeholder={<PlaceholderComponent />}  >
                 <img  src={goods.list_image} />
      </LazyLoad>
@@ -47,14 +53,14 @@ class SalesWrapper extends React.Component {
 
 
             <div id="sales-wrapper">
+
             <div className='hor-view'>
 <div className='tag'>热门推荐</div>
             </div>
                 <div id="scroller" className="list">
-                   
                         <ul>{goodsList}</ul>
-
                     </div>
+
 </div>
 
 

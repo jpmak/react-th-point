@@ -187,5 +187,5 @@ background: #fff;
 
 #AppBanner .slick-slider .slick-list{height: 3.2rem}
 #AppBanner .slick-dots{bottom: .2rem}
-#AppBanner_2 .slick-slider .slick-list{min-height: 2rem}
+/*#AppBanner_2 .slick-slider .slick-list{min-height: 2rem}*/
 #AppBanner_2 .slick-dots{top: .2rem; text-align: right}

@@ -167,28 +167,38 @@ class JsCate extends React.Component {
     // }
     constructor(props) {
         super(props);
+        this.touchRange = 0 // 触控距离
+        this.screenWidth = document.body.clientWidth //屏幕宽度
         this.state = {
-            open: 0,
-            currentIndex :0,
-            width:0
+            move: 0,
+            currentIndex: 0,
+            liWidth: 0,
+            wrapWidth: 0,
+            onStartX: 0,
+            onMoveX: 0
         };
     };
-    handleClick(e) {
-        var widths = 0;
-        console.log(e)
-        for (let i = 0; i < e; i++) {
-            widths +=parseFloat($('.app-scroller li').eq(i).width());
-        }
-        console.log(widths);
-        this.setState({
-            open: widths,
-            currentIndex:e,
-            width:parseFloat($('.app-scroller li').eq(e).width())
-        });
+
+
+    handleClick(e, event) {
+        // let p = new Promise(function(resolve, reject) {});
         console.log('test');
-        var nav_w = $('.app-scroller li').first().width();
-        var fl_w = $('.app-scroller').width();
-        var flb_w = $('.app-scroller-wrap').width();
+        var widths = 0;
+        for (let i = 0; i < e; i++) {
+            widths += parseFloat($('.app-scroller li').eq(i).width());
+        }
+        console.log(parseFloat($('.app-scroller li').eq(e).width()));
+        setTimeout(() => {
+
+            this.setState({
+                move: widths,
+                currentIndex: e,
+                liWidth: parseFloat($('.app-scroller li').eq(e).width())
+            });
+        }, 0);
+        // var nav_w = $('.app-scroller li').first().width();
+        let fl_w = $('.app-scroller').width();
+        let flb_w = $('.app-scroller-wrap').width();
         var left = '';
         // $('.choose-items-wp p').stop(true);
         // $('.choose-items-wp p').css({
@@ -201,9 +211,22 @@ class JsCate extends React.Component {
         //     width: nav_w
         // });
 
-
-        // var fn_w = ($('.app-scroller-wrap').width() - nav_w) / 2;
-
+        let nav_w = parseFloat($('.app-scroller li').eq(e).width())
+        let fn_w = ($('.app-scroller-wrap').width() - nav_w) / 2;
+        console.log(fn_w);
+        if (widths <= fn_w || fl_w <= flb_w) {
+            this.setState({
+                wrapWidth: 0
+            });
+        } else if (fn_w - widths <= flb_w - fl_w) {
+            this.setState({
+                wrapWidth: flb_w - fl_w
+            });
+        } else {
+            this.setState({
+                wrapWidth: fn_w - widths
+            });
+        }
         // var fnl_l;
         // var fnl_x = parseInt($(this).position().left);
         // $(this).addClass('act').siblings().removeClass('act');
@@ -214,10 +237,22 @@ class JsCate extends React.Component {
         //     'left': fnl_l
         // }, 300);
     }
-cheack(index){
-return index===this.state.currentIndex?'act':'';
-}
+    cheack(index) {
+        return index === this.state.currentIndex ? 'act' : '';
+    }
+    startMoveImg(e) {
 
+        this.touchRange = e.touches[0].pageX
+    }
+    movingImg(e) {
+        let moveDirection = this.touchRange - e.touches[0].pageX // 当滑动到边界时，再滑动会没有效果
+        if (moveDirection >= 0)
+            this.setState({
+                wrapWidth: 0
+            })
+        console.log(this.touchRange);
+        console.log(e.touches[0].pageX);
+    }
     render() {
         let nav_w = $('.app-scroller li').first().width();
         $('.choose-items-wp p').width(nav_w);
@@ -234,26 +269,24 @@ return index===this.state.currentIndex?'act':'';
             //           {
             //     this.state.goodsHtml
             // }
+            //   <p style={{WebkitTransform: `translate3d(${x}px, 0, 0)`,transform: `translate3d(${x}px, 0, 0)`,width:`${width}px`}}><b></b></p>
+            // <div className="app-scroller" style={{WebkitTransform: `translate3d(${navw}px, 0, 0)`,transform: `translate3d(${navw}px, 0, 0)`}} >
             return (
                 <li key={index} className={this.cheack(index)} id={Cate.cate_id} onClick={this.handleClick.bind(this,index)}><a><span>{Cate.cate_name}</span></a></li>
             )
         }, this)
         return (
             <div>
-                   <Motion style={{x: spring(this.state.open ),width:spring(this.state.width)}}>
-                           {({x,width}) =>
-                    <div id="app-scroller" className="app-scroller-wrap" >
-                        <div className="app-scroller">
+                   <Motion style={{x: spring(this.state.move ),width:spring(this.state.liWidth),navw:spring(this.state.wrapWidth)}}>
+                           {({x,width,navw}) =>
+
+            <div id="app-scroller"  onTouchStart={this.startMoveImg.bind(this)}  onTouchMove={this.movingImg.bind(this)}  className="app-scroller-wrap" >
+            <div className="app-scroller" style={{WebkitTransform: `translate3d(${navw}px, 0, 0)`,transform: `translate3d(${navw}px, 0, 0)`}} >
+
+
                             <ul className="choose-items-wp">
                             {CateList}
-                    
-
-                                <p style={{
-                WebkitTransform: `translate3d(${x}px, 0, 0)`,
-                transform: `translate3d(${x}px, 0, 0)`,
-                width:`${width}px`
-              }}
-              ><b></b></p>
+             <p style={{WebkitTransform: `translate3d(${x}px, 0, 0)`,transform: `translate3d(${x}px, 0, 0)`,width:`${width}px`}}><b></b></p>
 
        
                        

@@ -1,14 +1,7 @@
 import React from 'react';
 import Slider from 'react-slick';
 import '../styles/slick.css';
-
-
 class SlickBanner_2 extends React.Component {
-    componentDidMount() {
-        if (this.props.bannerItems_2 == '') {
-            document.getElementById("AppBanner_2").style.display = "none";
-        }
-    }
     render() {
 
         let settings = {
@@ -34,9 +27,7 @@ class SlickBanner_2 extends React.Component {
         if (!repos.length) {
             repoList = <div>loading...</div>
         }
-        if (repos == '') {
 
-        }
         return (
             <div>
 <Slider {...settings}>

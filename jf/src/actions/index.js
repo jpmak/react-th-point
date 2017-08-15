@@ -11,9 +11,9 @@
           type: consts.MSG_APP_RESTORE_COMPONENT
         });
         // 异步网络请求
-        fetchBanner(dispatch);
-        fetchSalse(dispatch);
-        fetchCateList(dispatch);
+    fetchBanner(dispatch);
+    fetchSalse(dispatch);
+    fetchCateList(dispatch);
 
       }
     }

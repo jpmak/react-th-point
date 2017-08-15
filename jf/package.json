@@ -18,6 +18,7 @@
     "iscroll": "^5.2.0",
     "jquery": "^3.2.1",
     "node-sass": "^4.5.3",
+    "react-hammerjs": "^0.5.0",
     "react-lazyload": "^2.2.7",
     "react-motion": "^0.5.0",
     "react-redux": "^5.0.6",
