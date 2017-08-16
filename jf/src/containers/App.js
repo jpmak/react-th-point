@@ -39,6 +39,7 @@ class App extends React.Component {
 			bannerItems_2,
 			salesItems,
 			cateList,
+			cateGoods
 		} = this.props
 		return (
 			<div className='w'>
@@ -56,7 +57,7 @@ class App extends React.Component {
   			   <div id="AppBanner_2">
 		<SlickBanner_2 bannerItems_2={bannerItems_2}/>
 		</div>
-	<JsCate cateList={cateList}/>
+	<JsCate cateList={cateList} cateGoods={cateGoods}/>
             </div>
 
 		);
@@ -70,7 +71,8 @@ const mapStateToProps = state => {
 		bannerItems: state.MsgAppReducer.bannerItems,
 		bannerItems_2: state.MsgAppReducer.bannerItems_2,
 		cateList: state.MsgAppReducer.cateList,
-		salesItems: state.MsgAppReducer.salesItems
+		salesItems: state.MsgAppReducer.salesItems,
+		cateGoods: state.MsgAppReducer.cateGoods
 
 
 

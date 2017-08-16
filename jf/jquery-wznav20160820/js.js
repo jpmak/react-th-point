@@ -65,9 +65,15 @@ $(function() {
         var y2 = touch2.pageY;
         if (ty_left + x2 - x1 >= 0) {
             $(this).css("left", 0);
+            console.log(11111111111);
         } else if (ty_left + x2 - x1 <= flb_w - fl_w) {
             $(this).css("left", flb_w - fl_w);
+            console.log(222222222);
+
         } else {
+            console.log(ty_left + x2 - x1);
+            console.log(flb_w);
+
             $(this).css("left", ty_left + x2 - x1);
         }
         if (Math.abs(y2 - y1) > 0) {

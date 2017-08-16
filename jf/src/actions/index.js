@@ -11,9 +11,9 @@
           type: consts.MSG_APP_RESTORE_COMPONENT
         });
         // 异步网络请求
-    fetchBanner(dispatch);
-    fetchSalse(dispatch);
-    fetchCateList(dispatch);
+        fetchBanner(dispatch);
+        fetchSalse(dispatch);
+        fetchCateList(dispatch);
 
       }
     }
@@ -61,7 +61,7 @@
     }
 
 
-    function fetchCateList(dispatch) {
+    function fetchCateList(dispatch, getState) {
       fetch('/wap/?g=WapSite&c=Exchange&a=get_cate_list', {
           method: 'POST',
           headers: {
@@ -73,6 +73,29 @@
           dispatch({
             type: consts.FETCHCATELIST_SUCCESS,
             cateList: data.cate_list
+          });
+
+          fetchCateGoods(data.cate_list[0].cate_id, 0, dispatch);
+        })
+        .catch(function(e) {
+          console.log("加载失败");
+        });
+    }
+
+    function fetchCateGoods(id, page, dispatch) {
+      fetch('/wap/?g=WapSite&c=Exchange&a=get_cate_goods', {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: 'cate_id=' + id + '&page=' + page
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log('test');
+          dispatch({
+            type: consts.FETCHCATEGOODS_SUCCESS,
+            cateGoods: data.goods_list
           });
         })
         .catch(function(e) {

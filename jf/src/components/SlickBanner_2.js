@@ -27,6 +27,10 @@ class SlickBanner_2 extends React.Component {
         if (!repos.length) {
             repoList = <div>loading...</div>
         }
+        if (repos.length == 0) {
+            repoList = <div></div>
+        }
+
 
         return (
             <div>

@@ -7,8 +7,8 @@ const initState = {
   bannerItems: [], // banner列表,
   bannerItems_2: [], // banner列表,
   salesItems: [], // 热卖列表,
-  cateList: [] //分类列表
-
+  cateList: [], //分类列表
+  cateGoods: [] //分类信息
 };
 
 
@@ -37,6 +37,14 @@ function FETCHSALSE_SUCCESS_reducer(state, action) {
 function FETCHCATELIST_SUCCESS_reducer(state, action) {
   return Object.assign({}, state, {
     cateList: action.cateList
+
+  });
+  return state;
+}
+
+function FETCHCATEGOODS_SUCCESS_reducer(state, action) {
+  return Object.assign({}, state, {
+    cateGoods: action.cateGoods
   });
   return state;
 }
@@ -52,6 +60,8 @@ export function MsgAppReducer(state = initState, action) {
       return FETCHSALSE_SUCCESS_reducer(state, action);
     case consts.FETCHCATELIST_SUCCESS:
       return FETCHCATELIST_SUCCESS_reducer(state, action);
+    case consts.FETCHCATEGOODS_SUCCESS:
+      return FETCHCATEGOODS_SUCCESS_reducer(state, action);
     default:
       return state; // 返回当前默认state或者当前state
   }

@@ -4,6 +4,7 @@ import {
     Motion,
     spring
 } from 'react-motion';
+import CateGoods from './CateGoods';
 
 import {
     BrowserRouter as Router,
@@ -168,7 +169,8 @@ class JsCate extends React.Component {
     constructor(props) {
         super(props);
         this.touchRange = 0 // 触控距离
-        this.screenWidth = document.body.clientWidth //屏幕宽度
+        this.touchLeft = 0;
+        this.onClick = false;
         this.state = {
             move: 0,
             currentIndex: 0,
@@ -176,13 +178,14 @@ class JsCate extends React.Component {
             wrapWidth: 0,
             onStartX: 0,
             onMoveX: 0
+
         };
     };
 
 
     handleClick(e, event) {
         // let p = new Promise(function(resolve, reject) {});
-        console.log('test');
+        this.onClick = true;
         var widths = 0;
         for (let i = 0; i < e; i++) {
             widths += parseFloat($('.app-scroller li').eq(i).width());
@@ -213,7 +216,6 @@ class JsCate extends React.Component {
 
         let nav_w = parseFloat($('.app-scroller li').eq(e).width())
         let fn_w = ($('.app-scroller-wrap').width() - nav_w) / 2;
-        console.log(fn_w);
         if (widths <= fn_w || fl_w <= flb_w) {
             this.setState({
                 wrapWidth: 0
@@ -241,36 +243,40 @@ class JsCate extends React.Component {
         return index === this.state.currentIndex ? 'act' : '';
     }
     startMoveImg(e) {
-
-        this.touchRange = e.touches[0].pageX
+        this.touchRange = e.touches[0].pageX;
+        this.touchLeft = this.state.wrapWidth
     }
     movingImg(e) {
-        let moveDirection = this.touchRange - e.touches[0].pageX // 当滑动到边界时，再滑动会没有效果
-        if (moveDirection >= 0)
-            this.setState({
-                wrapWidth: 0
-            })
-        console.log(this.touchRange);
-        console.log(e.touches[0].pageX);
+        let moveDirection = e.touches[0].pageX - this.touchRange // 当滑动到边界时，再滑动会没有效果
+        let moving = e.touches[0].pageX
+        let wrapWidth = this.state.wrapWidth;
+        let addWidth = $('.app-scroller').width();
+        let screenWidth = $('.app-scroller-wrap').width();
+        if (screenWidth <= addWidth) {
+            if (this.touchLeft + moving - this.touchRange >= 0) {
+                this.setState({
+                    wrapWidth: 0
+                })
+            } else if (this.touchLeft + moving - this.touchRange <= screenWidth - addWidth) {
+                this.setState({
+                    wrapWidth: -(addWidth - screenWidth)
+                })
+
+            } else {
+                this.setState({
+                    wrapWidth: this.touchLeft + moving - this.touchRange
+                })
+            }
+        }
     }
     render() {
-        let nav_w = $('.app-scroller li').first().width();
-        $('.choose-items-wp p').width(nav_w);
 
+        if (!this.onClick) {
+            let nav_w = $('.app-scroller li').first().width();
+            $('.choose-items-wp p').width(nav_w);
+        }
         let CateLists = this.props.cateList;
         let CateList = CateLists.map(function(Cate, index) {
-            // var act = ""
-            // switch (index) {
-            //     case 0:
-            //         act = "act"
-            //         break;
-
-            // }
-            //           {
-            //     this.state.goodsHtml
-            // }
-            //   <p style={{WebkitTransform: `translate3d(${x}px, 0, 0)`,transform: `translate3d(${x}px, 0, 0)`,width:`${width}px`}}><b></b></p>
-            // <div className="app-scroller" style={{WebkitTransform: `translate3d(${navw}px, 0, 0)`,transform: `translate3d(${navw}px, 0, 0)`}} >
             return (
                 <li key={index} className={this.cheack(index)} id={Cate.cate_id} onClick={this.handleClick.bind(this,index)}><a><span>{Cate.cate_name}</span></a></li>
             )
@@ -279,32 +285,18 @@ class JsCate extends React.Component {
             <div>
                    <Motion style={{x: spring(this.state.move ),width:spring(this.state.liWidth),navw:spring(this.state.wrapWidth)}}>
                            {({x,width,navw}) =>
-
             <div id="app-scroller"  onTouchStart={this.startMoveImg.bind(this)}  onTouchMove={this.movingImg.bind(this)}  className="app-scroller-wrap" >
             <div className="app-scroller" style={{WebkitTransform: `translate3d(${navw}px, 0, 0)`,transform: `translate3d(${navw}px, 0, 0)`}} >
-
-
                             <ul className="choose-items-wp">
                             {CateList}
-             <p style={{WebkitTransform: `translate3d(${x}px, 0, 0)`,transform: `translate3d(${x}px, 0, 0)`,width:`${width}px`}}><b></b></p>
-
-       
-                       
+            <p style={{WebkitTransform: `translate3d(${x}px, 0, 0)`,transform: `translate3d(${x}px, 0, 0)`,width:`${width}px`}}><b></b></p>
                             </ul>
                         </div>
                     </div>
-                                         }
+}
         </Motion>
- <div className="app-pd-wp">
-                <div className="app-pd-list">
-
-                   <ul>
-    
-       
-                   </ul>
-                    </div>
-                    </div>
-                    <div className="load-tip"></div>
+        <CateGoods cateGoods={this.props.cateGoods}/>
+        <div className="load-tip"></div>
 
       
                 </div>
