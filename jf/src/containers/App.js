@@ -17,7 +17,8 @@ import SlickBanner_2 from '../components/SlickBanner_2';
 import SalesWrapper from '../components/SalesWrapper';
 import JsCate from '../components/JsCate';
 import {
-	beginRefresh
+	beginRefresh,
+	fetchCateGoods
 } from '../actions'
 import {
 	bindActionCreators
@@ -32,14 +33,19 @@ class App extends React.Component {
 	tryRestoreComponent() {
 		// this.props.dispatch(tryRestoreComponent())
 	}
-	beginRefresh() {}
+
+	get_cate_goods(e) {
+		this.props.dispatch(fetchCateGoods(e, 0))
+	}
 	render() {
 		const {
 			bannerItems,
 			bannerItems_2,
 			salesItems,
 			cateList,
-			cateGoods
+			cateGoods,
+			pullUpStatus,
+			pageStatus
 		} = this.props
 		return (
 			<div className='w'>
@@ -57,7 +63,7 @@ class App extends React.Component {
   			   <div id="AppBanner_2">
 		<SlickBanner_2 bannerItems_2={bannerItems_2}/>
 		</div>
-	<JsCate cateList={cateList} cateGoods={cateGoods}/>
+	<JsCate cateList={cateList} cateGoods={cateGoods} pageStatus={pageStatus} pullUpStatus={pullUpStatus} get_cate_goods={this.get_cate_goods.bind(this)}/>
             </div>
 
 		);
@@ -72,10 +78,10 @@ const mapStateToProps = state => {
 		bannerItems_2: state.MsgAppReducer.bannerItems_2,
 		cateList: state.MsgAppReducer.cateList,
 		salesItems: state.MsgAppReducer.salesItems,
-		cateGoods: state.MsgAppReducer.cateGoods
-
-
-
+		cateGoods: state.MsgAppReducer.cateGoods,
+		pullUpStatus: state.MsgAppReducer.pullUpStatus,
+		pageStatus: state.MsgAppReducer.pageStatus,
+		CateGoodsPage: state.MsgAppReducer.CateGoodsPage,
 	}
 }
 

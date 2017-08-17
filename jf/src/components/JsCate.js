@@ -183,22 +183,23 @@ class JsCate extends React.Component {
     };
 
 
-    handleClick(e, event) {
+    handleClick(e, id) {
         // let p = new Promise(function(resolve, reject) {});
+        this.props.get_cate_goods(id, 0)
         this.onClick = true;
         var widths = 0;
         for (let i = 0; i < e; i++) {
             widths += parseFloat($('.app-scroller li').eq(i).width());
         }
         console.log(parseFloat($('.app-scroller li').eq(e).width()));
-        setTimeout(() => {
 
-            this.setState({
-                move: widths,
-                currentIndex: e,
-                liWidth: parseFloat($('.app-scroller li').eq(e).width())
-            });
-        }, 0);
+
+        this.setState({
+            move: widths,
+            currentIndex: e,
+            liWidth: parseFloat($('.app-scroller li').eq(e).width())
+        });
+
         // var nav_w = $('.app-scroller li').first().width();
         let fl_w = $('.app-scroller').width();
         let flb_w = $('.app-scroller-wrap').width();
@@ -278,7 +279,7 @@ class JsCate extends React.Component {
         let CateLists = this.props.cateList;
         let CateList = CateLists.map(function(Cate, index) {
             return (
-                <li key={index} className={this.cheack(index)} id={Cate.cate_id} onClick={this.handleClick.bind(this,index)}><a><span>{Cate.cate_name}</span></a></li>
+                <li key={index} className={this.cheack(index)} id={Cate.cate_id} onClick={this.handleClick.bind(this,index,Cate.cate_id)}><a><span>{Cate.cate_name}</span></a></li>
             )
         }, this)
         return (
@@ -295,8 +296,8 @@ class JsCate extends React.Component {
                     </div>
 }
         </Motion>
-        <CateGoods cateGoods={this.props.cateGoods}/>
-        <div className="load-tip"></div>
+        <CateGoods cateGoods={this.props.cateGoods} pageStatus={this.props.pageStatus} pullUpStatus={this.props.pullUpStatus}/>
+    
 
       
                 </div>

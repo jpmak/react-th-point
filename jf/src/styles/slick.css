@@ -133,7 +133,7 @@ background: #fff;
     display: inline-block;
     height: 20px;
     width: 20px;
-    margin: 0 5px;
+    margin: 0 2px;
     padding: 0;
     cursor: pointer;
 }
@@ -147,7 +147,7 @@ background: #fff;
     line-height: 0;
     font-size: 0;
     color: transparent;
-    padding: 5px;
+    padding: 5px 1px;
     cursor: pointer;
 }
 .slick-dots li.slick-active button:before {
