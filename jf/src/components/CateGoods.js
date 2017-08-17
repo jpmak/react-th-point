@@ -17,6 +17,7 @@ class CateGoods extends React.Component {
         this.touchRange = 0 // 触控距离
         this.touchLeft = 0;
         this.onClick = false;
+        this.scrollTop=0;
         this.state = {
             move: 0,
             currentIndex: 0,
@@ -35,6 +36,59 @@ class CateGoods extends React.Component {
             4: '',
         };
     };
+    componentDidMount(){
+         window.addEventListener('scroll', this.handleScroll.bind(this));
+    }
+      componentWillUnmount () {
+    window.removeEventListener('scroll', this.handleScroll.bind(this));
+  }
+getScrollTop()
+{
+    var scrollTop=0;
+    if(document.documentElement&&document.documentElement.scrollTop)
+    {
+        scrollTop=document.documentElement.scrollTop;
+    }
+    else if(document.body)
+    {
+        scrollTop=document.body.scrollTop;
+    }
+ 
+    return scrollTop;
+     
+}
+   getClientHeight(){
+        var windowHeight = 0;
+        if(document.compatMode == "CSS1Compat"){
+            windowHeight = document.documentElement.clientHeight;
+        }else{
+            windowHeight = document.body.clientHeight;
+        }
+        return windowHeight;
+    }
+        getScrollHeight(){
+        var scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
+        if(document.body){
+            bodyScrollHeight = document.body.scrollHeight;
+        }
+        if(document.documentElement){
+            documentScrollHeight = document.documentElement.scrollHeight;
+        }
+        scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
+        return scrollHeight;
+    }
+  handleScroll(){
+    console.log( this.getScrollTop())
+        console.log( this.getClientHeight())
+    let bodyBox=document.getElementById('root')
+     let clientHeight =this.getClientHeight(); //可视区域高度
+    let scrollTop  =this.getScrollTop();  //滚动条滚动高度
+    let scrollHeight = this.getScrollHeight(); //滚动内容高度
+
+     if((clientHeight+scrollTop)==(scrollHeight)){   console.log('浏览器滚动事件') }  
+
+
+  }
     renderPage() {
         let CateGoodList = [];
         let CateGoods = this.props.cateGoods;
@@ -66,7 +120,7 @@ class CateGoods extends React.Component {
         return (
 
 
-            <div className="app-pd-wp">
+            <div className="app-pd-wp" >
                 <div className="app-pd-list">
                    <ul>
                 {CateGoodList}
