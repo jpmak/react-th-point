@@ -184,16 +184,30 @@ class JsCate extends React.Component {
 
 
     handleClick(e, id) {
-        // let p = new Promise(function(resolve, reject) {});
-        this.props.get_cate_goods(id, 0)
+        let scrollwrap = document.getElementById('scrollwrap').offsetHeight
+        let promise = new Promise(function(resolve, rejeact) {
+            resolve();
+        });
+
+
+
+        promise.then(() => {
+            this.props.get_cate_goods(id, 0)
+        }).then(() => {
+            $('html,body').animate({
+                    scrollTop: scrollwrap
+                },
+                1000);
+        })
+
+        this.props.UpDataPullUpStatus(0);
+
+
         this.onClick = true;
         var widths = 0;
         for (let i = 0; i < e; i++) {
             widths += parseFloat($('.app-scroller li').eq(i).width());
         }
-        console.log(parseFloat($('.app-scroller li').eq(e).width()));
-
-
         this.setState({
             move: widths,
             currentIndex: e,
@@ -240,6 +254,7 @@ class JsCate extends React.Component {
         //     'left': fnl_l
         // }, 300);
     }
+
     cheack(index) {
         return index === this.state.currentIndex ? 'act' : '';
     }
@@ -296,7 +311,7 @@ class JsCate extends React.Component {
                     </div>
 }
         </Motion>
-        <CateGoods cateGoods={this.props.cateGoods} pageStatus={this.props.pageStatus} pullUpStatus={this.props.pullUpStatus}/>
+        <CateGoods ref='CateGoods' cateGoods={this.props.cateGoods} pageStatus={this.props.pageStatus} pullUpStatus={this.props.pullUpStatus} pullDownStatus={this.props.pullDownStatus} changeGoods={this.props.changeGoods} />
     
 
       

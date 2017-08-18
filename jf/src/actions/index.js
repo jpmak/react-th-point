@@ -2,14 +2,17 @@
 
     import * as consts from "../consts/ActionTypes";
 
+    export function tryRestoreComponent() {
+      return {
+        type: consts.APP_RESTORE_COMPONENT
+      };
+    }
+
 
     // 发起刷新
     export function beginRefresh() {
       return (dispatch) => {
-        // 同步更新下拉状态
-        dispatch({
-          type: consts.MSG_APP_RESTORE_COMPONENT
-        });
+
         // 异步网络请求
         fetchBanner(dispatch);
         fetchSalse(dispatch);
@@ -17,8 +20,6 @@
 
       }
     }
-
-
 
     const fetchBanner = (dispatch) => {
 
@@ -42,7 +43,6 @@
     }
 
     const fetchSalse = (dispatch) => {
-
       fetch('/wap/?g=WapSite&c=Exchange&a=sales_volume', {
           method: 'POST',
           headers: {
@@ -100,11 +100,29 @@
               type: consts.FETCHCATEGOODS_SUCCESS,
               cateGoods: data.goods_list,
               pageStatus: data.status,
+
               CateGoodsPage: page
             });
           })
           .catch(function(e) {
             console.log("加载失败");
           });
+      }
+    }
+
+    export const getCateId = (id) => {
+      return (dispatch) => {
+        dispatch({
+          type: consts.UPDATE_CATEID_STATUS,
+          cateId: id
+        });
+      };
+    }
+    export const pullUpStatus = (e) => {
+      return (dispatch) => {
+        dispatch({
+          type: consts.UPDATE_PULLUP_STATUS,
+          pullUpStatus: e
+        });
       }
     }

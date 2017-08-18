@@ -63,7 +63,7 @@
         /* winphone8和android4+ */
         -webkit-overflow-scrolling: touch;
         overflow: hidden;
-       
+       z-index: 100;
 
 
         /* ios5+ */
@@ -149,9 +149,14 @@
     
     .app-pd-wp {
         position: relative;
-        overflow: hidden;
+  
+            display: block;
+            width: 7.5rem;
+          min-height:11.02rem;
     }
-    
+    .fixedHeight{
+       width: 100%;height:1rem;
+    }
     .app-swipe-ul {
         margin: 0;
         overflow: hidden;
@@ -172,12 +177,46 @@
     margin:0;
     padding:0;
 
+    overflow:hidden;
+
+
         li {
+
             width: 3.7rem;
             float: left;
             margin-right: .1rem;
             margin-bottom: .1rem;
             background: #fff;
+             &.add1{
+-webkit-animation:fadenli 1s .2s ease both;
+-moz-animation:fadenli 1s .2s ease both;}
+@-webkit-keyframes fadenli{
+0%{opacity:.5;
+-webkit-transform:translateY(8px)}
+100%{opacity:1;
+-webkit-transform:translateY(0px)}
+}
+@-moz-keyframes fadenli{
+0%{opacity:.5;
+-moz-transform:translateY(8px)}
+100%{opacity:1;
+-moz-transform:translateY(0px)}
+}
+&.move1{
+-webkit-animation:fadeOutli 1s .2s ease both;
+-moz-animation:fadeOutli 1s .2s ease both;}
+@-webkit-keyframes fadeOutli{
+0%{opacity:1;
+-webkit-transform:translateY(0)}
+100%{opacity:0;
+-webkit-transform:translateY(10px)}
+}
+@-moz-keyframes fadeOutli{
+0%{opacity:1;
+-moz-transform:translateY(0)}
+100%{opacity:0;
+-moz-transform:translateY(10px)}
+}
             &:nth-child(2n) {
                 margin-right: 0;
             }
@@ -681,13 +720,30 @@ top:1.02rem;
     .pdb120 {
         padding-bottom: 1.2rem;
     }
-#PullUp {
-    float: left;
-    margin: 0px;
-    line-height: .5rem;
+#PullUp,#PullDown {
+
+        margin: 0 auto;
+
+    // line-height: .5rem;
     width: 100%;
     text-align: center;
     font-size: .24rem;
-    height: .5rem;
+    // height: .5rem;
 }
+#PullUp .remove{
+-webkit-animation:fadeOutUp 1s .2s ease both;
+-moz-animation:fadeOutUp 1s .2s ease both;}
+@-webkit-keyframes fadeOutUp{
+0%{opacity:1;
+-webkit-transform:translateY(0)}
+100%{opacity:0;
+-webkit-transform:translateY(-20px)}
+}
+@-moz-keyframes fadeOutUp{
+0%{opacity:1;
+-moz-transform:translateY(0)}
+100%{opacity:0;
+-moz-transform:translateY(-20px)}
+}
+
 .r-gif{width:0.22rem; height: 0.22rem; background: url(../images/loading.gif);background-size:0.22rem 0.22rem;display:inline-block;line-height:.4rem;margin-right: .1rem; }
