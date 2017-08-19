@@ -16,6 +16,8 @@ import SlickBanner from '../components/SlickBanner';
 import SlickBanner_2 from '../components/SlickBanner_2';
 import SalesWrapper from '../components/SalesWrapper';
 import JsCate from '../components/JsCate';
+import FooterNav from '../components/FooterNav';
+
 import {
 	loadingStatus,
 	tryRestoreComponent,
@@ -66,11 +68,13 @@ class App extends React.Component {
 			pageStatus
 		} = this.props
 		return (
-			<div className='w'>
-			<div id='scrollwrap'>
-	<header  id='search'>
+			<div>
+				<header  id='search'>
 			    <SearchBox /> 
 			   </header>
+			<div className='w'>
+			<div id='scrollwrap'>
+
 			   <div id="AppBanner">
 		<SlickBanner bannerItems={bannerItems}/>
 		</div>
@@ -85,8 +89,12 @@ class App extends React.Component {
 	<JsCate cateList={cateList} cateGoods={cateGoods} pageStatus={pageStatus} pullDownStatus={pullDownStatus} pullUpStatus={pullUpStatus} UpDataPullUpStatus={this.UpDataPullUpStatus.bind(this)} get_cate_goods={this.get_cate_goods.bind(this)} changeGoods={this.changeGoods.bind(this)} 
 
 	/>
-            </div>
 
+            </div>
+            <footer id='nav'>
+            <FooterNav/>
+            </footer>
+</div>
 		);
 	}
 }

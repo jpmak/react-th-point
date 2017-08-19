@@ -233,7 +233,50 @@ a.th-btn.th-btn-assertive.th-btn-outline {
         }
     }
 }
+/*底部导航*/
+.nav-tab{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+    width: 100%;
+    height: 1rem;
+    z-index: 199;
 
+    border-top: 1px solid #EEE;
+    .hor-view{
+        display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    background: #fff;
+
+    a {
+        color: #353d44;
+            position: relative;
+            flex:1;
+    display: block;
+line-height:.7rem;
+margin:.15rem 0;
+    height: .7rem;
+    text-align: center;
+    border-right:1px dashed $borderColor;
+    } 
+     a:last-child { 
+    border-right:0; 
+}
+span{
+
+}
+    .cur span {
+    color: #F5A623;
+}
+    }
+}
 
 /*积分分类*/
 @import 'brand';
