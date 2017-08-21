@@ -400,19 +400,11 @@ class SearchResult extends React.Component {
     }
 
     componentDidMount() {
-
         const _this = this;
-        // $('.search-keywords-list li a').on('click', function() {
-        //     let hVal = $(this).html();
-        //     _this.funStoreHistory(hVal);
-        // });
-
-
     }
     PreventDefault(e) {
         e.preventDefault();
     }
-
     delbtnClick() {
         const _this = this;
         this.setState({

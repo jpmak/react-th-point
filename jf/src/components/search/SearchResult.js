@@ -1,46 +1,82 @@
 import React from 'react';
-let searchMsg = '';
-let arrval = new Array();
-let keyword = '';
+import $ from 'jquery';
+import {
+    Link
+} from 'react-router-dom'
 class SearchResult extends React.Component {
-    componentDidMount() {
-        const _this = this;
+    constructor(props, context) {
+        super(props, context);
+        // this.arrval = [];
+        this.searchMsg = '';
+        this._props = this.props;
+        this.state = {
+            history_Html: '',
+            arrval: []
+        };
+
+
+    }
+    componentWillMount() {
         if (window.localStorage.searchhistory) {
-            searchMsg = JSON.parse(window.localStorage.searchhistory);
+            this.searchMsg = JSON.parse(window.localStorage.searchhistory);
             // arrval.push(searchMsg);
-            this.historyHtml();
-            arrval = arrval.concat(searchMsg);
+            // this.historyHtml();
+            this.state.arrval = this.state.arrval.concat(this.searchMsg);
         } else {
             $('.search-keywords').hide();
         }
-        $('.search-keywords-list li a').on('click', function() {
-            var sVal = $('#searchInput').val();
-            var hVal = $(this).html();
-            $('#searchInput').val(hVal);
-            _this.funStoreHistory();
-
-        });
-        $('.delbtn').on('click', function() {
-            if (confirm("确定要清空吗？")) {
-                localStorage.removeItem("searchhistory");
-                $('.search-wrap').remove();
-                arrval = [];
-
-            }
-
-        });
     }
 
-    funStoreHistory() {
-        arrval.unshift($('#searchInput').val());
-        if (arrval.length > 9) {
-            arrval.pop(9);
+    componentDidMount() {
+        const _this = this;
+    }
+    PreventDefault(e) {
+        e.preventDefault();
+    }
+    delbtnClick() {
+        const _this = this;
+        this.setState({
+            arrval: []
+        });
+        // if (confirm('确定要清空吗？')) {
+        //     // this.arrval.length = 0;
+
+        //     localStorage.removeItem('searchhistory');
+        //     $('.search-wrap').hide();
+        //     // $('#searchInput').val('').focus();
+        //     // _this.props.searchhistory(false);
+        //     this.props.searchMsgStatus_fun(false);
+        //     this.props.handleDel();
+        // }
+
+    }
+    handClick() {
+        $('#searchInput').blur();
+        $('#js-list,.class,.result-wp').show();
+        $('.search-wrap,.th-search-box .backbtn').hide();
+    }
+    funStoreHistory(e) {
+        // this.props.searchMsgStatus_fun(true);
+        var sVal = $('#searchInput').val();
+        this.state.arrval.unshift(e);
+        if (this.state.arrval.length > 9) {
+            this.state.arrval.pop(9);
         }
-        // arrval=unique(arrval);
-        arrval = this.unique(arrval);
-        window.localStorage.searchhistory = JSON.stringify(arrval);
-        keyword = arrval[0];
-        window.location.reload();
+  
+        this.state.arrval = this.unique(this.state.arrval);
+        window.localStorage.searchhistory = JSON.stringify(this.state.arrval);
+        this.handClick();
+
+        if (this.props.loadingStatus != 4) {
+            this.props.onloadScroll()
+        }
+
+        let p = new Promise(function(resolve, reject) {
+
+        });
+        this.props.searchNum();
+        p.then(this.props.getKeyword(this.state.arrval[0]))
+            .then(this.props.priceClick(''))
     }
     unique(arr) {
         var res = [];
@@ -53,22 +89,30 @@ class SearchResult extends React.Component {
         }
         return res;
     }
-    historyHtml() {
-        let history_Html = '';
-        for (var i = 0; i < searchMsg.length; i++) {
-            history_Html += '<li><a>' + searchMsg[i] + '</a></li>';
-        }
-        $('.search-keywords-list').html(history_Html);
 
-    }
     render() {
+        const _this = this;
+
+        let history_Html = this.state.arrval.map(function(Msg, index) {
+            return (
+                <li key={index}><Link to={'/search/'} >{Msg}</Link></li>
+// onClick={_this.funStoreHistory.bind(_this,Msg)}
+                
+                // <li key={index}><a onClick={(e) => {e.preventDefault();this.hand_li_Click.bind(this);}}>{Msg}</a></li>
+            )
+
+        });
         return (
+
             <div className = "search-wrap" >
             <div className="search-keywords bor-b">
                 <div className="search-keywords-name">
-                    <span>历史记录 <i className="delbtn"></i></span>
+                    <span><Link to={'/'} >历史记录</Link> <i className="delbtn" onClick={this.delbtnClick.bind(this)}></i></span>
                 </div>
                 <div className="search-keywords-list ">
+        {
+       history_Html
+        }
                 </div>
             </div>
             </div>

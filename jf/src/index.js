@@ -50,7 +50,7 @@ const Jf = () => (
 	<div>
 	<Route exact path="/" component={App} />
 	 <Route path="/product/:id" component={R_det}/>
-	 	<Route path="/search.html/" component={Searchhead} />
+	 	<Route path="/search/" component={Searchhead} />
 	</div>
   </Router>
 );
