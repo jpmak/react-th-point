@@ -149,10 +149,10 @@
     
     .app-pd-wp {
         position: relative;
-  
             display: block;
             width: 7.5rem;
           min-height:11.02rem;
+          padding-bottom:1rem;
     }
     .fixedHeight{
        width: 100%;height:1rem;
@@ -175,8 +175,7 @@
     .app-pd-list {
            list-style: none;
     margin:0;
-    padding:0;
-
+    padding:0 ;
     overflow:hidden;
 
 

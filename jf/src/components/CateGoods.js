@@ -7,11 +7,8 @@ import {
     Route,
     Link
 } from 'react-router-dom'
-
-
 // let goodsList = this.state.goodsList;
 class CateGoods extends React.Component {
-
     constructor(props) {
         super(props);
         this.touchRange = 0 // 触控距离
@@ -30,7 +27,6 @@ class CateGoods extends React.Component {
             onMoveX: 0,
             changeGoods: 1,
             scrollFixed: 0
-
         };
         this.pullUpTips = {
             // 上拉状态
@@ -51,7 +47,7 @@ class CateGoods extends React.Component {
         window.addEventListener('scroll', this.handleScroll);
     }
     componentWillUnmount() {
-        console.log('test');
+
         window.removeEventListener('scroll', this.handleScroll);
     }
     getScrollTop() {
@@ -61,9 +57,7 @@ class CateGoods extends React.Component {
         } else if (document.body) {
             scrollTop = document.body.scrollTop;
         }
-
         return scrollTop;
-
     }
     getClientHeight() {
         var windowHeight = 0;
@@ -94,15 +88,10 @@ class CateGoods extends React.Component {
         let clientHeight = this.getClientHeight(); //可视区域高度
         let scrollTop = this.getScrollTop(); //滚动条滚动高度
         let scrollHeight = this.getScrollHeight(); //滚动内容高度
-        console.log(scrollTop);
-        console.log(scrollwrap);
-
         if (scrollTop > scrollwrap) {
             this.setState({
                 scrollFixed: 1
             });
-
-            console.log('test');
             $('#app-scroller').css({
                 'position': 'fixed',
                 'top': '0'
@@ -123,29 +112,21 @@ class CateGoods extends React.Component {
     }
 
     changeLi() {
-
         let promise = new Promise(function(resolve, rejeact) {
             resolve();
         });
-
         promise.then(() => {
-
             this.changeGoods = false
         }).then(() => {
             this.changeGoods = true
         })
-
-
     }
 
     renderPage() {
         let bodyBox = document.getElementById('root')
-
         let CateGoodList = [];
         let CateGoods = this.props.cateGoods;
-
         if (this.props.cateGoods != '') {
-
             CateGoodList = CateGoods.map((CateGood, index) => {
                 return (
                     <li  key={index} className={this.changeGoods?'add':'move'}> 

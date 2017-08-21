@@ -378,7 +378,7 @@ class ResultWrap extends React.Component {
                 return (
 
 
-                    <li key={index}><Link  to={'/R_det/'+goods.item_id} className='upItem' data-id={goods.item_id}><div className="info-img">{/*<LazyLoad offset={100} once>*/}<img alt="" className="lazy" src={goods.list_image}/>{/*</LazyLoad>*/}</div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link>      </li>
+                    <li key={index}><Link to={'/product/'+goods.item_id+'.html'} className='upItem' data-id={goods.item_id}><div className="info-img">{/*<LazyLoad offset={100} once>*/}<img alt="" className="lazy" src={goods.list_image}/>{/*</LazyLoad>*/}</div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link>      </li>
 
                 );
             })
@@ -396,12 +396,12 @@ class ResultWrap extends React.Component {
                 <div id = "ListOutsite" style ={{height: window.innerHeight}}
                      onTouchStart={this.onTouchStart} onTouchEnd={this.onTouchEnd}>
             <ul id="ListInside"  className="app-pd-list hor-list">
-        <p ref="PullDown" id="PullDown" dangerouslySetInnerHTML={{__html:this.pullDownTips[this.props.pullDownStatus]}} />
+        <p ref="PullDown" id="IsPullDown" dangerouslySetInnerHTML={{__html:this.pullDownTips[this.props.pullDownStatus]}} />
 
         {
             lis
         }
-                        <p ref="PullUp" id="PullUp" dangerouslySetInnerHTML={{__html:this.pullUpTips[this.props.pullUpStatus]}} />
+                        <p ref="PullUp" id="IsPullUp" dangerouslySetInnerHTML={{__html:this.pullUpTips[this.props.pullUpStatus]}} />
 
             </ul>
          </div>

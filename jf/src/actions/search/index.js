@@ -146,8 +146,6 @@
 
     //////iscrool///////
 
-
-
     export const searchPageReddit = reddit => ({
       type: SEARCHPAGE_REDDIT,
       reddit
@@ -180,39 +178,11 @@
         success: (data) => {
 
           dispatch(receivePagePosts(reddit, data))
-            // if (data.goods_list) {
-            //   if (isRefresh) { // 刷新操作
-            //     if (this.state.pullDownStatus == 3) {
-            //       this.setState({
-            //         pullDownStatus: 4,
-            //         page_state: 1,
-            //         items: data.goods_list,
-            //         page: data.status
-            //       });
 
-          //       this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 500);
-          //       if (this.state.pullUpStatus == 5) {
-          //         this.setState({
-          //           pullUpStatus: 0, //
-          //           opacity: false
-          //         });
-          //       }
-          //     }
-          //   }
-          // }
         }
       });
 
 
-      // return fetch('http://dev.thgo8.com/?g=WapSite&c=Exchange&a=search_goods', {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/x-www-form-urlencoded'
-      //     },
-      //     body: `keyword=2&page=${reddit}`
-      //   })
-      //   .then(response => response.json())
-      //   .then(json => dispatch(receivePagePosts(reddit, json)))
     }
 
     export const shouldFetchPosts = (state, reddit) => {

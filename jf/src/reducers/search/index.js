@@ -17,7 +17,7 @@ import {
   MSG_LIST_PAGE_VOLUME,
   MSG_LIST_PAGE_PRICE,
   MSG_LIST_PAGE_UPDATE_LOADING_STATUS
-}from '../../actions/search'
+} from '../../actions/search'
 
 // 组件初始化状态，其实就是把component的constructor的挪到这里就完事了
 const initState = {
@@ -219,58 +219,6 @@ const searchPagedReddit = (state = 0, action) => {
   }
 }
 
-const posts = (state = {
-  isFetching: false,
-  didInvalidate: false,
-  is_items: [],
-  statu: 0
-}, action) => {
-  switch (action.type) {
-    case INVALIDATE_REDDIT:
-      return {
-        ...state,
-        didInvalidate: true
-      }
-    case REQUESTPAGE_POSTS:
-      return {
-        ...state,
-        isFetching: true,
-        didInvalidate: false
-      }
-    case RECEIVEPAGE_POSTS:
-      return {
-        ...state,
-        isFetching: false,
-        didInvalidate: false,
-        is_items: action.posts,
-        status: action.status
-
-      }
-    default:
-      return state
-  }
-}
-
-const postsByReddit = (state = {}, action) => {
-  switch (action.type) {
-    case INVALIDATE_REDDIT:
-    case RECEIVEPAGE_POSTS:
-    case REQUESTPAGE_POSTS:
-      return {
-        ...state,
-        [action.reddit]: posts(state[action.reddit], action)
-      }
-    default:
-      return state
-  }
-}
 
 
-
-const rootReducer = combineReducers({
-  postsByReddit,
-  searchPagedReddit,
-  MsgListPageReducer
-})
-
-export default rootReducer
+export default MsgListPageReducer

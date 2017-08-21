@@ -18,8 +18,8 @@ import Goback from '../../components/public/Goback';
 import ResultWrap from '../../components/search/ResultWrap';
 
 import {
-    beginRefresh,
-    tryRestoreComponent,
+    SearchBeginRefresh,
+    SearchTryRestoreComponent,
     updateLoadingStatus,
     beginLoad,
     updatePullUpStatus,
@@ -30,8 +30,8 @@ import {
     price,
     volume,
     begin,
-    fetchPostsIfNeeded
-} from '../../actions/search'
+
+} from '../../actions'
 
 import {
     bindActionCreators
@@ -111,31 +111,6 @@ class Searchhead extends React.Component {
 
         const _this = this;
 
-        // $('#searchInput').on('click', function() {
-
-        //     // $('#js-list,.class,.result-wp').hide();
-        //     // $('.th-search-box .backbtn').show();
-
-        //     // $('.th-active,.th-active body').css('overflow', 'auto');
-
-        // });
-        // $('#searchInput').on('keyup focus', function(e) {
-
-        //     $('.search-bar input').css('width', '80%');
-        //     var uVal = $('#searchInput').val();
-        //     if (_this.searchhistory_ev) {
-        //         $('.search-wrap').css('display', 'block');
-
-        //     }
-        //     if (uVal !== '') {
-        //         if (e.keyCode === 13) {
-        //             _this._handleClick();
-        //         }
-        //         $('#del').show();
-        //     } else {
-        //         $('#del').hide();
-        //     }
-        // });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -193,13 +168,6 @@ class Searchhead extends React.Component {
         $('#del').hide();
         $('.search-bar input').css('width', '100%');
     }
-    fetchPostsIfNeeded() {
-        const {
-            dispatch,
-            searchPagedReddit
-        } = this.props
-        dispatch(fetchPostsIfNeeded(searchPagedReddit))
-    }
 
 
 
@@ -211,11 +179,11 @@ class Searchhead extends React.Component {
 
     }
     tryRestoreComponent() {
-        this.props.dispatch(tryRestoreComponent())
+        this.props.dispatch(SearchTryRestoreComponent())
 
     }
     beginRefresh() {
-        this.props.dispatch(beginRefresh())
+        this.props.dispatch(SearchBeginRefresh())
     }
     searchNum() {
 
@@ -237,7 +205,7 @@ class Searchhead extends React.Component {
     defaultClick() {
         this.onloadScroll();
         this.props.dispatch(price(''))
-        this.props.dispatch(beginRefresh())
+        this.props.dispatch(SearchBeginRefresh())
 
 
     }
@@ -247,7 +215,7 @@ class Searchhead extends React.Component {
 
         this.onloadScroll();
 
-        this.props.dispatch(beginRefresh())
+        this.props.dispatch(SearchBeginRefresh())
 
 
     }
@@ -255,7 +223,7 @@ class Searchhead extends React.Component {
         this.props.dispatch(price(e));
         this.onloadScroll();
         setTimeout(() => {
-            this.props.dispatch(beginRefresh())
+            this.props.dispatch(SearchBeginRefresh())
         }, 0);
 
     }
@@ -552,22 +520,7 @@ class SearchResult extends React.Component {
         )
     }
 }
-
-
 const mapStateToProps = state => {
-    const {
-        searchPagedReddit,
-        postsByReddit
-    } = state
-    const {
-        isFetching,
-        is_items: posts,
-        status: status
-    } = postsByReddit[searchPagedReddit] || {
-        isFetching: true,
-        is_items: [],
-        status: 0
-    }
     return {
         //iscroll//
         items: state.MsgListPageReducer.items,
@@ -581,23 +534,10 @@ const mapStateToProps = state => {
         volume: state.MsgListPageReducer.volume,
         price: state.MsgListPageReducer.price,
         searchNum: state.MsgListPageReducer.searchNum,
-
-        //iscroll//
-        searchPagedReddit,
-        posts,
-        status,
-        isFetching
-
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(dispatch);
 }
-
 export default connect(mapStateToProps)(Searchhead)
-    // export {
-    //     Searchhead,
-    //     ResultWrap,
-    //     Goback_up
-    // }

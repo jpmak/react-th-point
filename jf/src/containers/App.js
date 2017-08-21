@@ -11,6 +11,7 @@ import {
 	Link
 } from 'react-router-dom';
 import $ from 'jquery';
+import TopNav from '../components/TopNav';
 import SearchBox from '../components/SearchBox';
 import SlickBanner from '../components/SlickBanner';
 import SlickBanner_2 from '../components/SlickBanner_2';
@@ -69,26 +70,29 @@ class App extends React.Component {
 		} = this.props
 		return (
 			<div>
-				<header  id='search'>
-			    <SearchBox /> 
-			   </header>
-			<div className='w'>
-			<div id='scrollwrap'>
 
-			   <div id="AppBanner">
+		<div id='scrollwrap'>
+		<header id="headnav">
+		<TopNav titleName = "兑换商城"	icon = "jf-record-icon" icon_link = "search.html" />
+		</header>
+		<div  id='search'>
+		<SearchBox /> 
+		</div>
+		<div className='w'>
+
+		<div id="AppBanner">
 		<SlickBanner bannerItems={bannerItems}/>
 		</div>
-
 		<div className='jf-bsell-box'>
-       <SalesWrapper salesItems={salesItems}/>
-       </div>
-  			   <div id="AppBanner_2">
+        <SalesWrapper salesItems={salesItems}/>
+        </div>
+  		<div id="AppBanner_2">
 		<SlickBanner_2 bannerItems_2={bannerItems_2}/>
 		</div>
 		</div>
-	<JsCate cateList={cateList} cateGoods={cateGoods} pageStatus={pageStatus} pullDownStatus={pullDownStatus} pullUpStatus={pullUpStatus} UpDataPullUpStatus={this.UpDataPullUpStatus.bind(this)} get_cate_goods={this.get_cate_goods.bind(this)} changeGoods={this.changeGoods.bind(this)} 
-
-	/>
+		</div>
+			<div className='w'>
+	<JsCate cateList={cateList} cateGoods={cateGoods} pageStatus={pageStatus} pullDownStatus={pullDownStatus} pullUpStatus={pullUpStatus} UpDataPullUpStatus={this.UpDataPullUpStatus.bind(this)} get_cate_goods={this.get_cate_goods.bind(this)} changeGoods={this.changeGoods.bind(this)} />
 
             </div>
             <footer id='nav'>

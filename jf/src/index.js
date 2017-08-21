@@ -12,9 +12,10 @@ import {
 	Link
 } from 'react-router-dom'
 
-import R_det from './containers/r_det';
-// import Searchhead from './containers/search/Redux_Searchhead';
 import App from './containers/App';
+import R_det from './containers/r_det';
+import Searchhead from './containers/search/Redux_Searchhead';
+
 import reducer from './reducers';
 
 import {
@@ -49,6 +50,7 @@ const Jf = () => (
 	<div>
 	<Route exact path="/" component={App} />
 	 <Route path="/product/:id" component={R_det}/>
+	 	<Route path="/search.html/" component={Searchhead} />
 	</div>
   </Router>
 );

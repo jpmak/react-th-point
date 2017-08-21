@@ -1,5 +1,5 @@
 import React from 'react';
-// import SortsBtn from './public/SortsBtn';
+import SortsBtn from './public/SortsBtn';
 import SearchInput from './search/SearchInput';
 import Goback from './public/Goback';
 
@@ -89,7 +89,7 @@ class SearchResult extends React.Component {
             <div className = "search-wrap" >
             <div className="search-keywords bor-b">
                 <div className="search-keywords-name">
-                    <span>历史记录 <i className="delbtn"></i></span>
+        <span>历史记录 <i className="delbtn"></i></span>
                 </div>
                 <div className="search-keywords-list ">
                 </div>
@@ -117,15 +117,7 @@ var SearchBox = React.createClass({
         $('#del').hide();
         $('.search-bar input').css('width', '100%');
     },
-    _handleClick: function() {
-        var sVal = $('#searchInput').val();
 
-        if (sVal != '') {
-            const _this = this;
-            keyword = sVal;
-            _this.refs.getarr.funStoreHistory();
-        }
-    },
     componentDidMount: function() {
         const _this = this;
         $('#searchInput').on('keyup focus', function(e) {
@@ -141,10 +133,14 @@ var SearchBox = React.createClass({
             }
         });
         $('#searchInput').on('click', function() {
-            $('#js-list,.class,.result-wp').hide();
+
+            $('#headnav').addClass('js-header');
+
+            $('#js-list,.sorts,.result-wp').hide();
+            $('.th-search-container').addClass('on-focus');
+            $('.th-search-container').removeClass('on-blur');
             $('.search-wrap,.th-search-box .backbtn').show();
             $('.th-active,.th-active body').css('overflow', 'auto');
-
         });
         $('#searchInput').on('keyup focus', function(e) {
             $('.search-bar input').css('width', '80%');
@@ -159,15 +155,24 @@ var SearchBox = React.createClass({
             }
         });
     },
+    _handleClick: function() {
+        var sVal = $('#searchInput').val();
+
+        if (sVal != '') {
+            const _this = this;
+            keyword = sVal;
+            _this.refs.getarr.funStoreHistory();
+        }
+    },
     render: function() {
         var value = this.state.value;
         return (
             <div className="th-search-container on-blur" style={{'display': 'block'}}>
             <div className="th-search-box">
                 <div className="th-search-shadow"></div>
-              
-        <Goback/>
-     <Goback_up/>
+                      <SortsBtn Sorthref="category.html"/>
+  
+        <Goback_up/>
         <a className="search-btn" onClick={this._handleClick}>搜索</a>
 
 

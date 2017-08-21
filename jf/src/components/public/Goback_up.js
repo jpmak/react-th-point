@@ -7,6 +7,9 @@ class Goback_up extends React.Component {
     handClick() {
         $('#searchInput').val("")
         $('#searchInput').blur();
+        $('.th-search-container').removeClass('on-focus');
+        $('.th-search-container').addClass('on-blur');
+        $('#headnav').removeClass('js-header');
         $('#js-list,.class,.result-wp').show();
         $('.search-wrap,.th-search-box .backbtn').hide();
     }

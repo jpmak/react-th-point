@@ -76,7 +76,7 @@ class SalesWrapper extends React.Component {
             }
             return (
 
-                <li key={index}><Link to="/jf.html/R_det" className="upItem" data-id={goods.item_id}  ><div className="info-img"><div className={sales_top}></div>
+                <li key={index}><Link to={'/product/'+goods.item_id+'.html'} className="upItem" data-id={goods.item_id}  ><div className="info-img"><div className={sales_top}></div>
       <LazyLoad placeholder={<PlaceholderComponent />}  >
                 <img  src={goods.list_image} />
      </LazyLoad>
