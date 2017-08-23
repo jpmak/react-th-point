@@ -92,9 +92,9 @@ class ResultWrap extends React.Component {
         // document.addEventListener('touchmove', this.PreventDefault, false);
     }
     componentDidMount() {
-        console.log('componentDidMount');
         // 首次进入列表页，那么异步加载数据
         if (this.props.loadingStatus == 1) {
+            this.props._keywordClick(this.props.parmKeyword)
             this.props.beginRefresh();
         } else {
             this.ensureIScrollInstalled();

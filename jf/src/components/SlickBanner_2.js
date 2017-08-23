@@ -5,8 +5,6 @@ class SlickBanner_2 extends React.Component {
     render() {
 
         let settings = {
-            autoplay: true,
-            autoplaySpeed: 3000,
             dots: true,
             arrows: false,
             nextArrow: true,

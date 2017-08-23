@@ -70,13 +70,12 @@ class App extends React.Component {
 		} = this.props
 		return (
 			<div>
-
 		<div id='scrollwrap'>
 		<header id="headnav">
 		<TopNav titleName = "兑换商城"	icon = "jf-record-icon" icon_link = "search.html" />
 		</header>
-		<div  id='search'>
-		<SearchBox /> 
+		<div id='search'>
+		<SearchBox/>
 		</div>
 		<div className='w'>
 

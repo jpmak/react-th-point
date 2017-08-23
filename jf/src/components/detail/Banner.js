@@ -17,15 +17,27 @@ class Banner extends React.Component {
 
     render() {
         let settings = {
+            autoplay: true,
+            autoplaySpeed: 3000,
             dots: true,
             arrows: false,
+            pauseOnHover: false,
             nextArrow: true,
             prevArrow: true,
-            lazyLoad: true,
             infinite: false,
-            speed: 500,
             slidesToShow: 1,
             slidesToScroll: 1
+                // autoplay: true,
+                // autoplaySpeed: 3000,
+                // dots: true,
+                // arrows: false,
+                // nextArrow: true,
+                // prevArrow: true,
+                // lazyLoad: true,
+                // infinite: false,
+                // speed: 500,
+                // slidesToShow: 1,
+                // slidesToScroll: 1
         };
         // var repos = this.props.data.bann_top.advList;
         let repos = this.props.imgsrc

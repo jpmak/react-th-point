@@ -103,9 +103,7 @@ class ResultSort extends React.Component {
 
     }
     render() {
-        console.log('+++++++++')
-        console.log(this.props.searchNum)
-            // this.state.indexColor=this.props.pushSearch?'#FF3838':'#666'
+        // this.state.indexColor=this.props.pushSearch?'#FF3838':'#666'
         return (
             <div className="result-sort">
             <li className="cur" onClick={this.defaultClick.bind(this)} style={{'color':this.state.indexColor}}>综合</li>

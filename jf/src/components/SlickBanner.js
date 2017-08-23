@@ -5,12 +5,13 @@ import '../styles/slick.css';
 
 class SlickBanner extends React.Component {
     render() {
-
+        console.log('test');
         let settings = {
             autoplay: true,
             autoplaySpeed: 3000,
             dots: true,
             arrows: false,
+            pauseOnHover: false,
             nextArrow: true,
             prevArrow: true,
             lazyLoad: true,
@@ -37,6 +38,7 @@ class SlickBanner extends React.Component {
 
         return (
             <div>
+            
 <Slider {...settings}>
 {repoList}
      </Slider>

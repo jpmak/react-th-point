@@ -1,5 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
+
+import LazyLoad from 'react-lazyload';
 import {
     Motion,
     spring
@@ -49,6 +51,15 @@ class SalesWrapper extends React.Component {
         }
     }
     render() {
+        let settings = {
+            touchAction: 'compute',
+            recognizers: {
+                tap: {
+                    time: 600,
+                    threshold: 100
+                }
+            }
+        };
         let goodsHtmls = this.props.salesItems;
         let goodsList = goodsHtmls.map(function(goods, index) {
             var sales_top = 'top '
@@ -65,13 +76,11 @@ class SalesWrapper extends React.Component {
             }
             return (
 
-
-                <li  key={index}><Link to={'/product/'+goods.item_id+'.html'} className="upItem" data-id={goods.item_id}  ><div className="info-img"><div className={sales_top}></div>
-  
-                <img  src={goods.list_image}  />
-
+                <li key={index}><Link to={'/product/'+goods.item_id+'.html'} className="upItem" data-id={goods.item_id}  ><div className="info-img"><div className={sales_top}></div>
+         
+                <img  src={goods.list_image} />
+ 
                 </div><div className="info-bar"><div className="e-numb"><span className="e-price"><em>{goods.item_price} </em>积分</span></div></div></Link> </li>
-
 
             )
 
@@ -88,11 +97,9 @@ class SalesWrapper extends React.Component {
             <div className='hor-view'>
 <div className='tag'>热门推荐</div>
             </div>
-      
                 <div id="scroller" className="list" style={{WebkitTransform: `translate3d(${navw}px, 0, 0)`,transform: `translate3d(${navw}px, 0, 0)`}} >
                         <ul>{goodsList}</ul>
-                  
-</div>
+                    </div>
 
 </div>
        }

@@ -1,48 +1,72 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import $ from 'jquery';
 
 class SearchInput extends React.Component {
+    // static propTypes = {
+    //     history: PropTypes.object.isRequired
+    // }
     constructor(props) {
         super(props);
         this.state = {
-            value: ''
+            value: this.props.parmKeyword
         };
         this.handleChange = (event) => {
+            let val = event.target.value;
+            val = val.replace(/["'<>%;)(&+, ]/g, '');
+            this.props.pushValue(val)
             this.setState({
-                value: event.target.value
+                value: val
             });
-        }
-    }
-    componentDidMount() {
-        const _this = this;
-        $('#searchInput').on('click', function() {
-            $('#js-list,.class,.result-wp').hide();
-            $('.search-wrap,.th-search-box .backbtn').show();
-            $('.th-active,.th-active body').css('overflow', 'auto');
 
+        }
+
+    }
+    clearValue() {
+        this.setState({
+            value: ''
         });
-        $('#searchInput').on('keyup focus', function(e) {
-            $('.search-bar input').css('width', '80%');
-            var uVal = $('#searchInput').val();
-            if (uVal !== '') {
+    }
+    searchInputClick() {
+
+        $('#js-list,.class,.result-wp').hide();
+        $('.th-search-box .backbtn').show();
+
+        $('.th-active,.th-active body').css('overflow', 'auto');
+
+
+        $('.search-bar input').css('width', '80%');
+        if (this.state.value != '') {
+            $('#del').show();
+        }
+        if (this.props.searchMsgStatus) {
+            $('.search-wrap').css('display', 'block');
+        }
+
+    }
+    searchInputonKeyUp(e) {
+            const value = this.state.value
+            if (this.state.value != '') {
                 if (e.keyCode === 13) {
-                    _this._handleClick();
+                    this.props.historyPush(value)
+                    this.props._handleClick(value);
                 }
                 $('#del').show();
-            } else {
-                $('#del').hide();
             }
-        });
 
+        }
+    componentWillReceiveProps(nextProps) {
+        let p = new Promise(function(resolve, reject) {});
+        if (nextProps.parmKeyword !== this.props.parmKeyword) {
+            this.setState({
+                value: nextProps.parmKeyword
+            })
+        }
     }
     render() {
-        var value = this.state.value;
+
         return (
-            <div className="wbox-flex">
-               <div className="th-search-form">
-        <input id="searchInput" className="th-search-form" type="text" placeholder="搜索商品关键字"  value={value}  onChange={this.handleChange}/>
-                        </div>
-                    </div>
+            <input id="searchInput" className="th-search-form" type="text" placeholder="搜索商品关键字"  value={this.state.value} onClick={this.searchInputClick.bind(this)} onKeyUp={this.searchInputonKeyUp.bind(this)}  onChange={this.handleChange}/>
         )
 
 

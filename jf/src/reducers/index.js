@@ -256,7 +256,6 @@ function MSG_LIST_PAGE_UPDATE_PULLUP_STATUS_reducer(state, action) {
 }
 
 function MSG_LIST_UPDATE_SEARCHNUM_reducer(state, action) {
-  console.log(action.searchNum + 1)
 
   return Object.assign({}, state, {
     searchNum: state.searchNum + 1
