@@ -1,56 +1,39 @@
 import React from 'react';
-import $ from 'jquery';
+
 
 import {
     Link
 } from 'react-router-dom'
-let keyword = '';
-let arrval = new Array();
+
+
 class SearchBtn extends React.Component {
     constructor(props) {
-            super(props);
-            this.state = {
-                parmkeyword: 'wo'
-            }
-            this._handleClick = () => {
-                let p = new Promise(function(resolve, reject) {});
-                let sVal = $('#searchInput').val();
-                console.log(sVal);
-                if (sVal != '') {
-                    const _this = this;
-                    _this.props.funStoreHistory(sVal)
-                        // _this.refs.getarr.funStoreHistory(sVal);
-                        // _this.refs.getarr.pushSearch();
-
-                }
-            }
-
-            // this._handleClick = () => {
-            //     var sVal = $('#searchInput').val();
-            //     if (sVal != '') {
-            //         const _this = this;
-            //         keyword = sVal;
-            //         // funStoreHistory();
-            //     }
-            // }
+        super(props);
+        this.hasValue = false;
+        this.state = {
+            parmkeyword: 'wo',
+            value: ''
         }
-        // componentDidMount() {
-        //     const _this = this;
-        //     if (window.localStorage.searchhistory) {
-        //         searchMsg = JSON.parse(window.localStorage.searchhistory);
-        //         // arrval.push(searchMsg);
-        //         this.historyHtml();
-        //         arrval = arrval.concat(searchMsg);
-        //     } else {
-        //         $('.search-keywords').hide();
-        //     }
+        this._handleClick = () => {
+            if (this.props.value !== '') {
+                this.setState({
+                    value: true
+                })
 
-    // 
-    // }
-    // Link to={'/search/'+this.state.parmkeyword}
+                this.props.funStoreHistory(this.props.value)
+            }
+        }
+
+    }
+    unClick() {
+        this.setState({
+            value: false
+        })
+    }
+
     render() {
 
-        return (<Link to={'/search/'+this.props.value}  className = "search-btn" onClick = {(e)=>e.preventDefault(),this._handleClick.bind(this)} > 搜索 </Link>)
+        return (<Link to={'/search/'+this.props.value}  className = "search-btn" style={{'pointerEvents':this.props.value?'auto':'none'}}  onClick = {this._handleClick.bind(this)} >搜索</Link>)
     }
 }
 export default SearchBtn;

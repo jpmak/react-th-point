@@ -1,8 +1,4 @@
-import {
-  combineReducers
-} from 'redux'
-import * as consts from "../../consts/ActionTypes";
-
+import * as consts from "../consts/ActionTypes";
 // 组件初始化状态，其实就是把component的constructor的挪到这里就完事了
 const searchInitState = {
   pageStatus: 0, //返回状态标识
@@ -18,23 +14,22 @@ const searchInitState = {
   searchNum: 0 // //搜索次数
 };
 
-function MSG_LIST_PAGE_TRY_RESTORE_COMPONENT_reducer(state, action) {
+const MSG_LIST_PAGE_TRY_RESTORE_COMPONENT_reducer = (state, action) => {
   // 计算一下
   return state;
 }
 
-function MSG_LIST_PAGE_FETCH_ITEMS_SUCCESS_reducer(state, action) {
+const MSG_LIST_PAGE_FETCH_ITEMS_SUCCESS_reducer = (state, action) => {
   let nextState = Object.assign({}, state);
   nextState.pageStatus = action.pageStatus;
   if (action.pageStatus) {
-    if (action.page == 0) { // 刷新操作
-
-      if (state.pullDownStatus == 3) {
+    if (action.page === 0) { // 刷新操作
+      if (state.pullDownStatus === 3) {
         nextState.pullDownStatus = 4;
         nextState.items = action.items;
         nextState.loadingStatus = 2;
         nextState.page = action.page + 1;
-        if (action.items.length == 10) {
+        if (action.items.length === 10) {
           nextState.pullUpStatus = 0;
         } else {
           nextState.pullUpStatus = 7;
@@ -42,7 +37,7 @@ function MSG_LIST_PAGE_FETCH_ITEMS_SUCCESS_reducer(state, action) {
       }
 
     } else { // 加载操作
-      if (state.pullUpStatus == 2) {
+      if (state.pullUpStatus === 2) {
         nextState.pullUpStatus = 0;
         nextState.items = state.items.concat(action.items);
         // nextState.pageState = action.status;
@@ -50,7 +45,7 @@ function MSG_LIST_PAGE_FETCH_ITEMS_SUCCESS_reducer(state, action) {
         nextState.page = action.page + 1;
       }
     }
-  } else if (action.page == 0) {
+  } else if (action.page === 0) {
     nextState.items = 0;
     // nextState.loadingStatus = 4;
     // nextState.items = '';
@@ -67,24 +62,24 @@ function MSG_LIST_PAGE_FETCH_ITEMS_SUCCESS_reducer(state, action) {
   return nextState;
 }
 
-function MSG_LIST_PAGE_FETCH_ITEMS_FAIL_reducer(state, action) {
+const MSG_LIST_PAGE_FETCH_ITEMS_FAIL_reducer = (state, action) => {
   // 首屏加载失败, 那么需要展示loading fail效果
-  if (state.loadingStatus == 1) {
+  if (state.loadingStatus === 1) {
     return Object.assign({}, state, {
       loadingStatus: 3
     });
   }
   // 首屏加载成功, 刷新或者加载操作异常
-  if (state.loadingStatus == 2) {
-    if (action.page == 1) { // 刷新操作
-      if (state.pullDownStatus == 3) {
+  if (state.loadingStatus === 2) {
+    if (action.page === 1) { // 刷新操作
+      if (state.pullDownStatus === 3) {
         return Object.assign({}, state, {
           pullDownStatus: 5,
           is_items: state.items.slice(0)
         });
       }
     } else { // 加载操作
-      if (state.pullUpStatus == 2) {
+      if (state.pullUpStatus === 2) {
         return Object.assign({}, state, {
           pullUpStatus: 4
         });
@@ -94,8 +89,8 @@ function MSG_LIST_PAGE_FETCH_ITEMS_FAIL_reducer(state, action) {
   return state;
 }
 
-function MSG_LIST_PAGE_UPDATE_LOADING_STATUS_reducer(state, action) {
-  if (state.loadingStatus != action.loadingStatus) {
+const MSG_LIST_PAGE_UPDATE_LOADING_STATUS_reducer = (state, action) => {
+  if (state.loadingStatus !== action.loadingStatus) {
     return Object.assign({}, state, {
       loadingStatus: action.nextStatus
     });
@@ -103,8 +98,8 @@ function MSG_LIST_PAGE_UPDATE_LOADING_STATUS_reducer(state, action) {
   return state;
 }
 
-function MSG_LIST_PAGE_UPDATE_PULLDOWN_STATUS_reducer(state, action) {
-  if (state.pullDownStatus != action.nextPullDownStatus) {
+const MSG_LIST_PAGE_UPDATE_PULLDOWN_STATUS_reducer = (state, action) => {
+  if (state.pullDownStatus !== action.nextPullDownStatus) {
     return Object.assign({}, state, {
       pullDownStatus: action.nextPullDownStatus
     });
@@ -112,8 +107,8 @@ function MSG_LIST_PAGE_UPDATE_PULLDOWN_STATUS_reducer(state, action) {
   return state;
 }
 
-function MSG_LIST_PAGE_UPDATE_PULLUP_STATUS_reducer(state, action) {
-  if (state.pullUpStatus != action.nextPullUpStatus) {
+const MSG_LIST_PAGE_UPDATE_PULLUP_STATUS_reducer = (state, action) => {
+  if (state.pullUpStatus !== action.nextPullUpStatus) {
     return Object.assign({}, state, {
       pullUpStatus: action.nextPullUpStatus
     });
@@ -121,7 +116,7 @@ function MSG_LIST_PAGE_UPDATE_PULLUP_STATUS_reducer(state, action) {
   return state;
 }
 
-function MSG_LIST_UPDATE_SEARCHNUM_reducer(state, action) {
+const MSG_LIST_UPDATE_SEARCHNUM_reducer = (state, action) => {
 
   return Object.assign({}, state, {
     searchNum: state.searchNum + 1
@@ -129,26 +124,26 @@ function MSG_LIST_UPDATE_SEARCHNUM_reducer(state, action) {
   return state;
 }
 
-function MSG_LIST_PAGE_BACKUP_ISCROLL_Y_reducer(state, action) {
+const MSG_LIST_PAGE_BACKUP_ISCROLL_Y_reducer = (state, action) => {
   return Object.assign({}, state, {
     y: action.y
   });
 }
 
-function MSG_LIST_PAGE_KEYWORD_reducer(state, action) {
+const MSG_LIST_PAGE_KEYWORD_reducer = (state, action) => {
   return Object.assign({}, state, {
     keyword: action.keyword
   });
 }
 
-function MSG_LIST_PAGE_VOLUME_reducer(state, action) {
+const MSG_LIST_PAGE_VOLUME_reducer = (state, action) => {
   return Object.assign({}, state, {
     volume: action.volume
   });
 }
 
 
-function MSG_LIST_PAGE_PRICE_reducer(state, action) {
+const MSG_LIST_PAGE_PRICE_reducer = (state, action) => {
   return Object.assign({}, state, {
     price: action.price
   });
@@ -158,7 +153,7 @@ function MSG_LIST_PAGE_PRICE_reducer(state, action) {
 // 1, 在redux初始化，路由切换等时机，都会被唤醒，从而有机会返回初始化state，
 //    这将领先于componnent从而可以props传递
 // 2, 这里redux框架传来的是state对应Reducer的子集合
-export function MsgListPageReducer(state = searchInitState, action) {
+export const MsgListPageReducer = (state = searchInitState, action) => {
   switch (action.type) {
     case consts.MSG_LIST_PAGE_TRY_RESTORE_COMPONENT:
       return MSG_LIST_PAGE_TRY_RESTORE_COMPONENT_reducer(state, action);

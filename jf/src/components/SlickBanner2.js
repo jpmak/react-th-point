@@ -1,7 +1,9 @@
 import React from 'react';
 import Slider from 'react-slick';
 import '../styles/slick.css';
-class SlickBanner_2 extends React.Component {
+import Loading from './public/Loading';
+
+class SlickBanner2 extends React.Component {
     render() {
 
         let settings = {
@@ -23,9 +25,9 @@ class SlickBanner_2 extends React.Component {
             );
         });
         if (!repos.length) {
-            repoList = <div>loading...</div>
+            repoList = <div><Loading/></div>
         }
-        if (repos.length == 0) {
+        if (repos.length === 0) {
             repoList = <div></div>
         }
 
@@ -41,4 +43,4 @@ class SlickBanner_2 extends React.Component {
         )
     }
 }
-export default SlickBanner_2;
+export default SlickBanner2;

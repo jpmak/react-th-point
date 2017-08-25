@@ -1,21 +1,7 @@
-// require('styles/base.scss');
-// require('styles/jf.scss');
-
 import 'core-js/fn/object/assign';
 import React from 'react';
-import ReactDOM from 'react-dom';
-
 import TopNav from '../components/TopNav';
-
 import DetBody from '../components/detail/DetBody';
-
-import {
-	BrowserRouter as Router,
-	Route,
-	Link
-} from 'react-router-dom'
-
-
 
 const R_det = ({
 	match

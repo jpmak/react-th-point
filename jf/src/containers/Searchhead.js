@@ -1,27 +1,14 @@
 import React from 'react';
-// import React, {
-//     Component
-// } from 'react'
-// import PropTypes from 'prop-types'
 import {
     connect
 } from 'react-redux'
-// import createHistory from 'history/createBroserHistory';
-
-import {
-
-    BrowserRouter,
-    Route,
-    Link
-} from 'react-router-dom';
 import $ from 'jquery';
-
-import Goback from '../../components/public/Goback';
-import ResultWrap from '../../components/search/ResultWrap';
-import SearchInput from '../../components/search/SearchInput';
-import DelValue from '../../components/search/DelValue';
-import SearchBtn from '../../components/search/SearchBtn';
-import SearchResult from '../../components/search/SearchResult';
+import Goback from '../components/public/Goback';
+import ResultWrap from '../components/search/ResultWrap';
+import SearchInput from '../components/search/SearchInput';
+import DelValue from '../components/search/DelValue';
+import SearchBtn from '../components/search/SearchBtn';
+import SearchResult from '../components/search/SearchResult';
 
 
 import {
@@ -36,18 +23,16 @@ import {
     searchNum,
     price,
     volume,
-    begin,
-
-} from '../../actions'
-
-import {
-    bindActionCreators
-} from 'redux'
-
-const urlRoot = '';
 
 
-let searchMsg = '';
+} from '../actions/search'
+
+// import {
+//     bindActionCreators
+// } from 'redux'
+
+
+
 // let arrval = new Array();
 // let sVal = '';
 
@@ -100,6 +85,9 @@ class Searchhead extends React.Component {
         })
     }
     clearValue() {
+        this.setState({
+            value: ''
+        });
         this.refs.SearchInput.clearValue();
     }
     _handleClick(e) {
@@ -111,11 +99,13 @@ class Searchhead extends React.Component {
     }
     funloadHistory() {
         if (window.localStorage.searchhistory) {
-            // this.searchMsg = JSON.parse(window.localStorage.searchhistory);
             this.props.dispatch(getKeyword(this.searchMsg[0]));
+            // 
+            // this.props.dispatch(getKeyword(this.props.match.params.keyword))
         }
     }
     componentWillMount() {
+
         this.funloadHistory();
         if (window.localStorage.searchhistory) {
             this.setState({
@@ -125,30 +115,17 @@ class Searchhead extends React.Component {
         }
     }
     componentDidMount(e) {
-
         this.setState({
             value: this.searchMsg[0]
         });
-
-        const _this = this;
-
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.keyword !== this.props.keyword) {
-            this.setState({
-                value: nextProps.keyword
-            });
-
-        }
-    }
 
     searchMsgStatus_fun(e) {
         this.setState({
             searchMsgStatus: e
         });
     }
-
     updataPushSearch() {
         this.setState({
             pushSearch: true
@@ -172,7 +149,6 @@ class Searchhead extends React.Component {
         this.props.dispatch(SearchBeginRefresh())
     }
     searchNum() {
-
         this.props.dispatch(searchNum())
     }
     updateLoadingStatus(e) {
@@ -206,6 +182,8 @@ class Searchhead extends React.Component {
 
     }
     keywordClick(e) {
+
+        this.props.dispatch(price(''))
         this.props.dispatch(getKeyword(e))
         this.onloadScroll();
         this.props.dispatch(SearchBeginRefresh())
@@ -240,16 +218,23 @@ class Searchhead extends React.Component {
     updatePullUpStatus(e) {
         this.props.dispatch(updatePullUpStatus(e))
     }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.keyword !== this.props.keyword) {
+            this.setState({
+                value: nextProps.keyword
+            });
+        }
+        if (nextProps.match.params.keyword !== this.props.match.params.keyword) {
+            this.searchNum();
+            this.setState({
+                searchMsgStatus: 1
+            });
+            this.keywordClick(nextProps.match.params.keyword)
+        }
+    }
 
-    // componentWillReceiveProps(nextProps) {
-    //     let p = new Promise(function(resolve, reject) {});
-    //     if (nextProps.match.params.keyword !== this.props.match.params.keyword) {
-    //         keywordClick(nextProps.match.params.keyword)
-    //     }
-    // }
     render() {
 
-        const value = this.state.value;
         const _this = this;
         const {
             items,
@@ -269,7 +254,7 @@ class Searchhead extends React.Component {
 
             <div className="th-search-box">
                 <div className="th-search-shadow"></div>
-         <Goback_up ref='Goback_up'/>
+         <GobackUp />
         <SearchBtn funStoreHistory={this.funStoreHistory.bind(this)} value={this.state.value}/>
         {/*<a className="search-btn" onClick={this._handleClick.bind(this)}>搜索</a>*/}
                     <div className="wbox search-bar" >
@@ -309,7 +294,7 @@ class Searchhead extends React.Component {
 
         </div>
 
-            <ResultWrap ref = "getload" items = {items} status = {status} _keywordClick={this._keywordClick.bind(this)}  parmKeyword={ this.props.match.params.keyword}  y = {y}  price={price}  searchNum={searchNum}    backupIScrollY = {_this.backupIScrollY.bind(this)} pageStatus = {pageStatus}  tryRestoreComponent = {_this.tryRestoreComponent.bind(this)}
+            <ResultWrap ref = "getload" value={this.state.value} items = {items} status = {status} _keywordClick={this._keywordClick.bind(this)}  parmKeyword={ this.props.match.params.keyword}  y = {y}  price={price}  searchNum={searchNum}    backupIScrollY = {_this.backupIScrollY.bind(this)} pageStatus = {pageStatus}  tryRestoreComponent = {_this.tryRestoreComponent.bind(this)}
                       defaultClick = {_this.defaultClick.bind(this)}   priceClick = {_this.priceClick.bind(this)}
                volumeClick = {_this.volumeClick.bind(this)}  beginRefresh = {_this.beginRefresh.bind(this)}
             beginLoad = {_this.beginLoad.bind(this)}    updateLoadingStatus = {_this.updateLoadingStatus.bind(this)}
@@ -323,8 +308,8 @@ class Searchhead extends React.Component {
 
 
 
-class Goback_up extends React.Component {
-    componentDidMount() {}
+class GobackUp extends React.Component {
+
     handClick() {
         $('#searchInput').blur();
         $('#js-list,.class,.result-wp').show();
@@ -335,7 +320,7 @@ class Goback_up extends React.Component {
         return (
             <div>
          <Goback/>
-                <a className="backbtn" onClick={this.handClick}></a>
+                <a className="backbtn" onClick={this.handClick.bind(this)}> </a>
                </div>
         )
     }
@@ -360,7 +345,7 @@ const mapStateToProps = state => {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators(dispatch);
-}
+// function mapDispatchToProps(dispatch) {
+//     return bindActionCreators(dispatch);
+// }
 export default connect(mapStateToProps)(Searchhead)

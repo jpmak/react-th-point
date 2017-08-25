@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types'
 import $ from 'jquery';
 
 class SearchInput extends React.Component {
@@ -9,7 +8,8 @@ class SearchInput extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: this.props.parmKeyword
+            hided: false,
+            value: this.props.parmKeyword || ''
         };
         this.handleChange = (event) => {
             let val = event.target.value;
@@ -23,40 +23,56 @@ class SearchInput extends React.Component {
 
     }
     clearValue() {
+        // this.props.pushValue('')
         this.setState({
             value: ''
         });
+
+    }
+    hideContent() {
+
     }
     searchInputClick() {
+        let height = window.screen.height - 100;
 
         $('#js-list,.class,.result-wp').hide();
         $('.th-search-box .backbtn').show();
 
         $('.th-active,.th-active body').css('overflow', 'auto');
 
+        $('#AppWrap').css({
+            'height': height,
+            'overflow': 'hidden'
+        });
+        $('.pushHide').hide()
 
         $('.search-bar input').css('width', '80%');
-        if (this.state.value != '') {
+        if (this.state.value !== '') {
             $('#del').show();
         }
         if (this.props.searchMsgStatus) {
             $('.search-wrap').css('display', 'block');
         }
+        // this.props.hideContent()
+
+
+    }
+    componentDidMount() {
 
     }
     searchInputonKeyUp(e) {
-            const value = this.state.value
-            if (this.state.value != '') {
-                if (e.keyCode === 13) {
-                    this.props.historyPush(value)
-                    this.props._handleClick(value);
-                }
-                $('#del').show();
+        const value = this.state.value
+        if (this.state.value !== '') {
+            if (e.keyCode === 13) {
+                this.props.historyPush(value)
+                this.props._handleClick(value);
             }
-
+            $('#del').show();
         }
+
+    }
     componentWillReceiveProps(nextProps) {
-        let p = new Promise(function(resolve, reject) {});
+
         if (nextProps.parmKeyword !== this.props.parmKeyword) {
             this.setState({
                 value: nextProps.parmKeyword

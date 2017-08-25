@@ -5,17 +5,17 @@ import '../../styles/iscroll.css';
 import iScroll from 'iscroll/build/iscroll-probe'
 
 import $ from 'jquery';
-import {
-    connect
-} from 'react-redux'
+// import {
+//     connect
+// } from 'react-redux'
 
 import {
-    BrowserRouter as Router,
-    Route,
+    // BrowserRouter as Router,
+    // Route,
     Link
 } from 'react-router-dom';
 import ResultSort from '../search/ResultSort';
-import PageMask from '../LoadingLayer/PageMask';
+// import PageMask from '../LoadingLayer/PageMask';
 
 import LoadingLayer from '../LoadingLayer/LoadingLayer';
 // import loadingImg from '../LoadingLayer/loading.svg';
@@ -86,16 +86,11 @@ class ResultWrap extends React.Component {
     componentWillMount() {
         this.props.tryRestoreComponent();
     }
-    componenWillMount() {
-        // document.addEventListener('touchmove', this.PreventDefault, false);
-
-        // document.addEventListener('touchmove', this.PreventDefault, false);
-    }
     componentDidMount() {
         // 首次进入列表页，那么异步加载数据
-        if (this.props.loadingStatus == 1) {
+        if (this.props.loadingStatus === 1) {
             this.props._keywordClick(this.props.parmKeyword)
-            this.props.beginRefresh();
+                // this.props.beginRefresh();
         } else {
             this.ensureIScrollInstalled();
             // 非首次进入，那么恢复滚动条的位置 (如果离开页面时处于下拉位置, 那么进行修正)
@@ -107,7 +102,7 @@ class ResultWrap extends React.Component {
         }
 
 
-        const _this = this;
+        // const _this = this;
 
         let rs_once = parseInt($('.th-search-box').css('height'))
         this.setState({
@@ -189,7 +184,7 @@ class ResultWrap extends React.Component {
         if (this.isTouching) {
             if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY - 5) {
 
-                this.props.pullUpStatus != 1 && this.props.updatePullUpStatus(1);
+                this.props.pullUpStatus !== 1 && this.props.updatePullUpStatus(1);
             } else {
                 this.props.updatePullUpStatus(0);
             }
@@ -209,7 +204,7 @@ class ResultWrap extends React.Component {
         }
         let pullDown = $(this.refs.PullDown);
         // 上拉区域
-        if (this.iScrollInstance.y > -1 * pullDown.height()) {
+        if (isy > -1 * pullDown.height()) {
             this.onPullDown();
 
         } else {
@@ -217,7 +212,7 @@ class ResultWrap extends React.Component {
         }
 
         //顶部导航收缩
-        if (this.t < this.iScrollInstance.y && this.isToUp && this.iScrollInstance.y > this.iScrollInstance.maxScrollY) {
+        if (this.t < isy && this.isToUp && isy > this.iScrollInstance.maxScrollY) {
             this.isToDown = true;
             this.isToUp = false;
 
@@ -230,7 +225,7 @@ class ResultWrap extends React.Component {
                 top: 0 + 'px'
             }, 200);
             //向上
-        } else if (this.t > this.iScrollInstance.y && this.isToDown && this.iScrollInstance.y <= -200) {
+        } else if (this.t > isy && this.isToDown && isy <= -200) {
             this.isToDown = false;
             this.isToUp = true;
 
@@ -249,7 +244,7 @@ class ResultWrap extends React.Component {
         }, 0);
         //顶部导航收缩
         // 下拉区域
-        if (this.props.pullUpStatus != 4 && this.props.pullUpStatus != 8)
+        if (this.props.pullUpStatus !== 4 && this.props.pullUpStatus !== 8)
             if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY + 5) {
                 this.onPullUp();
             } else {
@@ -257,18 +252,18 @@ class ResultWrap extends React.Component {
             }
 
             // 下拉区域
-        if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY + 5 && this.props.pageStatus != 0) {
+        if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY + 5 && this.props.pageStatus !== 0) {
             this.onPullUp();
         }
     }
     onRefresh() {
-        () => {
-            this.iScrollInstance.refresh()
-        }
+
+        this.iScrollInstance.refresh()
+
     }
     onScrollEnd() {
 
-        const _this = this;
+
         let pullDown = $(this.refs.PullDown);
 
         // 滑动结束后，停在刷新区域
@@ -276,7 +271,7 @@ class ResultWrap extends React.Component {
             if (this.props.pullDownStatus <= 1) { // 没有发起刷新,那么弹回去
                 this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 200);
 
-            } else if (this.props.pullDownStatus == 2) {
+            } else if (this.props.pullDownStatus === 2) {
 
                 // 发起了刷新,
                 // 那么更新状态
@@ -286,7 +281,7 @@ class ResultWrap extends React.Component {
         }
         // 滑动结束后，停在加载区域
         if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY) {
-            if (this.props.pullUpStatus == 1 && this.props.pageStatus == 1) {
+            if (this.props.pullUpStatus === 1 && this.props.pageStatus === 1) {
 
                 // 发起了加载， 那么更新状态
                 this.props.beginLoad();
@@ -311,7 +306,7 @@ class ResultWrap extends React.Component {
             _this.iScrollInstance.refresh();
         });
 
-        if (this.props.loadingStatus == 2 || this.props.loadingStatus == 4) {
+        if (this.props.loadingStatus === 2 || this.props.loadingStatus === 4) {
             this.ensureIScrollInstalled();
             // 
             // 当列表发生了变更 ，才调用iscroll的refresh重新计算滚动条信息
@@ -320,7 +315,7 @@ class ResultWrap extends React.Component {
                 this.iScrollInstance.refresh();
 
                 // 此前是刷新操作，需要回弹
-                if (this.props.pullDownStatus == 4 || this.props.pullDownStatus == 5) {
+                if (this.props.pullDownStatus === 4 || this.props.pullDownStatus === 5) {
                     // console.log(this.props.loadingStatus);
                     this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 500);
                 }
@@ -335,7 +330,7 @@ class ResultWrap extends React.Component {
     }
 
     componentWillUnmount() {
-        if (this.props.loadingStatus == 2) { // 首屏成功刷出，则备份y
+        if (this.props.loadingStatus === 2) { // 首屏成功刷出，则备份y
             this.props.backupIScrollY(this.iScrollInstance.y);
         }
         document.removeEventListener('touchmove', this.PreventDefault, false);
@@ -357,7 +352,7 @@ class ResultWrap extends React.Component {
     }
     renderLoading() {
 
-        const _this = this;
+
         const onRetryLoading = this.onRetryLoading.bind(this)
         let outerStyle = {
             height: window.innerHeight
@@ -371,9 +366,8 @@ class ResultWrap extends React.Component {
         );
     }
     renderPage() {
-
         let lis = [];
-        if (this.props.items != '') {
+        if (this.props.items !== 0) {
             lis = this.props.items.map((goods, index) => {
                 return (
 
@@ -391,7 +385,7 @@ class ResultWrap extends React.Component {
         return (
             <div className="w result-wp" >
      
-<ResultSort  defaultClick={this.defaultClick.bind(this)} volumeClick={this.volumeClick.bind(this)} priceClick={this. priceClick.bind(this)} price={this.props.price}  searchNum={this.props.searchNum}/>
+<ResultSort value={this.props.value}  defaultClick={this.defaultClick.bind(this)} volumeClick={this.volumeClick.bind(this)} priceClick={this.priceClick.bind(this)} price={this.props.price}  searchNum={this.props.searchNum}/>
                 <div id = "ScrollContainer" >
                 <div id = "ListOutsite" style ={{height: window.innerHeight}}
                      onTouchStart={this.onTouchStart} onTouchEnd={this.onTouchEnd}>
@@ -413,7 +407,7 @@ class ResultWrap extends React.Component {
     render() {
         // 首屏没有加载成功，那么均展示loading效果
 
-        if (this.props.loadingStatus != 2) {
+        if (this.props.loadingStatus !== 2) {
             return this.renderLoading();
         } else {
             return this.renderPage();

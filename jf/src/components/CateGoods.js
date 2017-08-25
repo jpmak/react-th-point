@@ -1,7 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import LazyLoad from 'react-lazyload';
-
+import PlaceholderComponent from './public/Placeholder';
 import {
     BrowserRouter as Router,
     Route,
@@ -126,13 +126,14 @@ class CateGoods extends React.Component {
         let bodyBox = document.getElementById('root')
         let CateGoodList = [];
         let CateGoods = this.props.cateGoods;
-        if (this.props.cateGoods != '') {
+        if (CateGoods != '') {
             CateGoodList = CateGoods.map((CateGood, index) => {
                 return (
+
                     <li  key={index} className={this.changeGoods?'add':'move'}> 
                 <Link to={'/product/'+CateGood.item_id+'.html'}  className="upItem " data-id={CateGood.item_id}>
                 <div className="info-img">
-                <LazyLoad >
+                <LazyLoad  placeholder={<PlaceholderComponent />}>
                 <img  src={CateGood.list_image}/>
                 </LazyLoad>
                 </div>
@@ -146,7 +147,7 @@ class CateGoods extends React.Component {
                  </li>
                 )
             }, this)
-        } else if (this.props.pageStatus == 0 && this.props.cateGoods == '') {
+        } else if (this.props.pageStatus == 0 && CateGoods == 0) {
             CateGoodList = (<div className="none-data"></div>);
         }
 

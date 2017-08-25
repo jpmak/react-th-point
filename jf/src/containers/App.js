@@ -1,44 +1,41 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types'
 import {
 	connect
 } from 'react-redux'
-
-import {
-	BrowserRouter as Router,
-	Route,
-	Link
-} from 'react-router-dom';
-import $ from 'jquery';
 import TopNav from '../components/TopNav';
 import SearchBox from '../components/SearchBox';
 import SlickBanner from '../components/SlickBanner';
-import SlickBanner_2 from '../components/SlickBanner_2';
+import SlickBanner2 from '../components/SlickBanner2';
 import SalesWrapper from '../components/SalesWrapper';
 import JsCate from '../components/JsCate';
 import FooterNav from '../components/FooterNav';
-
 import {
-	loadingStatus,
 	tryRestoreComponent,
 	beginRefresh,
 	fetchCateGoods,
 	getCateId,
-	pullUpStatus
+	pullUpStatus,
 } from '../actions'
 import {
-	bindActionCreators
-} from 'redux'
+
+	updateLoadingStatus,
+
+} from '../actions/search'
+
+// import {
+// 	bindActionCreators
+// } from 'redux'
 
 class App extends React.Component {
 	componentWillMount() {
+		this.props.dispatch(updateLoadingStatus(1));
 		this.props.dispatch(tryRestoreComponent());
 	}
 	componentDidMount() {
-		if (this.props.loadingStatus == 1) {
+		if (this.props.loadingStatus === 1) {
 			this.props.dispatch(beginRefresh())
 		}
+
 	}
 	componentWillReceiveProps(nextProps) {}
 	tryRestoreComponent() {
@@ -50,7 +47,9 @@ class App extends React.Component {
 		this.props.dispatch(fetchCateGoods(id, page))
 	}
 	changeGoods(e, page) {
-		this.props.dispatch(fetchCateGoods(this.props.cateId, this.props.CateGoodsPage))
+		if (this.props.pullUpStatus !== 0) {
+			this.props.dispatch(fetchCateGoods(this.props.cateId, this.props.CateGoodsPage))
+		}
 	}
 	UpDataPullUpStatus(e) {
 		this.props.dispatch(pullUpStatus(e))
@@ -64,20 +63,21 @@ class App extends React.Component {
 			cateGoods,
 			pullUpStatus,
 			pullDownStatus,
-			cateId,
-			CateGoodsPage,
+
+
 			pageStatus
 		} = this.props
 		return (
-			<div>
+
+			<div id='AppWrap'>
 		<div id='scrollwrap'>
-		<header id="headnav">
+		<header id="headnav" >
 		<TopNav titleName = "兑换商城"	icon = "jf-record-icon" icon_link = "search.html" />
 		</header>
 		<div id='search'>
-		<SearchBox/>
+		<SearchBox loadingStatus={this.props.loadingStatus} parmKeyword={this.props.match.params.keyword} history={this.props.history} />
 		</div>
-		<div className='w'>
+		<div className='w pushHide'>
 
 		<div id="AppBanner">
 		<SlickBanner bannerItems={bannerItems}/>
@@ -86,15 +86,15 @@ class App extends React.Component {
         <SalesWrapper salesItems={salesItems}/>
         </div>
   		<div id="AppBanner_2">
-		<SlickBanner_2 bannerItems_2={bannerItems_2}/>
+		<SlickBanner2 bannerItems_2={bannerItems_2}/>
 		</div>
 		</div>
 		</div>
-			<div className='w'>
-	<JsCate cateList={cateList} cateGoods={cateGoods} pageStatus={pageStatus} pullDownStatus={pullDownStatus} pullUpStatus={pullUpStatus} UpDataPullUpStatus={this.UpDataPullUpStatus.bind(this)} get_cate_goods={this.get_cate_goods.bind(this)} changeGoods={this.changeGoods.bind(this)} />
+			<div className='w pushHide'>
+		<JsCate cateList={cateList} cateGoods={cateGoods} pageStatus={pageStatus} pullDownStatus={pullDownStatus} pullUpStatus={pullUpStatus} UpDataPullUpStatus={this.UpDataPullUpStatus.bind(this)} get_cate_goods={this.get_cate_goods.bind(this)} changeGoods={this.changeGoods.bind(this)} />
 
             </div>
-            <footer id='nav'>
+		<footer id='nav ' className='pushHide'>
             <FooterNav/>
             </footer>
 </div>
@@ -106,6 +106,7 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
 	return {
+		searchLoadingStatus: state.MsgListPageReducer.loadingStatus,
 		loadingStatus: state.MsgAppReducer.loadingStatus,
 		bannerItems: state.MsgAppReducer.bannerItems,
 		bannerItems_2: state.MsgAppReducer.bannerItems_2,
@@ -120,8 +121,7 @@ const mapStateToProps = state => {
 	}
 }
 
-function mapDispatchToProps(actions, dispatch) {
-	return bindActionCreators(actions, dispatch);
-}
-
+// function mapDispatchToProps(actions, dispatch) {
+// 	return bindActionCreators(actions, dispatch);
+// }
 export default connect(mapStateToProps)(App)

@@ -11,44 +11,49 @@ class SearchResult extends React.Component {
         this._props = this.props;
         this.state = {
             history_Html: '',
+            isCleanUp: false,
             arrval: []
         };
 
 
     }
     componentWillMount() {
-        console.log(this.props.parmKeyword);
         if (window.localStorage.searchhistory) {
             this.searchMsg = JSON.parse(window.localStorage.searchhistory);
             // arrval.push(searchMsg);
             // this.historyHtml();
-            this.state.arrval = this.state.arrval.concat(this.searchMsg);
+            this.setState({
+                arrval: this.state.arrval.concat(this.searchMsg)
+            });
+            // this.state.arrval = this.state.arrval.concat(this.searchMsg);
         } else {
             $('.search-keywords').hide();
         }
     }
 
-    componentDidMount() {
-        const _this = this;
-    }
+
+
     PreventDefault(e) {
         e.preventDefault();
     }
-    delbtnClick() {
-        const _this = this;
-        this.setState({
-            arrval: []
-        });
-        // if (confirm('确定要清空吗？')) {
-        //     // this.arrval.length = 0;
+    delbtnClick(e) {
+        e.preventDefault();
 
-        //     localStorage.removeItem('searchhistory');
-        //     $('.search-wrap').hide();
-        //     // $('#searchInput').val('').focus();
-        //     // _this.props.searchhistory(false);
-        //     this.props.searchMsgStatus_fun(false);
-        //     this.props.handleDel();
-        // }
+
+        if (window.confirm('确定要清空吗？')) {
+
+            this.setState({
+                arrval: []
+            });
+            // this.arrval.length = 0;
+            localStorage.removeItem('searchhistory');
+
+            $('.search-wrap').hide();
+            // $('#searchInput').val('').focus();
+            // _this.props.searchhistory(false);
+            this.props.searchMsgStatus_fun(false);
+            this.props.handleDel();
+        }
 
     }
     handClick() {
@@ -57,27 +62,26 @@ class SearchResult extends React.Component {
         $('.search-wrap,.th-search-box .backbtn').hide();
     }
     funStoreHistory(e) {
-        // this.props.searchMsgStatus_fun(true);
-        let sVal = $('#searchInput').val();
-        console.log(e);
+
         this.state.arrval.unshift(e);
         if (this.state.arrval.length > 9) {
             this.state.arrval.pop(9);
         }
 
-        // $('#searchInput').val(hVal);
+        this.setState({
+            arrval: this.unique(this.state.arrval)
+        });
 
-        this.state.arrval = this.unique(this.state.arrval);
         window.localStorage.searchhistory = JSON.stringify(this.state.arrval);
         this.handClick();
 
-        if (this.props.loadingStatus != 4) {
+        if (this.props.loadingStatus !== 4) {
             // this.props.onloadScroll()
         }
 
-        let p = new Promise(function(resolve, reject) {
+        // let p = new Promise(function(resolve, reject) {
 
-        });
+        // });
         // this.props.searchNum();
         // this.props.getKeyword(this.state.arrval[0])
         // this.props.priceClick('')
@@ -106,36 +110,26 @@ class SearchResult extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-
-
-        let p = new Promise(function(resolve, reject) {});
         if (nextProps.parmKeyword !== this.props.parmKeyword) {
-            this.props.searchNum();
-            this.props.keywordClick(nextProps.parmKeyword)
-                // p.then(this.props.getKeyword(this.state.arrval[0]))
-                //     .then(this.props.priceClick(''))
+            this.setState({
+                // isCleanUp: false
+            });
         }
     }
+
     render() {
-        // console.log(this.props.parmKeyword);
-
         const _this = this;
-
         let history_Html = this.state.arrval.map(function(Msg, index) {
             return (
                 <li key={index}><Link to={'/search/'+Msg} onClick={_this.funStoreHistory.bind(_this,Msg)} >{Msg}</Link></li>
-                // onClick={_this.funStoreHistory.bind(_this,Msg)}
-
-                // <li key={index}><a onClick={(e) => {e.preventDefault();this.hand_li_Click.bind(this);}}>{Msg}</a></li>
             )
 
         });
         return (
-
-            <div className = "search-wrap" >
+            <div className = "search-wrap">
             <div className="search-keywords bor-b">
                 <div className="search-keywords-name">
-                    <span>历史记录 <i className="delbtn" onClick={this.delbtnClick.bind(this)}></i></span>
+        <span>历史记录 <i className="delbtn" onClick={this.delbtnClick.bind(this)}></i></span>
                 </div>
                 <div className="search-keywords-list ">
         {

@@ -2,8 +2,8 @@ import React from 'react';
 import '../../styles/Placeholder.css';
 
 export default function Placeholder() {
-	return (
-		<div className="placeholder">
+  return (
+    <div className="placeholder">
       <div className="spinner">
         <div className="rect1"></div>
         <div className="rect2"></div>
@@ -12,5 +12,5 @@ export default function Placeholder() {
         <div className="rect5"></div>
       </div>
     </div>
-	);
+  );
 }
