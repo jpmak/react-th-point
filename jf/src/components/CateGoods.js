@@ -3,8 +3,6 @@ import $ from 'jquery';
 import LazyLoad from 'react-lazyload';
 import PlaceholderComponent from './public/Placeholder';
 import {
-    BrowserRouter as Router,
-    Route,
     Link
 } from 'react-router-dom'
 // let goodsList = this.state.goodsList;

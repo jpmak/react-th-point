@@ -32,7 +32,7 @@ class SearchBox extends React.Component {
     handleDel() {
         $('#searchInput').val('').focus();
         $('#del').hide();
-        $('.search-bar input').css('width', '100%');
+
     }
 
     componentDidMount() {
@@ -40,24 +40,13 @@ class SearchBox extends React.Component {
         $('#searchInput').on('click', function() {
             $('#headnav').addClass('js-header');
 
-            $('#js-list,.sorts,.result-wp').hide();
+            // $('#js-list,.sorts,.result-wp').hide();
             $('.th-search-container').addClass('on-focus');
             $('.th-search-container').removeClass('on-blur');
-            $('.th-search-box .backbtn').show();
-            $('.th-active,.th-active body').css('overflow', 'auto');
+            // $('.th-search-box .backbtn').show();
+            // $('.th-active,.th-active body').css('overflow', 'auto');
         });
-        $('#searchInput').on('keyup focus', function(e) {
-            $('.search-bar input').css('width', '80%');
 
-            // if (uVal !== '') {
-            //     if (e.keyCode === 13) {
-            //         _this._handleClick();
-            //     }
-            //     $('#del').show();
-            // } else {
-            //     $('#del').hide();
-            // }
-        });
     }
 
     _handleClick(e) {
@@ -113,10 +102,10 @@ class SearchBox extends React.Component {
         // ,'height': window.screen.height 
     render() {
         return (
-            <div className="th-search-container on-blur" >
+            <div className="th-search-container on-blur" style={{position:'relative',zIndex:'200'}}>
             <div className="th-search-box">
                 <div className="th-search-shadow"></div>
-                      <SortsBtn Sorthref="category.html"/>
+                      <SortsBtn />
   
         <GobackUp/>
              <SearchBtn funStoreHistory={this.funStoreHistory.bind(this)} value={this.state.value}/>

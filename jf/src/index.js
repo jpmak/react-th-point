@@ -14,6 +14,8 @@ import {
 import App from './containers/App';
 import R_det from './containers/r_det';
 import Searchhead from './containers/Searchhead';
+import List from './containers/List';
+
 
 import reducer from './reducers';
 
@@ -31,9 +33,9 @@ import thunk from 'redux-thunk'
 // 	createLogger
 // } from 'redux-logger'
 const middleware = [thunk]
-// if (process.env.NODE_ENV !== 'production') {
-// 	// middleware.push(createLogger())
-// 	middleware
+	// if (process.env.NODE_ENV !== 'production') {
+	// 	// middleware.push(createLogger())
+	// 	middleware
 
 // }
 const store = createStore(
@@ -45,7 +47,9 @@ const Jf = () => (
 	<div>
 	<Route exact path="/" component={App} />
 	 <Route path="/product/:id" component={R_det}/>
+
 	  <Route path="/search/:keyword?" component={Searchhead} />
+	 <Route path="/list" component={List}/>
 	</div>
   </Router>
 );

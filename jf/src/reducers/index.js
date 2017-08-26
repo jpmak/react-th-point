@@ -3,6 +3,8 @@ import {
 } from 'redux'
 import * as consts from "../consts/ActionTypes";
 import MsgListPageReducer from "./search.js";
+import MsgListReducer from "./list.js";
+
 
 
 const initState = {
@@ -133,6 +135,7 @@ export const MsgAppReducer = (state = initState, action) => {
 
 const rootReducer = combineReducers({
   MsgAppReducer,
-  MsgListPageReducer
+  MsgListPageReducer,
+  MsgListReducer
 })
 export default rootReducer

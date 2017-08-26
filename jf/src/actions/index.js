@@ -110,7 +110,7 @@
     export const getCateId = (id) => {
       return (dispatch) => {
         dispatch({
-          type: consts.UPDATE_CATEID_STATUS,
+      type: consts.UPDATE_CATEID_STATUS,
           cateId: id
         });
       };

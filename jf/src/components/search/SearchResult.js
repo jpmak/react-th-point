@@ -59,28 +59,22 @@ class SearchResult extends React.Component {
     handClick() {
         $('#searchInput').blur();
         $('#js-list,.class,.result-wp').show();
-        $('.search-wrap,.th-search-box .backbtn').hide();
+        $('.fixedSearch,.th-search-box .backbtn').hide();
     }
     funStoreHistory(e) {
-
+        window.localStorage.searchhistory = JSON.stringify(this.state.arrval);
         this.state.arrval.unshift(e);
         if (this.state.arrval.length > 9) {
             this.state.arrval.pop(9);
         }
-
         this.setState({
             arrval: this.unique(this.state.arrval)
         });
-
-        window.localStorage.searchhistory = JSON.stringify(this.state.arrval);
         this.handClick();
-
         if (this.props.loadingStatus !== 4) {
             // this.props.onloadScroll()
         }
-
         // let p = new Promise(function(resolve, reject) {
-
         // });
         // this.props.searchNum();
         // this.props.getKeyword(this.state.arrval[0])
@@ -126,7 +120,8 @@ class SearchResult extends React.Component {
 
         });
         return (
-            <div className = "search-wrap">
+            <div className='fixedSearch' style={{height:window.innerHeight}}>
+            <div className = "search-wrap" >
             <div className="search-keywords bor-b">
                 <div className="search-keywords-name">
         <span>历史记录 <i className="delbtn" onClick={this.delbtnClick.bind(this)}></i></span>
@@ -136,6 +131,7 @@ class SearchResult extends React.Component {
        history_Html
         }
                 </div>
+            </div>
             </div>
             </div>
         )

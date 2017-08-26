@@ -313,7 +313,7 @@ class GobackUp extends React.Component {
     handClick() {
         $('#searchInput').blur();
         $('#js-list,.class,.result-wp').show();
-        $('.search-wrap,.th-search-box .backbtn').hide();
+        $('.search-wrap,.th-search-box .backbtn,.fixedSearch').hide();
     }
 
     render() {

@@ -70,14 +70,14 @@ class App extends React.Component {
 		return (
 
 			<div id='AppWrap'>
-		<div id='scrollwrap'>
+		<div id='scrollwrap' >
 		<header id="headnav" >
 		<TopNav titleName = "兑换商城"	icon = "jf-record-icon" icon_link = "search.html" />
 		</header>
-		<div id='search'>
+		<div id='search' style={{ zIndex:'200'}}>
 		<SearchBox loadingStatus={this.props.loadingStatus} parmKeyword={this.props.match.params.keyword} history={this.props.history} />
 		</div>
-		<div className='w pushHide'>
+		<div className='w'>
 
 		<div id="AppBanner">
 		<SlickBanner bannerItems={bannerItems}/>
@@ -90,11 +90,11 @@ class App extends React.Component {
 		</div>
 		</div>
 		</div>
-			<div className='w pushHide'>
+			<div className='w'>
 		<JsCate cateList={cateList} cateGoods={cateGoods} pageStatus={pageStatus} pullDownStatus={pullDownStatus} pullUpStatus={pullUpStatus} UpDataPullUpStatus={this.UpDataPullUpStatus.bind(this)} get_cate_goods={this.get_cate_goods.bind(this)} changeGoods={this.changeGoods.bind(this)} />
 
             </div>
-		<footer id='nav ' className='pushHide'>
+		<footer id='nav '>
             <FooterNav/>
             </footer>
 </div>

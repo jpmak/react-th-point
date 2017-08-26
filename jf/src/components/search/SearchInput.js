@@ -36,7 +36,7 @@ class SearchInput extends React.Component {
         let height = window.screen.height - 100;
 
         $('#js-list,.class,.result-wp').hide();
-        $('.th-search-box .backbtn').show();
+        $('.th-search-box .backbtn,.fixedSearch').show();
 
         $('.th-active,.th-active body').css('overflow', 'auto');
 
@@ -44,9 +44,9 @@ class SearchInput extends React.Component {
             'height': height,
             'overflow': 'hidden'
         });
-        $('.pushHide').hide()
+        // $('.pushHide').hide()
 
-        $('.search-bar input').css('width', '80%');
+        $('.search-bar input').css('width', '50%');
         if (this.state.value !== '') {
             $('#del').show();
         }
