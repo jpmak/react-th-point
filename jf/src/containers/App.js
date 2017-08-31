@@ -63,8 +63,6 @@ class App extends React.Component {
 			cateGoods,
 			pullUpStatus,
 			pullDownStatus,
-
-
 			pageStatus
 		} = this.props
 		return (
@@ -78,7 +76,6 @@ class App extends React.Component {
 		<SearchBox loadingStatus={this.props.loadingStatus} parmKeyword={this.props.match.params.keyword} history={this.props.history} />
 		</div>
 		<div className='w'>
-
 		<div id="AppBanner">
 		<SlickBanner bannerItems={bannerItems}/>
 		</div>

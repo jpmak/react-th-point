@@ -23,6 +23,7 @@ import {
     searchNum,
     price,
     volume,
+    cate_id,
 
 
 } from '../actions/search'
@@ -92,7 +93,6 @@ class Searchhead extends React.Component {
     }
     _handleClick(e) {
         this.refs.getarr.funStoreHistory(e);
-        this.refs.getarr.pushSearch();
     }
     searchhistory(ev) {
         this.searchhistory_ev = ev;
@@ -181,8 +181,15 @@ class Searchhead extends React.Component {
 
 
     }
-    keywordClick(e) {
+    cate_idClick(e) {
+        this.props.dispatch(cate_id(e))
 
+        this.props.dispatch(price(''))
+        this.props.dispatch(getKeyword(''))
+        this.onloadScroll();
+        this.props.dispatch(SearchBeginRefresh())
+    }
+    keywordClick(e) {
         this.props.dispatch(price(''))
         this.props.dispatch(getKeyword(e))
         this.onloadScroll();
@@ -229,7 +236,11 @@ class Searchhead extends React.Component {
             this.setState({
                 searchMsgStatus: 1
             });
+
             this.keywordClick(nextProps.match.params.keyword)
+        }
+        if (nextProps.match.params.id !== this.props.match.params.id) {
+            this.cate_idClick(nextProps.match.params.id)
         }
     }
 
@@ -256,14 +267,14 @@ class Searchhead extends React.Component {
                 <div className="th-search-shadow"></div>
          <GobackUp />
         <SearchBtn funStoreHistory={this.funStoreHistory.bind(this)} value={this.state.value}/>
-        {/*<a className="search-btn" onClick={this._handleClick.bind(this)}>搜索</a>*/}
+        { /*<a className="search-btn" onClick={this._handleClick.bind(this)}>搜索</a>*/ }
                     <div className="wbox search-bar" >
                     <i className="th-search-iconbtn"></i>
         <DelValue handleDel={this.clearValue.bind(this)}/>
                     <div className="wbox-flex">
                <div className="th-search-form">
             
-        <SearchInput ref='SearchInput' searchMsgStatus={this.state.searchMsgStatus} pushValue={this.pushValue.bind(this)} _handleClick={this._handleClick.bind(this)} historyPush={this.historyPush.bind(this)} parmKeyword={ this.props.match.params.keyword}  />
+        <SearchInput ref='SearchInput' searchMsgStatus={this.state.searchMsgStatus} pushValue={this.pushValue.bind(this)} funStoreHistory={this.funStoreHistory.bind(this)} parmKeyword={ this.props.match.params.keyword}  />
 
                         </div>
                     </div>
@@ -271,25 +282,25 @@ class Searchhead extends React.Component {
                 </div>
             </div>
 
- <SearchResult ref = "getarr" handleDel = {_this.handleDel.bind(this)}
-        searchNum = {_this.searchNum.bind(this)}
-        onloadScroll = {_this.onloadScroll.bind(this)}
- ensureIScrollInstalled={_this.ensureIScrollInstalled.bind(this)}
- searchMsgStatus_fun={ _this.searchMsgStatus_fun.bind(this)}     
-  searchhistory = {_this.searchhistory.bind(this)}
+ <SearchResult ref = "getarr" historyPush={this.historyPush.bind(this)} handleDel = {this.handleDel.bind(this)}
+        searchNum = {this.searchNum.bind(this)}
+        onloadScroll = {this.onloadScroll.bind(this)}
+ ensureIScrollInstalled={this.ensureIScrollInstalled.bind(this)}
+ searchMsgStatus_fun={ this.searchMsgStatus_fun.bind(this)}     
+  searchhistory = {this.searchhistory.bind(this)}
         keyword = {keyword}     parmKeyword={ this.props.match.params.keyword} 
         pullDownStatus = {pullDownStatus}
             pullUpStatus = {pullUpStatus}
                  loadingStatus = {loadingStatus}
-            updataPushSearch={_this.updataPushSearch.bind(this)}
-            keywordClick={_this.keywordClick.bind(this)}
-     getKeyword = {_this.getKeyword.bind(this)}
-     priceClick = {_this.priceClick.bind(this)}
-   beginRefresh = {_this.beginRefresh.bind(this)}
-   beginLoad = {_this.beginLoad.bind(this)}
-   updateLoadingStatus = {_this.updateLoadingStatus.bind(this) }
-        updatePullDownStatus = {_this.updatePullDownStatus.bind(this)}
-        updatePullUpStatus = {_this.updatePullUpStatus.bind(this)}
+            updataPushSearch={this.updataPushSearch.bind(this)}
+            keywordClick={this.keywordClick.bind(this)}
+     getKeyword = {this.getKeyword.bind(this)}
+     priceClick = {this.priceClick.bind(this)}
+   beginRefresh = {this.beginRefresh.bind(this)}
+   beginLoad = {this.beginLoad.bind(this)}
+   updateLoadingStatus = {this.updateLoadingStatus.bind(this) }
+        updatePullDownStatus = {this.updatePullDownStatus.bind(this)}
+        updatePullUpStatus = {this.updatePullUpStatus.bind(this)}
             />
 
         </div>

@@ -1,9 +1,7 @@
 import React from 'react';
 
 
-import {
-    Link
-} from 'react-router-dom'
+// 
 
 
 class SearchBtn extends React.Component {
@@ -33,7 +31,7 @@ class SearchBtn extends React.Component {
 
     render() {
 
-        return (<Link to={'/search/'+this.props.value}  className = "search-btn" style={{'pointerEvents':this.props.value?'auto':'none'}}  onClick = {this._handleClick.bind(this)} >搜索</Link>)
+        return (<a  className = "search-btn" style={{'pointerEvents':this.props.value?'auto':'none'}}  onClick = {this._handleClick.bind(this)} >搜索</a>)
     }
 }
 export default SearchBtn;

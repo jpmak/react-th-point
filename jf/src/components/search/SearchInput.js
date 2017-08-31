@@ -38,7 +38,7 @@ class SearchInput extends React.Component {
         $('#js-list,.class,.result-wp').hide();
         $('.th-search-box .backbtn,.fixedSearch').show();
 
-        $('.th-active,.th-active body').css('overflow', 'auto');
+        // $('.th-active,.th-active body').css('overflow', 'auto');
 
         $('#AppWrap').css({
             'height': height,
@@ -46,7 +46,7 @@ class SearchInput extends React.Component {
         });
         // $('.pushHide').hide()
 
-        $('.search-bar input').css('width', '50%');
+        $('.search-bar input').css('width', '80%');
         if (this.state.value !== '') {
             $('#del').show();
         }
@@ -64,8 +64,8 @@ class SearchInput extends React.Component {
         const value = this.state.value
         if (this.state.value !== '') {
             if (e.keyCode === 13) {
-                this.props.historyPush(value)
-                this.props._handleClick(value);
+                // this.props.historyPush(value)
+                this.props.funStoreHistory(value);
             }
             $('#del').show();
         }

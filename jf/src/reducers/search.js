@@ -5,6 +5,7 @@ const searchInitState = {
   keyword: '', //关键词
   volume: '', //排行
   price: '', //积分次序 desc asc
+  cate_id: '', //分类ID
   items: [], // 文章列表
   pullDownStatus: 3, // 下拉状态
   pullUpStatus: 6, // 上拉状态
@@ -128,18 +129,21 @@ const MSG_LIST_PAGE_BACKUP_ISCROLL_Y_reducer = (state, action) => {
   return Object.assign({}, state, {
     y: action.y
   });
+  return state;
 }
 
 const MSG_LIST_PAGE_KEYWORD_reducer = (state, action) => {
   return Object.assign({}, state, {
     keyword: action.keyword
   });
+  return state;
 }
 
 const MSG_LIST_PAGE_VOLUME_reducer = (state, action) => {
   return Object.assign({}, state, {
     volume: action.volume
   });
+  return state;
 }
 
 
@@ -147,6 +151,14 @@ const MSG_LIST_PAGE_PRICE_reducer = (state, action) => {
   return Object.assign({}, state, {
     price: action.price
   });
+  return state;
+}
+
+const MSG_LIST_PAGE_CATE_ID_reducer = (state, action) => {
+  return Object.assign({}, state, {
+    cate_id: action.cate_id
+  });
+  return state;
 }
 
 // Reducer函数
@@ -173,6 +185,8 @@ export const MsgListPageReducer = (state = searchInitState, action) => {
       return MSG_LIST_PAGE_VOLUME_reducer(state, action);
     case consts.MSG_LIST_PAGE_PRICE:
       return MSG_LIST_PAGE_PRICE_reducer(state, action);
+    case consts.MSG_LIST_PAGE_CATE_ID:
+      return MSG_LIST_PAGE_CATE_ID_reducer(state, action);
     case consts.MSG_LIST_UPDATE_SEARCHNUM:
       return MSG_LIST_UPDATE_SEARCHNUM_reducer(state, action);
     case consts.MSG_LIST_PAGE_UPDATE_LOADING_STATUS:

@@ -49,24 +49,8 @@ class SearchBox extends React.Component {
 
     }
 
-    _handleClick(e) {
-            this.refs.getarr.funStoreHistory(e);
-            // this.refs.getarr.pushSearch();
-        }
-        // _handleClick() {
-        //     var sVal = $('#searchInput').val();
+ 
 
-    //     if (sVal != '') {
-    //         const _this = this;
-    //         keyword = sVal;
-    //         _this.refs.getarr.funStoreHistory();
-    //     }
-    // }
-    pushSearch(e) {
-        let p = new Promise(function(resolve, reject) {});
-        p.then(this.refs.getarr.funStoreHistory(e))
-            .then(this.refs.getarr.pushSearch(e))
-    }
     clearValue() {
         this.setState({
             value: ''
@@ -81,6 +65,7 @@ class SearchBox extends React.Component {
             value: e
         })
     }
+
     historyPush(e) {
         this.props.history.push('/search/' + e)
     }
@@ -113,13 +98,13 @@ class SearchBox extends React.Component {
                     <i className="th-search-iconbtn"></i>
                          <DelValue handleDel={this.clearValue.bind(this)}/>
                     <div className="wbox-flex">
-                   <SearchInput  ref='SearchInput' pushValue={this.pushValue.bind(this)} historyPush={this.historyPush.bind(this)} parmKeyword={ this.props.parmKeyword}  _handleClick={this._handleClick.bind(this)} searchMsgStatus={this.state.searchMsgStatus}/>
+        <SearchInput  ref='SearchInput' pushValue={this.pushValue.bind(this)}  parmKeyword={ this.props.parmKeyword}  funStoreHistory={this.funStoreHistory.bind(this)} searchMsgStatus={this.state.searchMsgStatus}/>
                      
                     </div>
                 </div>
 
             </div>
-<SearchResult ref="getarr"  searchMsgStatus_fun={ this.searchMsgStatus_fun.bind(this)} handleDel = {this.handleDel.bind(this)}  />
+<SearchResult ref="getarr"  searchMsgStatus_fun={ this.searchMsgStatus_fun.bind(this)} handleDel = {this.handleDel.bind(this)}  historyPush={this.historyPush.bind(this)}/>
         </div>
 
         )

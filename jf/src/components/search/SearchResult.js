@@ -14,8 +14,6 @@ class SearchResult extends React.Component {
             isCleanUp: false,
             arrval: []
         };
-
-
     }
     componentWillMount() {
         if (window.localStorage.searchhistory) {
@@ -25,32 +23,25 @@ class SearchResult extends React.Component {
             this.setState({
                 arrval: this.state.arrval.concat(this.searchMsg)
             });
+
             // this.state.arrval = this.state.arrval.concat(this.searchMsg);
         } else {
             $('.search-keywords').hide();
         }
+
     }
-
-
 
     PreventDefault(e) {
         e.preventDefault();
     }
     delbtnClick(e) {
         e.preventDefault();
-
-
         if (window.confirm('确定要清空吗？')) {
-
             this.setState({
                 arrval: []
             });
-            // this.arrval.length = 0;
             localStorage.removeItem('searchhistory');
-
             $('.search-wrap').hide();
-            // $('#searchInput').val('').focus();
-            // _this.props.searchhistory(false);
             this.props.searchMsgStatus_fun(false);
             this.props.handleDel();
         }
@@ -62,26 +53,50 @@ class SearchResult extends React.Component {
         $('.fixedSearch,.th-search-box .backbtn').hide();
     }
     funStoreHistory(e) {
-        window.localStorage.searchhistory = JSON.stringify(this.state.arrval);
-        this.state.arrval.unshift(e);
-        if (this.state.arrval.length > 9) {
-            this.state.arrval.pop(9);
+            let p = new Promise(function(resolve, reject) {});
+            let arrval = this.state.arrval;
+            // this.state.arrval.unshift(e);
+            arrval.unshift(e)
+            if (arrval.length === 10) {
+                console.log('test');
+                arrval.pop()
+            }
+            this.setState({
+                    arrval: this.unique(this.state.arrval)
+                }, () =>
+                p.then(
+                    window.localStorage.searchhistory = JSON.stringify(this.state.arrval)
+                )
+                .then(
+                    this.props.historyPush(e)
+                )
+            )
+            this.handClick();
         }
-        this.setState({
-            arrval: this.unique(this.state.arrval)
-        });
-        this.handClick();
-        if (this.props.loadingStatus !== 4) {
-            // this.props.onloadScroll()
-        }
-        // let p = new Promise(function(resolve, reject) {
-        // });
-        // this.props.searchNum();
-        // this.props.getKeyword(this.state.arrval[0])
-        // this.props.priceClick('')
-        // p.then(this.props.getKeyword(this.state.arrval[0]))
-        //     .then(this.props.priceClick(''))
-    }
+        // funStoreHistory(e) {
+        //     this.state.arrval.unshift(e);
+        //     if (this.state.arrval.length > 10) {
+        //         console.log('test');
+        //         this.state.arrval.pop(10);
+        //     }
+        //     this.setState({
+        //         arrval: this.unique(this.state.arrval)
+        //     }, () => {
+        //         window.localStorage.searchhistory = JSON.stringify(this.state.arrval)
+        //     });;
+        //     this.handClick();
+        //     if (this.props.loadingStatus !== 4) {
+        //         // this.props.onloadScroll()
+        //     }
+        //     console.log('funStoreHistory');
+        //     // let p = new Promise(function(resolve, reject) {
+        //     // });
+        //     // this.props.searchNum();
+        //     // this.props.getKeyword(this.state.arrval[0])
+        //     // this.props.priceClick('')
+        //     // p.then(this.props.getKeyword(this.state.arrval[0]))
+        //     //     .then(this.props.priceClick(''))
+        // }
     pushSearch(e) {
 
         this.props.searchNum();
@@ -92,6 +107,7 @@ class SearchResult extends React.Component {
     }
 
     unique(arr) {
+        console.log('test');
         var res = [];
         var json = {};
         for (var i = 0; i < arr.length; i++) {
@@ -112,10 +128,11 @@ class SearchResult extends React.Component {
     }
 
     render() {
+        console.log(this.state.arrval);
         const _this = this;
         let history_Html = this.state.arrval.map(function(Msg, index) {
             return (
-                <li key={index}><Link to={'/search/'+Msg} onClick={_this.funStoreHistory.bind(_this,Msg)} >{Msg}</Link></li>
+                <li key={index}><a onClick={_this.funStoreHistory.bind(_this,Msg)} >{Msg}</a></li>
             )
 
         });

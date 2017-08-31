@@ -195,7 +195,7 @@ img {
     height: 100%; 
    display:table-cell;}
 .overtouch {
-    overflow-y: auto;
+    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
 }
 //标题样式

@@ -4,25 +4,26 @@ import {
 } from 'react-redux'
 import $ from 'jquery';
 import Goback from '../components/public/Goback';
+import LoadingLayer from '../components/LoadingLayer/LoadingLayer';
 // import ResultWrap from '../components/search/ResultWrap';
 import SearchInput from '../components/search/SearchInput';
 import DelValue from '../components/search/DelValue';
 import SearchBtn from '../components/search/SearchBtn';
 import SearchResult from '../components/search/SearchResult';
 import ListNav from '../components/list/ListNav';
-
-
+import ListGoods from '../components/list/ListGoods';
 import {
     ListTryRestoreComponent,
     fetchListNav,
     fetchListGoods,
-    beginRefresh
+    beginRefresh,
+    changeLoading,
+    updateListLoadingStatus
 } from '../actions/list'
-
-
+import {
+    updateLoadingStatus,
+} from '../actions/search'
 class List extends React.Component {
-
-
     constructor(props) {
         super(props);
         this.state = {
@@ -32,13 +33,21 @@ class List extends React.Component {
             pushSearch: true,
             wrapHeight: 0
         };
-
     }
     componentWillMount() {
+        this.props.dispatch(updateLoadingStatus(1)); //重置搜索页的loading状态
         this.props.dispatch(ListTryRestoreComponent());
+        if (window.localStorage.searchhistory) {
+            this.setState({
+                searchMsgStatus: true
+            });
+        }
 
     }
     componentDidMount() {
+        if (this.props.listLoadingStatus === 1) {
+            this.props.dispatch(beginRefresh());
+        }
         let windowHeight = window.screen.height;
         let searchBox = document.getElementById("boxHeight").offsetHeight;
 
@@ -46,9 +55,7 @@ class List extends React.Component {
                 wrapHeight: windowHeight - searchBox
             })
             // console.log(document.getElementById("boxHeight").offsetHeight);
-        if (this.props.listLoadingStatus === 1) {
-            this.props.dispatch(beginRefresh());
-        }
+
     }
 
 
@@ -58,6 +65,7 @@ class List extends React.Component {
 
         }
         //search
+
     funStoreHistory(e) {
         this.refs.getarr.funStoreHistory(e)
     }
@@ -95,14 +103,55 @@ class List extends React.Component {
 
     }
 
+    changeLoading(e) {
+
+        this.props.dispatch(changeLoading(e));
+
+    }
+    onRetryLoading() {
+        this.props.dispatch(updateListLoadingStatus(1)); // 恢复loading界面
+        this.props.dispatch(beginRefresh());
+    }
+    renderLoading() {
+        let outerStyle = {
+            height: window.innerHeight
+        };
+        return (
+            <div>
+                <LoadingLayer outerStyle={outerStyle} onRetry={this.onRetryLoading.bind(this)}
+                    loadingStatus={this.props.listLoadingStatus}
+                />
+            </div>
+        );
+    }
+    renderPage() {
+        return (
+            <div id="js-list">
+        <div className="list-wrap wbox" style={{height:this.state.wrapHeight}}>
+        <ListNav navItems={this.props.navItems} navStatus={this.props.navStatus} height={this.state.wrapHeight} listGoods={this.getListGoods.bind(this)} changeLoading={this.changeLoading.bind(this)}/>
+        <ListGoods goodItems={this.props.goodItems} changeLoading={this.props.changeLoading}  height={this.state.wrapHeight} goodStatus={this.props.goodStatus} goodsFun={this.funStoreHistory.bind(this)}/>
+        </div>
+    </div>);
+
+    }
     render() {
+
+        let renderHtml = [];
+        // 首屏没有加载成功，那么均展示loading效果
+        if (this.props.listLoadingStatus !== 2) {
+            renderHtml = this.renderLoading();
+        } else {
+
+            renderHtml = this.renderPage();
+
+        }
         return (<div>
-           <div className= 'th-search-container th-nav-list pr on-focus'>
+     <div className= 'th-search-container th-nav-list pr on-focus'>
 
             <div id='boxHeight' className="th-search-box">
                 <div className="th-search-shadow"></div>
          <GobackUp />
-  <SearchBtn funStoreHistory={this.funStoreHistory.bind(this)} value={this.state.value}/>
+        <SearchBtn funStoreHistory={this.funStoreHistory.bind(this)} value={this.state.value}/>
         {/*<a className="search-btn" onClick={this._handleClick.bind(this)}>搜索</a>*/}
                     <div className="wbox search-bar" >
                     <i className="th-search-iconbtn"></i>
@@ -110,7 +159,7 @@ class List extends React.Component {
                     <div className="wbox-flex">
                <div className="th-search-form">
             
-     <SearchInput  ref='SearchInput' pushValue={this.pushValue.bind(this)} historyPush={this.historyPush.bind(this)} parmKeyword={ this.props.parmKeyword}  _handleClick={this._handleClick.bind(this)} searchMsgStatus={this.state.searchMsgStatus}/>
+     <SearchInput  ref='SearchInput' pushValue={this.pushValue.bind(this)} historyPush={this.historyPush.bind(this)} parmKeyword={ this.props.parmKeyword} funStoreHistory={this.funStoreHistory.bind(this)} searchMsgStatus={this.state.searchMsgStatus}/>
 
                         </div>
                     </div>
@@ -118,16 +167,16 @@ class List extends React.Component {
                 </div>
             </div>
 
-<SearchResult ref="getarr"  searchMsgStatus_fun={ this.searchMsgStatus_fun.bind(this)} handleDel = {this.handleDel.bind(this)}  />
+<SearchResult ref="getarr"  historyPush={this.historyPush.bind(this)} searchMsgStatus_fun={ this.searchMsgStatus_fun.bind(this)} handleDel = {this.handleDel.bind(this)}  />
 
         </div>
-            <div id="js-list">
-        <div className="list-wrap wbox" style={{height:this.state.wrapHeight}}>
-    
-        <ListNav navItems={this.props.navItems} height={this.state.wrapHeight} listGoods={this.getListGoods.bind(this)}/>
-  
-        </div>
-    </div></div>);
+        {
+            renderHtml
+        }
+</div>)
+
+
+
     }
 }
 
@@ -159,7 +208,10 @@ const mapStateToProps = state => {
         listLoadingStatus: state.MsgListReducer.listLoadingStatus,
         navStatus: state.MsgListReducer.navStatus,
         navItems: state.MsgListReducer.navItems,
-        GoodItems: state.MsgListReducer.GoodItems,
+        goodStatus: state.MsgListReducer.goodStatus,
+        goodItems: state.MsgListReducer.goodItems,
+        changeLoading: state.MsgListReducer.changeLoading
+
 
     }
 }

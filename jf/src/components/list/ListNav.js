@@ -17,12 +17,13 @@ class ListNav extends React.Component {
         this.setState({
             currentIndex: e
         })
-
         this.props.listGoods(id);
+
+        this.props.changeLoading(1);
 
     }
     render() {
-        console.log(this.props.navItems);
+
         let ListNavs = this.props.navItems;
         let ListNav = ListNavs.map(function(list, index) {
             return (
@@ -31,7 +32,7 @@ class ListNav extends React.Component {
         }, this)
         return (
             <div id="js-list-items">
-                <div id="listScroller" className="list-items overtouch" style={{height:this.props.height}}>
+        <div id="listScroller" className="list-items overtouch" style={{height:this.props.height}}>
 {ListNav}
                 </div>
             </div>

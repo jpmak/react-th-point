@@ -13,6 +13,10 @@ class GobackUp extends React.Component {
         $('#headnav').removeClass('js-header');
         $('#js-list,.class,.result-wp').show();
         $('.search-wrap,.th-search-box .backbtn,.fixedSearch').hide();
+        $('#AppWrap').css({
+            'height': 'auto',
+            'overflow': 'hidden'
+        });
     }
 
     render() {

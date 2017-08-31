@@ -1,17 +1,13 @@
 import React from 'react';
 import '../../styles/iscroll.css';
-
-// require('styles/iscroll.css');
 import iScroll from 'iscroll/build/iscroll-probe'
-
 import $ from 'jquery';
 // import {
 //     connect
 // } from 'react-redux'
 
 import {
-    // BrowserRouter as Router,
-    // Route,
+
     Link
 } from 'react-router-dom';
 import ResultSort from '../search/ResultSort';
@@ -270,13 +266,10 @@ class ResultWrap extends React.Component {
         if (this.iScrollInstance.y > -1 * pullDown.height()) {
             if (this.props.pullDownStatus <= 1) { // 没有发起刷新,那么弹回去
                 this.iScrollInstance.scrollTo(0, -1 * $(this.refs.PullDown).height(), 200);
-
             } else if (this.props.pullDownStatus === 2) {
-
                 // 发起了刷新,
                 // 那么更新状态
                 this.props.beginRefresh();
-
             }
         }
         // 滑动结束后，停在加载区域
@@ -290,7 +283,6 @@ class ResultWrap extends React.Component {
     }
     shouldComponentUpdate(nextProps, nextState) {
         this.itemsChanged = nextProps.items !== this.props.items;
-
         return true;
     }
 
@@ -310,10 +302,8 @@ class ResultWrap extends React.Component {
             this.ensureIScrollInstalled();
             // 
             // 当列表发生了变更 ，才调用iscroll的refresh重新计算滚动条信息
-
             if (this.itemsChanged) {
                 this.iScrollInstance.refresh();
-
                 // 此前是刷新操作，需要回弹
                 if (this.props.pullDownStatus === 4 || this.props.pullDownStatus === 5) {
                     // console.log(this.props.loadingStatus);
@@ -321,12 +311,7 @@ class ResultWrap extends React.Component {
                 }
             }
         }
-
-
-
         return true;
-
-
     }
 
     componentWillUnmount() {
@@ -406,7 +391,6 @@ class ResultWrap extends React.Component {
 
     render() {
         // 首屏没有加载成功，那么均展示loading效果
-
         if (this.props.loadingStatus !== 2) {
             return this.renderLoading();
         } else {

@@ -10,7 +10,7 @@
       };
     }
 
-    function _fetchItems(page, keyword, volume, price, dispatch) {
+    function _fetchItems(page, keyword, volume, price, cate_id, dispatch) {
       setTimeout(() => { // 模拟延迟0.5秒
         $.ajax({
           url: '/wap/?g=WapSite&c=Exchange&a=search_goods',
@@ -18,7 +18,8 @@
             page: page,
             keyword: keyword,
             volume: volume,
-            by: price
+            by: price,
+            cate_id: cate_id,
           },
           type: 'POST',
           dataType: 'json',
@@ -52,7 +53,7 @@
           nextPullDownStatus: 3
         });
         // 异步网络请求
-        _fetchItems(0, getState().MsgListPageReducer.keyword, getState().MsgListPageReducer.volume, getState().MsgListPageReducer.price, dispatch);
+        _fetchItems(0, getState().MsgListPageReducer.keyword, getState().MsgListPageReducer.volume, getState().MsgListPageReducer.price, getState().MsgListPageReducer.cate_id, dispatch);
       }
     }
 
@@ -65,7 +66,7 @@
           nextPullUpStatus: 2
         });
         // 异步网络请求
-        _fetchItems(getState().MsgListPageReducer.page, getState().MsgListPageReducer.keyword, getState().MsgListPageReducer.volume, getState().MsgListPageReducer.price, dispatch);
+        _fetchItems(getState().MsgListPageReducer.page, getState().MsgListPageReducer.keyword, getState().MsgListPageReducer.volume, getState().MsgListPageReducer.price, getState().MsgListPageReducer.cate_id, dispatch);
       };
     }
     // 更新loading状态
@@ -104,6 +105,12 @@
       return {
         type: consts.MSG_LIST_PAGE_KEYWORD,
         keyword: keyword
+      };
+    }
+    export function cate_id(cate_id) {
+      return {
+        type: consts.MSG_LIST_PAGE_CATE_ID,
+        cate_id: cate_id
       };
     }
     export function volume(volume) {

@@ -42,34 +42,44 @@
 
 
     export const fetchListGoods = (id) => {
-      return (dispatch) => {
-        fetch('/wap/?g=WapSite&c=Exchange&a=get_cate_child', {
-            method: 'POST',
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: 'cate_id=' + id
-          })
-          .then((res) => res.json())
-          .then((data) => {
-            dispatch({
-              type: consts.LIST_GOODS_SUCCESS,
-              GoodItems: data.cate_list,
+        return (dispatch) => {
+          fetch('/wap/?g=WapSite&c=Exchange&a=get_cate_child', {
+              method: 'POST',
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              body: 'cate_id=' + id
+            })
+            .then((res) => res.json())
+            .then((data) => {
+              dispatch({
+                type: consts.LIST_GOODS_SUCCESS,
+                goodItems: data.cate_list,
+              });
 
-            });
-          })
-          .catch(function(e) {
-            console.log("加载失败");
-          });
+              changeLoading(0);
+
+            })
+            .catch(() => {
+              dispatch({
+                type: consts.LIST_GOODS_FAIL
+
+              })
+            })
+        }
       }
-    }
-
-
-    // 更新loading状态
-    export function updateLoadingStatus(nextStatus) {
+      // 更新loading状态
+    export function updateListLoadingStatus(nextStatus) {
       return {
         type: consts.LIST_UPDATE_LOADING_STATUS,
         nextStatus: nextStatus
+      };
+    }
+    export function changeLoading(nextStatus) {
+
+      return {
+        type: consts.LIST_GOODS_UPDATE_CHANGE_STATUS,
+        changeLoading: nextStatus
       };
     }
 
