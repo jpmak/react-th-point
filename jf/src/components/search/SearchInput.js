@@ -11,6 +11,7 @@ class SearchInput extends React.Component {
             hided: false,
             value: this.props.parmKeyword || ''
         };
+
         this.handleChange = (event) => {
             let val = event.target.value;
             val = val.replace(/["'<>%;)(&+, ]/g, '');
@@ -58,7 +59,13 @@ class SearchInput extends React.Component {
 
     }
     componentDidMount() {
-
+        let parmKeyword = this.props.parmKeyword ? this.props.parmKeyword : '';
+        let list = parmKeyword.indexOf('&list');
+        if (list != -1) {
+            this.setState({
+                value: ''
+            })
+        }
     }
     searchInputonKeyUp(e) {
         const value = this.state.value

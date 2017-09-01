@@ -48,7 +48,7 @@ const Jf = () => (
 	<Route exact path="/" component={App} />
 	 <Route path="/product/:id" component={R_det}/>
 
-	  <Route path="/search/:keyword?" component={Searchhead} />
+	  <Route path="/search/:keyword" component={Searchhead} />
 	 <Route path="/list" component={List}/>
 	</div>
   </Router>

@@ -15,6 +15,7 @@ import {
 	fetchCateGoods,
 	getCateId,
 	pullUpStatus,
+	liMove
 } from '../actions'
 import {
 
@@ -42,9 +43,9 @@ class App extends React.Component {
 		// this.props.dispatch(tryRestoreComponent())
 	}
 
-	get_cate_goods(id, page) {
+	get_cate_goods(index, id, page) {
 		this.props.dispatch(getCateId(id))
-		this.props.dispatch(fetchCateGoods(id, page))
+		this.props.dispatch(fetchCateGoods(index, id, page))
 	}
 	changeGoods(e, page) {
 		if (this.props.pullUpStatus !== 0) {
@@ -54,16 +55,22 @@ class App extends React.Component {
 	UpDataPullUpStatus(e) {
 		this.props.dispatch(pullUpStatus(e))
 	}
+	liMove(index, widths, width) {
+		this.props.dispatch(liMove(index, widths, width))
+	}
 	render() {
 		const {
 			bannerItems,
 			bannerItems_2,
 			salesItems,
 			cateList,
+			pushIndex,
 			cateGoods,
 			pullUpStatus,
 			pullDownStatus,
-			pageStatus
+			pageStatus,
+			liWidth,
+			moveWidths
 		} = this.props
 		return (
 
@@ -88,7 +95,7 @@ class App extends React.Component {
 		</div>
 		</div>
 			<div className='w'>
-		<JsCate cateList={cateList} cateGoods={cateGoods} pageStatus={pageStatus} pullDownStatus={pullDownStatus} pullUpStatus={pullUpStatus} UpDataPullUpStatus={this.UpDataPullUpStatus.bind(this)} get_cate_goods={this.get_cate_goods.bind(this)} changeGoods={this.changeGoods.bind(this)} />
+		<JsCate cateList={cateList} cateGoods={cateGoods} liWidth={liWidth} moveWidths={moveWidths} pushIndex={pushIndex} pageStatus={pageStatus} pullDownStatus={pullDownStatus} pullUpStatus={pullUpStatus} UpDataPullUpStatus={this.UpDataPullUpStatus.bind(this)} get_cate_goods={this.get_cate_goods.bind(this)} changeGoods={this.changeGoods.bind(this)} liMove={this.liMove.bind(this)}/>
 
             </div>
 		<footer id='nav '>
@@ -111,10 +118,13 @@ const mapStateToProps = state => {
 		salesItems: state.MsgAppReducer.salesItems,
 		cateGoods: state.MsgAppReducer.cateGoods,
 		cateId: state.MsgAppReducer.cateId,
+		pushIndex: state.MsgAppReducer.pushIndex,
 		pullUpStatus: state.MsgAppReducer.pullUpStatus,
 		pullDownStatus: state.MsgAppReducer.pullDownStatus,
 		pageStatus: state.MsgAppReducer.pageStatus,
 		CateGoodsPage: state.MsgAppReducer.CateGoodsPage,
+		moveWidths: state.MsgAppReducer.moveWidths,
+		liWidth: state.MsgAppReducer.liWidth
 	}
 }
 

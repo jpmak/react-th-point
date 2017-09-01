@@ -107,7 +107,6 @@ class SearchResult extends React.Component {
     }
 
     unique(arr) {
-        console.log('test');
         var res = [];
         var json = {};
         for (var i = 0; i < arr.length; i++) {
@@ -128,7 +127,6 @@ class SearchResult extends React.Component {
     }
 
     render() {
-        console.log(this.state.arrval);
         const _this = this;
         let history_Html = this.state.arrval.map(function(Msg, index) {
             return (

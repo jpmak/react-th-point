@@ -12,7 +12,7 @@
       }
     }
 
-    const fetchListNav = (dispatch) => {
+    const fetchListNav = (dispatch, getState) => {
       fetch('/wap/?g=WapSite&c=Exchange&a=get_cate_list', {
           method: 'POST',
           headers: {
@@ -28,7 +28,7 @@
 
           });
 
-          fetchListGoods(data.cate_list[0].cate_id)(dispatch);
+          fetchListGoods(0, data.cate_list[0].cate_id)(dispatch);
         })
 
       .catch(() => {
@@ -41,7 +41,7 @@
 
 
 
-    export const fetchListGoods = (id) => {
+    export const fetchListGoods = (e, id) => {
         return (dispatch) => {
           fetch('/wap/?g=WapSite&c=Exchange&a=get_cate_child', {
               method: 'POST',
@@ -52,7 +52,9 @@
             })
             .then((res) => res.json())
             .then((data) => {
+
               dispatch({
+                pushIndex: e,
                 type: consts.LIST_GOODS_SUCCESS,
                 goodItems: data.cate_list,
               });

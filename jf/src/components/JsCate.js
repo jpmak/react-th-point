@@ -15,16 +15,16 @@ class JsCate extends React.Component {
         this.touchLeft = 0;
         this.onClick = false;
         this.state = {
-            move: 0,
-            currentIndex: 0,
-            liWidth: 0,
+            move: this.props.moveWidths,
+            currentIndex: this.props.pushIndex,
+            liWidth: this.props.liWidth,
             wrapWidth: 0,
             onStartX: 0,
             onMoveX: 0
 
         };
     };
-    handleClick(e, id) {
+    handleClick(index, id) {
         let scrollwrap = document.getElementById('scrollwrap').offsetHeight
         let promise = new Promise(function(resolve, rejeact) {
             resolve();
@@ -40,19 +40,21 @@ class JsCate extends React.Component {
         this.props.UpDataPullUpStatus(0);
         this.onClick = true;
         var widths = 0;
-        for (let i = 0; i < e; i++) {
+        for (let i = 0; i < index; i++) {
             widths += parseFloat($('.app-scroller li').eq(i).width());
         }
+        let liWidth = parseFloat($('.app-scroller li').eq(index).width());
         this.setState({
             move: widths,
-            currentIndex: e,
-            liWidth: parseFloat($('.app-scroller li').eq(e).width())
+            currentIndex: index,
+            liWidth: liWidth
         });
+        this.props.liMove(index, widths, liWidth)
 
         let fl_w = $('.app-scroller').width();
         let flb_w = $('.app-scroller-wrap').width();
 
-        let nav_w = parseFloat($('.app-scroller li').eq(e).width())
+        let nav_w = parseFloat($('.app-scroller li').eq(index).width())
         let fn_w = ($('.app-scroller-wrap').width() - nav_w) / 2;
         if (widths <= fn_w || fl_w <= flb_w) {
             this.setState({
@@ -99,7 +101,6 @@ class JsCate extends React.Component {
         }
     }
     render() {
-
         if (!this.onClick) {
             let nav_w = $('.app-scroller li').first().width();
             $('.choose-items-wp p').width(nav_w);

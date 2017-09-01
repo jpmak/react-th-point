@@ -82,11 +82,19 @@ class ResultWrap extends React.Component {
     componentWillMount() {
         this.props.tryRestoreComponent();
     }
+
     componentDidMount() {
         // 首次进入列表页，那么异步加载数据
+        let parmKeyword = this.props.parmKeyword;
+        let list = parmKeyword.indexOf('&list');
+        let listNum = parseInt(parmKeyword)
+
         if (this.props.loadingStatus === 1) {
-            this.props._keywordClick(this.props.parmKeyword)
-                // this.props.beginRefresh();
+            if (list != -1) {
+                this.props.cate_idClick(listNum)
+            } else {
+                this.props._keywordClick(this.props.parmKeyword)
+            }
         } else {
             this.ensureIScrollInstalled();
             // 非首次进入，那么恢复滚动条的位置 (如果离开页面时处于下拉位置, 那么进行修正)
@@ -149,7 +157,9 @@ class ResultWrap extends React.Component {
         this.isTouching = true;
         this.onTouch = true;
     }
-
+    isContains(str, substr) {
+        return str.contains(substr);
+    }
 
     onTouchEnd(ev) {
         this.isTouching = false;
@@ -246,22 +256,16 @@ class ResultWrap extends React.Component {
             } else {
                 // this.props.updatePullUpStatus(0);
             }
-
             // 下拉区域
         if (this.iScrollInstance.y <= this.iScrollInstance.maxScrollY + 5 && this.props.pageStatus !== 0) {
             this.onPullUp();
         }
     }
     onRefresh() {
-
         this.iScrollInstance.refresh()
-
     }
     onScrollEnd() {
-
-
         let pullDown = $(this.refs.PullDown);
-
         // 滑动结束后，停在刷新区域
         if (this.iScrollInstance.y > -1 * pullDown.height()) {
             if (this.props.pullDownStatus <= 1) { // 没有发起刷新,那么弹回去

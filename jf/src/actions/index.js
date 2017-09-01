@@ -72,9 +72,7 @@
           dispatch({
             type: consts.FETCHCATELIST_SUCCESS,
             cateList: data.cate_list,
-
           });
-
           fetchCateGoods(data.cate_list[0].cate_id, 0)(dispatch);
         })
         .catch(function(e) {
@@ -95,6 +93,7 @@
           .then((data) => {
             dispatch({
               type: consts.FETCHCATEGOODS_SUCCESS,
+
               cateGoods: data.goods_list,
               pageStatus: data.status,
 
@@ -110,7 +109,7 @@
     export const getCateId = (id) => {
       return (dispatch) => {
         dispatch({
-      type: consts.UPDATE_CATEID_STATUS,
+          type: consts.UPDATE_CATEID_STATUS,
           cateId: id
         });
       };
@@ -120,6 +119,17 @@
         dispatch({
           type: consts.UPDATE_PULLUP_STATUS,
           pullUpStatus: e
+        });
+      }
+    }
+    export const liMove = (index, widths, width) => {
+      return (dispatch) => {
+        dispatch({
+          type: consts.UPDATE_LIEVENT_STATUS,
+          pushIndex: index,
+          moveWidths: widths,
+          liWidth: width
+
         });
       }
     }

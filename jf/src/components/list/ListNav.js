@@ -6,7 +6,7 @@ class ListNav extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentIndex: 0,
+            currentIndex: this.props.pushIndex,
         }
     };
     cheack(index) {
@@ -17,13 +17,11 @@ class ListNav extends React.Component {
         this.setState({
             currentIndex: e
         })
-        this.props.listGoods(id);
-
+        this.props.listGoods(e, id);
         this.props.changeLoading(1);
 
     }
     render() {
-
         let ListNavs = this.props.navItems;
         let ListNav = ListNavs.map(function(list, index) {
             return (

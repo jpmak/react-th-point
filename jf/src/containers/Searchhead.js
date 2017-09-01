@@ -174,24 +174,22 @@ class Searchhead extends React.Component {
     volumeClick(e) {
         this.props.dispatch(volume(e))
         this.props.dispatch(price(''))
-
         this.onloadScroll();
-
         this.props.dispatch(SearchBeginRefresh())
-
-
     }
     cate_idClick(e) {
         this.props.dispatch(cate_id(e))
-
         this.props.dispatch(price(''))
         this.props.dispatch(getKeyword(''))
-        this.onloadScroll();
+            // this.onloadScroll();
         this.props.dispatch(SearchBeginRefresh())
     }
     keywordClick(e) {
         this.props.dispatch(price(''))
+        this.props.dispatch(cate_id(''))
+
         this.props.dispatch(getKeyword(e))
+
         this.onloadScroll();
         this.props.dispatch(SearchBeginRefresh())
     }
@@ -239,9 +237,17 @@ class Searchhead extends React.Component {
 
             this.keywordClick(nextProps.match.params.keyword)
         }
-        if (nextProps.match.params.id !== this.props.match.params.id) {
-            this.cate_idClick(nextProps.match.params.id)
-        }
+        // if (nextProps.match.params.keyword !== this.props.match.params.keyword) {
+        //     this.searchNum();
+        //     this.setState({
+        //         searchMsgStatus: 1
+        //     });
+
+        //     this.keywordClick(nextProps.match.params.keyword)
+        // }
+        // if (nextProps.match.params.id !== this.props.match.params.id) {
+        //     this.cate_idClick(nextProps.match.params.id)
+        // }
     }
 
     render() {
@@ -305,13 +311,13 @@ class Searchhead extends React.Component {
 
         </div>
 
-            <ResultWrap ref = "getload" value={this.state.value} items = {items} status = {status} _keywordClick={this._keywordClick.bind(this)}  parmKeyword={ this.props.match.params.keyword}  y = {y}  price={price}  searchNum={searchNum}    backupIScrollY = {_this.backupIScrollY.bind(this)} pageStatus = {pageStatus}  tryRestoreComponent = {_this.tryRestoreComponent.bind(this)}
-                      defaultClick = {_this.defaultClick.bind(this)}   priceClick = {_this.priceClick.bind(this)}
-               volumeClick = {_this.volumeClick.bind(this)}  beginRefresh = {_this.beginRefresh.bind(this)}
-            beginLoad = {_this.beginLoad.bind(this)}    updateLoadingStatus = {_this.updateLoadingStatus.bind(this)}
+            <ResultWrap ref = "getload" value={this.state.value} items = {items} status = {status} _keywordClick={this._keywordClick.bind(this)}  parmKeyword={ this.props.match.params.keyword}  y = {y}  price={price}  searchNum={searchNum}    backupIScrollY = {this.backupIScrollY.bind(this)} pageStatus = {pageStatus}  tryRestoreComponent = {this.tryRestoreComponent.bind(this)}
+                      defaultClick = {this.defaultClick.bind(this)}  cate_idClick={this.cate_idClick.bind(this)} priceClick = {this.priceClick.bind(this)}
+               volumeClick = {this.volumeClick.bind(this)}  beginRefresh = {this.beginRefresh.bind(this)}
+            beginLoad = {this.beginLoad.bind(this)}    updateLoadingStatus = {this.updateLoadingStatus.bind(this)}
             pullDownStatus = {pullDownStatus} pullUpStatus = {pullUpStatus} loadingStatus = {loadingStatus}
-            updatePullDownStatus = {_this.updatePullDownStatus.bind(this)} updatePullUpStatus = {
-                _this.updatePullUpStatus.bind(this)
+            updatePullDownStatus = {this.updatePullDownStatus.bind(this)} updatePullUpStatus = {
+                this.updatePullUpStatus.bind(this)
             }
             /> </div>);
     }

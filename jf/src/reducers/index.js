@@ -14,11 +14,14 @@ const initState = {
   bannerItems_2: [], // banner列表,
   salesItems: [], // 热卖列表,
   cateList: [], //分类列表
+  pushIndex: 0, //点击的index
   cateId: '', //当前分类ID
   cateGoods: [], //分类信息
   CateGoodsPage: 0, //页数
   pullUpStatus: 0, //上加载状态
-  pullDownStatus: 4 //下加载状态
+  pullDownStatus: 4, //下加载状态
+  moveWidths: 0, //块状移动长度
+  liWidth: 0 //块状长度
 
 
 };
@@ -66,12 +69,22 @@ const UPDATE_PULLUP_STATUS_reducer = (state, action) => {
 }
 
 
+const UPDATE_LIEVENT_STATUS_reducer = (state, action) => {
+  return Object.assign({}, state, {
+    moveWidths: action.moveWidths,
+    liWidth: action.liWidth,
+    pushIndex: action.pushIndex
+  });
+  return state;
+}
 
 const FETCHCATEGOODS_SUCCESS_reducer = (state, action) => {
   let nextState = Object.assign({}, state);
   nextState.pageStatus = action.pageStatus;
+
   nextState.pullUpStatus = 2;
   nextState.loadingStatus = 2;
+
   if (action.pageStatus) {
     if (action.CateGoodsPage === 0) { // 刷新操作
       nextState.cateGoods = action.cateGoods;
@@ -124,7 +137,8 @@ export const MsgAppReducer = (state = initState, action) => {
       return FETCHCATEGOODS_SUCCESS_reducer(state, action);
     case consts.UPDATE_PULLUP_STATUS:
       return UPDATE_PULLUP_STATUS_reducer(state, action);
-
+    case consts.UPDATE_LIEVENT_STATUS:
+      return UPDATE_LIEVENT_STATUS_reducer(state, action);
 
     default:
       return state; // 返回当前默认state或者当前state

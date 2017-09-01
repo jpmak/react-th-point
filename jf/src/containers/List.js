@@ -98,8 +98,9 @@ class List extends React.Component {
             this.refs.SearchInput.clearValue();
         }
         //search
-    getListGoods(id) {
-        this.props.dispatch(fetchListGoods(id));
+    getListGoods(index, id) {
+
+        this.props.dispatch(fetchListGoods(index, id));
 
     }
 
@@ -128,7 +129,7 @@ class List extends React.Component {
         return (
             <div id="js-list">
         <div className="list-wrap wbox" style={{height:this.state.wrapHeight}}>
-        <ListNav navItems={this.props.navItems} navStatus={this.props.navStatus} height={this.state.wrapHeight} listGoods={this.getListGoods.bind(this)} changeLoading={this.changeLoading.bind(this)}/>
+        <ListNav navItems={this.props.navItems} pushIndex={this.props.pushIndex} navStatus={this.props.navStatus} height={this.state.wrapHeight} listGoods={this.getListGoods.bind(this)} changeLoading={this.changeLoading.bind(this)}/>
         <ListGoods goodItems={this.props.goodItems} changeLoading={this.props.changeLoading}  height={this.state.wrapHeight} goodStatus={this.props.goodStatus} goodsFun={this.funStoreHistory.bind(this)}/>
         </div>
     </div>);
@@ -208,6 +209,7 @@ const mapStateToProps = state => {
         listLoadingStatus: state.MsgListReducer.listLoadingStatus,
         navStatus: state.MsgListReducer.navStatus,
         navItems: state.MsgListReducer.navItems,
+        pushIndex: state.MsgListReducer.pushIndex,
         goodStatus: state.MsgListReducer.goodStatus,
         goodItems: state.MsgListReducer.goodItems,
         changeLoading: state.MsgListReducer.changeLoading
