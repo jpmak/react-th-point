@@ -4,7 +4,7 @@ import DetBody from '../DetBody';
 
 const Detail = () => (
 	<div>
-        <header id="headnav"><TopNav titleName = "产品详情" icon = "jf-record-icon"  dis = "none" / ></header>
+        <header id="headnav"><TopNav titleName = "商品详情" icon = "jf-record-icon"  dis = "none" / ></header>
 <div id="detwrap"><DetBody/></div>
   </div>
 )
