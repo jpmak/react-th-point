@@ -470,6 +470,26 @@ vertical-align: middle;
     label {
     float: left;
      }
+         .round {
+            float: right;
+                     vertical-align: bottom;
+                     margin-top: .35rem;
+                     margin-right: .05rem;
+                     display: inline-block;
+                     border: 1px solid #dedede;
+                     background: #f7f7f7;
+                     border-radius: 50%;
+                     width: .22rem;
+                     height: .22rem;
+                 }
+                 &.cur {
+                     color: $redColor;
+                     .round {
+                         border: 1px solid $redColor;
+                         background: url($bg+'c-ok.png') no-repeat;
+                         background-size: .23rem .23rem;
+                     }
+                 }
      p {
         float: right;
         .payIcon{

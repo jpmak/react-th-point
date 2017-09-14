@@ -53,7 +53,31 @@ class PayWay extends React.Component {
 
 
 class ChooseType extends React.Component {
+        constructor(props) {
+        super(props);
+        this.state = {
+            currentIndex: '0',
+        }
+    };
+     cheack(index) {
+        return index === this.state.currentIndex ? 'cur' : '';
+
+    }
+        handleClick(e) {
+let num =e.target.getAttribute('data-Num')
+        this.setState({
+            currentIndex: num
+        })
+   
+
+      
+        console.log(num)
+        // this.props.listGoods(e, id);
+        // this.props.changeLoading(1);
+
+    }
     render() {
+
         return (
             <div id='chooseType' className="payWay">
    <div className="product-icon cover-close">
@@ -62,15 +86,15 @@ class ChooseType extends React.Component {
 
 <div className='wbox-flex payTitle'>选择积分类型</div>
 <ul className='payList'>
-<li className="cur"> 
+<li className={this.cheack('0')} data-Id="balance_point" data-Num='0' onClick={this.handleClick.bind(this)}> 
     <label >排点积分</label>
    <i className="round"></i>
 </li>
-<li>
+<li className={this.cheack('1')} data-Id="travel_point" data-Num='1' onClick={this.handleClick.bind(this)}>
     <label >旅游积分</label>
    <i className="round"></i>
 </li>
-<li>
+<li className={this.cheack('2')} data-Id="point" data-Num='2' onClick={this.handleClick.bind(this)}> 
     <label>购物积分</label>
    <i className="round"></i>
 </li>
