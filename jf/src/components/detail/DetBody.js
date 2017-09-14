@@ -6,6 +6,9 @@ import BottomTipFloor from './BottomTipFloor';
 import ProductCover from './ProductCover';
 import CoverMask from './CoverMask';
 import Scrollup from './Scrollup';
+import PayWay from './PayWay';
+
+
 const urlRoot = ''
 class DetBody extends React.Component {
     constructor(props) {
@@ -150,10 +153,12 @@ class DetBody extends React.Component {
             </div>
             </div>
                <FixBtn title = "立即兑换" stock={this.state.stock} iScrollUp={this.iScrollUp.bind(this)}/>
+           
             <BottomTipFloor/>
                   
         <Scrollup ref='Scrollup'  goods_body={this.state.goods_body} iScrollUp={this.iScrollUp.bind(this)}/>
             </div>
+                <PayWay/>
             <CoverMask />
 
                     <ProductCover isDisplay={isDisplay}  callClick={this.handleClick} imgsrc={this.state.imgsrc[0]} item_price={this.state.item_price} stock={this.state.stock? this.state.stock : '缺货'} item_name={this.state.item_name} prop_name={this.state.prop_name} saleProp={this.state.saleProp} itemUrl={this.state.itemUrl} />

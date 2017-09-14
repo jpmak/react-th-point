@@ -218,7 +218,7 @@
     
     .product-payup {
 
-           padding:0 .2rem ;
+           padding:0 .2rem .2rem    ;
    
 .pay-item{
     width: 100%;
@@ -226,6 +226,8 @@
          background: $redColor;
 
 }
+
+
 .stockNone{
          background: $borderColor;
          pointer-events:none
@@ -274,6 +276,8 @@
     }
     }
     
+
+
 
     .product-cover {
         overflow: visible;
@@ -431,4 +435,73 @@ vertical-align: middle;
             height: .5rem;
         }
     }
+    .payWay{
+    // overflow: visible;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+ padding:0 .3rem;
+    background: #fff;
+    z-index: 200;
+    height:7rem;
+    display: none;
+    .payTitle{
+    text-align: center;
+    margin: 0 auto;
+    color: #353d44;
+    font-size: .4rem;
+    line-height: 1rem;
+}
+.payList{
+    li{
+    -webkit-flex: 1 !important;
+    -webkit-box-flex: 1;
+    word-wrap: break-word;
+    word-break: break-all;
+    float: left;
+    width: 100%;
+    height: 1rem;
+    line-height: 1rem;
+    font-size: .28rem;
+    color: #2B2424;
+    border-top: 1px solid #dedede;
+    label {
+    float: left;
+     }
+     p {
+        float: right;
+        .payIcon{
+            width: .36rem;
+            height: .36rem;
+            display: inline-block;
+vertical-align: text-bottom;
+margin-right:.1rem;
+        background: url($bg+'payIcon.png') no-repeat;
+                background-size: .36rem .36rem;
+        }
+    }
+    .payMoney{
+    font-size: .4rem;
+    font-weight: bold;
+        em{
+            font-size: .28rem;
+            margin-right: .08rem;
+        }
+}
+      }
+    }
+}
+
+    .blockUp:before {
+    content: "";
+    display: inline-block;
+    width: .18rem;
+    height: .18rem;
+    border: solid #dedede;
+    border-width: 1px 0 0 1px;
+      -webkit-transform: rotate(135deg);
+        -moz-transform: rotate(135deg);
+}
 .hidescroll{overflow-y:hidden;}

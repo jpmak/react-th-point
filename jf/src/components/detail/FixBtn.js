@@ -16,6 +16,7 @@ class FixBtn extends React.Component {
         $('.cover-mask').addClass('cover-mask-toggle').show();
         $('html').addClass('hidescroll');
     }
+
     render() {
         // onClick={this.cover.bind(this)}
         let stock = this.props.stock ? this.props.stock : '';
@@ -32,7 +33,7 @@ class FixBtn extends React.Component {
             <div className="product-payup">
         <div className={'pay-item '+ stockClass} onClick={this.cover.bind(this)}>
                 <div className="wbox-flex tc">
-        <a className="th-btn th-btn-assertive ">{stockTips}</a>
+        <a className="th-btn th-btn-assertive">{stockTips}</a>
                 </div>
             </div>
         </div>
