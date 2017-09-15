@@ -6,12 +6,10 @@ class CoverMask extends React.Component {
         $('.close,.cover-mask').on('click', function() {
             $('.product-cover').removeClass('cover-toggle').hide();
             $('.cover-mask').removeClass('cover-mask-toggle').hide();
-            $('#payWay').hide()
-
+            $('#payWay,#chooseTypeWrap').hide();
             $('html').removeClass('hidescroll');
         });
     }
-
     render() {
         return (
             <div className="cover-mask" ></div>

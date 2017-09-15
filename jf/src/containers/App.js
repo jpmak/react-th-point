@@ -31,8 +31,23 @@ class App extends React.Component {
 	componentWillMount() {
 		this.props.dispatch(updateLoadingStatus(1));
 		this.props.dispatch(tryRestoreComponent());
+
+		fetch('/wap/?g=WapSite&c=Exchange&a=loginExchange', {
+			method: 'POST',
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded"
+			}
+		})
+
+
 	}
 	componentDidMount() {
+		fetch('/wap/?g=WapSite&c=Exchange&a=user_info', {
+			method: 'POST',
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded"
+			}
+		})
 		if (this.props.loadingStatus === 1) {
 			this.props.dispatch(beginRefresh())
 		}
@@ -54,6 +69,13 @@ class App extends React.Component {
 	}
 	UpDataPullUpStatus(e) {
 		this.props.dispatch(pullUpStatus(e))
+	}
+	detailData(goods_name, item_price, list_image) {
+		window.localStorage.detailData = JSON.stringify({
+			'productName': goods_name,
+			'productPrice': item_price,
+			'productImg': [list_image]
+		})
 	}
 	liMove(index, widths, width) {
 		this.props.dispatch(liMove(index, widths, width))
@@ -87,7 +109,7 @@ class App extends React.Component {
 		<SlickBanner bannerItems={bannerItems}/>
 		</div>
 		<div className='jf-bsell-box'>
-        <SalesWrapper salesItems={salesItems}/>
+        <SalesWrapper salesItems={salesItems} detailData={this.detailData.bind(this)}/>
         </div>
   		<div id="AppBanner_2">
 		<SlickBanner2 bannerItems_2={bannerItems_2}/>
@@ -95,7 +117,7 @@ class App extends React.Component {
 		</div>
 		</div>
 			<div className='w'>
-		<JsCate cateList={cateList} cateGoods={cateGoods} liWidth={liWidth} moveWidths={moveWidths} pushIndex={pushIndex} pageStatus={pageStatus} pullDownStatus={pullDownStatus} pullUpStatus={pullUpStatus} UpDataPullUpStatus={this.UpDataPullUpStatus.bind(this)} get_cate_goods={this.get_cate_goods.bind(this)} changeGoods={this.changeGoods.bind(this)} liMove={this.liMove.bind(this)}/>
+		<JsCate detailData={this.detailData.bind(this)} cateList={cateList} cateGoods={cateGoods} liWidth={liWidth} moveWidths={moveWidths} pushIndex={pushIndex} pageStatus={pageStatus} pullDownStatus={pullDownStatus} pullUpStatus={pullUpStatus} UpDataPullUpStatus={this.UpDataPullUpStatus.bind(this)} get_cate_goods={this.get_cate_goods.bind(this)} changeGoods={this.changeGoods.bind(this)} liMove={this.liMove.bind(this)}/>
 
             </div>
 		<footer id='nav '>

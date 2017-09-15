@@ -45,7 +45,12 @@ class SalesWrapper extends React.Component {
             }
         }
     }
+    handleClick(goods_name, item_price, list_image) {
+        this.props.detailData(goods_name, item_price, list_image)
+    }
     render() {
+        const _this = this;
+
         let goodsHtmls = this.props.salesItems;
 
         let goodsList = goodsHtmls.map(function(goods, index) {
@@ -65,7 +70,7 @@ class SalesWrapper extends React.Component {
             }
             return (
 
-                <li  key={index}><Link to={'/product/'+goods.item_id+'.html'} className="upItem" data-id={goods.item_id}  ><div className="info-img"><div className={sales_top}></div>
+                <li  key={index} onClick={_this.handleClick.bind(_this,goods.goods_name,goods.item_price,goods.list_image)}><Link to={'/product/'+goods.item_id+'.html'} className="upItem" data-id={goods.item_id}  ><div className="info-img"><div className={sales_top}></div>
                 <img alt='' src={goods.list_image}  />
                 </div><div className="info-bar"><div className="e-numb"><span className="e-price"><em>{goods.item_price} </em>积分</span></div></div></Link> </li>
 

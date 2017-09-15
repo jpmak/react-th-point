@@ -9,7 +9,7 @@ import Scrollup from './Scrollup';
 import PayWay from './PayWay';
 
 
-const urlRoot = ''
+
 class DetBody extends React.Component {
     constructor(props) {
         super(props);
@@ -30,8 +30,9 @@ class DetBody extends React.Component {
 
 
         };
-        this.touchRange = 0 // 触控距离
-        this.moving = 0
+        this.detailMsg = '';
+        this.touchRange = 0; // 触控距离;
+        this.moving = 0;
     }
     stopPropagation(e) {
         e.stopPropagation();
@@ -83,11 +84,23 @@ class DetBody extends React.Component {
         //     }
         // }
     componentWillMount() {
+        if (window.localStorage.detailData) {
+            this.detailMsg = JSON.parse(window.localStorage.detailData);
+            this.setState({
+                name: this.detailMsg.productName,
+                item_price: this.detailMsg.productPrice,
+                imgsrc: this.detailMsg.productImg
+            });
+        }
+        console.log(this.detailMsg.productImg);
+
         this.handleClick();
+
         window.scrollTo(0, 0);
 
     }
     componentDidMount() {
+        console.log(this.detailMsg);
         $("body").unbind("touchmove");
     }
 
@@ -161,7 +174,7 @@ class DetBody extends React.Component {
                 <PayWay/>
             <CoverMask />
 
-                    <ProductCover isDisplay={isDisplay}  callClick={this.handleClick} imgsrc={this.state.imgsrc[0]} item_price={this.state.item_price} stock={this.state.stock? this.state.stock : '缺货'} item_name={this.state.item_name} prop_name={this.state.prop_name} saleProp={this.state.saleProp} itemUrl={this.state.itemUrl} />
+        <ProductCover isDisplay={isDisplay}  callClick={this.handleClick} imgsrc={this.state.imgsrc[0]} item_price={this.state.item_price} stock={this.state.stock? this.state.stock : '缺货'} item_name={this.state.item_name} prop_name={this.state.prop_name} saleProp={this.state.saleProp} itemUrl={this.state.itemUrl} />
             </div>
         )
 

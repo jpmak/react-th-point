@@ -3,11 +3,10 @@ import $ from 'jquery';
 
 class PayWay extends React.Component {
     chooseType() {
-        $('#chooseType').show();
+        $('#chooseTypeWrap .payWay').show();
         $('#payWay').hide();
 
 
-        console.log('test');
     }
     render() {
         return (
@@ -53,37 +52,38 @@ class PayWay extends React.Component {
 
 
 class ChooseType extends React.Component {
-        constructor(props) {
+    constructor(props) {
         super(props);
         this.state = {
             currentIndex: '0',
         }
     };
-     cheack(index) {
+    cheack(index) {
         return index === this.state.currentIndex ? 'cur' : '';
 
     }
-        handleClick(e) {
-let num =e.target.getAttribute('data-Num')
+    handleClick(e) {
+        let num = e.target.getAttribute('data-Num')
         this.setState({
             currentIndex: num
         })
-   
 
-      
-        console.log(num)
-        // this.props.listGoods(e, id);
-        // this.props.changeLoading(1);
+
+    }
+    handlePush() {
+        $('#chooseTypeWrap .payWay').hide();
+
+        $('.cover-mask').removeClass('cover-mask-toggle').hide();
+
 
     }
     render() {
 
         return (
-            <div id='chooseType' className="payWay">
-   <div className="product-icon cover-close">
-        <a className="close"></a>
-                </div>
+            <div id='chooseTypeWrap'>
+            <div className="payWay">
 
+<a className="class th-nav-back" onClick={this.handlePush.bind(this)}> </a>
 <div className='wbox-flex payTitle'>选择积分类型</div>
 <ul className='payList'>
 <li className={this.cheack('0')} data-Id="balance_point" data-Num='0' onClick={this.handleClick.bind(this)}> 
@@ -100,12 +100,13 @@ let num =e.target.getAttribute('data-Num')
 </li>
 
 </ul>
-            <div className='fix-box product-payup'>
+            <div className='fix-box product-payup' onClick={this.handlePush.bind(this)}>
         <div className='pay-item'>
         <div className='wbox-flex tc exchange-submit'>
         <a className='th-btn th-btn-assertive'>确定</a>
                         </div>
                     </div>
+                </div>
                 </div>
                 </div>
         )

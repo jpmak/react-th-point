@@ -45,7 +45,6 @@ class CateGoods extends React.Component {
         window.addEventListener('scroll', this.handleScroll);
     }
     componentWillUnmount() {
-
         window.removeEventListener('scroll', this.handleScroll);
     }
     getScrollTop() {
@@ -119,7 +118,9 @@ class CateGoods extends React.Component {
             this.changeGoods = true
         })
     }
-
+    handleClick(goods_name, item_price, list_image) {
+        this.props.detailData(goods_name, item_price, list_image)
+    }
     renderPage() {
         let bodyBox = document.getElementById('root')
         let CateGoodList = [];
@@ -128,7 +129,8 @@ class CateGoods extends React.Component {
             CateGoodList = CateGoods.map((CateGood, index) => {
                 return (
 
-                    <li  key={index} className={this.changeGoods?'add':'move'}> 
+                    <li  key={index} onClick={this.handleClick.bind(this,CateGood.goods_name,CateGood.item_price,CateGood.list_image)}
+                     className={this.changeGoods?'add':'move'}> 
                 <Link to={'/product/'+CateGood.item_id+'.html'}  className="upItem " data-id={CateGood.item_id}>
                 <div className="info-img">
                 <LazyLoad  placeholder={<PlaceholderComponent />}>

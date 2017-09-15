@@ -18,12 +18,23 @@ class JsCate extends React.Component {
             move: this.props.moveWidths,
             currentIndex: this.props.pushIndex,
             liWidth: this.props.liWidth,
-            wrapWidth: 0,
             onStartX: 0,
             onMoveX: 0
 
         };
     };
+    componentWillUnmount() {
+        let nul = typeof(1)
+        console.log(nul);
+    }
+    componentDidMount() {
+        if (this.state.liWidth === null) {
+            let nav_w = $('.app-scroller li').first().width();
+            this.setState({
+                liWidth: 1
+            })
+        }
+    }
     handleClick(index, id) {
         let scrollwrap = document.getElementById('scrollwrap').offsetHeight
         let promise = new Promise(function(resolve, rejeact) {
@@ -100,11 +111,16 @@ class JsCate extends React.Component {
             }
         }
     }
+
+    detailData(goods_name, item_price, list_image) {
+        this.props.detailData(goods_name, item_price, list_image)
+    }
     render() {
-        if (!this.onClick) {
-            let nav_w = $('.app-scroller li').first().width();
-            $('.choose-items-wp p').width(nav_w);
-        }
+        console.log(this.state.liWidth);
+        // if (!this.onClick) {
+        //     let nav_w = $('.app-scroller li').first().width();
+        //     $('.choose-items-wp p').width(nav_w);
+        // }
         let CateLists = this.props.cateList;
         let CateList = CateLists.map(function(Cate, index) {
             return (
@@ -125,7 +141,7 @@ class JsCate extends React.Component {
                     </div>
 }
         </Motion>
-        <CateGoods ref='CateGoods' cateGoods={this.props.cateGoods} pageStatus={this.props.pageStatus} pullUpStatus={this.props.pullUpStatus} pullDownStatus={this.props.pullDownStatus} changeGoods={this.props.changeGoods} />
+        <CateGoods ref='CateGoods' detailData={this.detailData.bind(this)} cateGoods={this.props.cateGoods} pageStatus={this.props.pageStatus} pullUpStatus={this.props.pullUpStatus} pullDownStatus={this.props.pullDownStatus} changeGoods={this.props.changeGoods} />
     
 
       

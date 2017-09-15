@@ -3,7 +3,7 @@ import $ from 'jquery';
 
 class PutBtn extends React.Component {
     payway() {
-        $('.payWay').show();
+        $('#payWay').show();
         $('.product-cover').removeClass('cover-mask-toggle').hide();
 
     }
