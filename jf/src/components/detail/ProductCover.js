@@ -37,7 +37,7 @@ class ProductCover extends React.Component {
         } else {
             salePropHeight = '40%'
         }
-        console.log(this.props.saleProp);
+
         return (
             <section className="product-cover" style={{height:salePropHeight}}>
         <div className="wbox-flex">

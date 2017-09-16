@@ -32,22 +32,22 @@ class App extends React.Component {
 		this.props.dispatch(updateLoadingStatus(1));
 		this.props.dispatch(tryRestoreComponent());
 
-		fetch('/wap/?g=WapSite&c=Exchange&a=loginExchange', {
-			method: 'POST',
-			headers: {
-				"Content-Type": "application/x-www-form-urlencoded"
-			}
-		})
+		// fetch('/wap/?g=WapSite&c=Exchange&a=loginExchange', {
+		// 	method: 'POST',
+		// 	headers: {
+		// 		"Content-Type": "application/x-www-form-urlencoded"
+		// 	}
+		// })
 
 
 	}
 	componentDidMount() {
-		fetch('/wap/?g=WapSite&c=Exchange&a=user_info', {
-			method: 'POST',
-			headers: {
-				"Content-Type": "application/x-www-form-urlencoded"
-			}
-		})
+		// fetch('/wap/?g=WapSite&c=Exchange&a=user_info', {
+		// 	method: 'POST',
+		// 	headers: {
+		// 		"Content-Type": "application/x-www-form-urlencoded"
+		// 	}
+		// })
 		if (this.props.loadingStatus === 1) {
 			this.props.dispatch(beginRefresh())
 		}
@@ -82,6 +82,7 @@ class App extends React.Component {
 	}
 	render() {
 		const {
+			loadingStatus,
 			bannerItems,
 			bannerItems_2,
 			salesItems,
@@ -117,7 +118,7 @@ class App extends React.Component {
 		</div>
 		</div>
 			<div className='w'>
-		<JsCate detailData={this.detailData.bind(this)} cateList={cateList} cateGoods={cateGoods} liWidth={liWidth} moveWidths={moveWidths} pushIndex={pushIndex} pageStatus={pageStatus} pullDownStatus={pullDownStatus} pullUpStatus={pullUpStatus} UpDataPullUpStatus={this.UpDataPullUpStatus.bind(this)} get_cate_goods={this.get_cate_goods.bind(this)} changeGoods={this.changeGoods.bind(this)} liMove={this.liMove.bind(this)}/>
+		<JsCate loadingStatus={loadingStatus} detailData={this.detailData.bind(this)} cateList={cateList} cateGoods={cateGoods} liWidth={liWidth} moveWidths={moveWidths} pushIndex={pushIndex} pageStatus={pageStatus} pullDownStatus={pullDownStatus} pullUpStatus={pullUpStatus} UpDataPullUpStatus={this.UpDataPullUpStatus.bind(this)} get_cate_goods={this.get_cate_goods.bind(this)} changeGoods={this.changeGoods.bind(this)} liMove={this.liMove.bind(this)}/>
 
             </div>
 		<footer id='nav '>

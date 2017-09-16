@@ -21,7 +21,7 @@ const initState = {
   pullUpStatus: 0, //上加载状态
   pullDownStatus: 4, //下加载状态
   moveWidths: 0, //块状移动长度
-  liWidth: 111111111 //块状长度
+  liWidth: 0 //块状长度
 
 
 };

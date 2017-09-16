@@ -4,6 +4,7 @@ import $ from 'jquery';
 class PayWay extends React.Component {
     chooseType() {
         $('#chooseTypeWrap .payWay').show();
+        console.log('test');
         $('#payWay').hide();
 
 
@@ -26,7 +27,7 @@ class PayWay extends React.Component {
     <label >付款账号</label>
     <p>小麦</p>
 </li>
-<li id='chooseType' onClick={this.chooseType.bind(this)}>
+<li onClick={this.chooseType.bind(this)}>
     <label>兑换积分类型</label>
     <p><span>购物积分</span><em className='blockUp'></em></p>
 </li>

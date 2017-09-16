@@ -130,6 +130,8 @@ class Scrollup extends React.Component {
             isPushUp: 'block',
             height: scrollUp
         }, () => {
+
+
             $('html, body').animate({
                 scrollTop: $('.items').offset().top
             }, 800);
@@ -143,11 +145,14 @@ class Scrollup extends React.Component {
 
         let goods_body = this.props.goods_body ? this.props.goods_body : '<div class="none-data"></div>'
         return (
-            <LazyLoad height={0}>
+
+            // <LazyLoad >
             <div id='productBody' style={{'display':this.state.isPushUp,'height':this.state.height+'px'}} onTouchStart={this.startMove.bind(this)} onTouchMove={this.movIng.bind(this)}  onTouchEnd={this.endMove.bind(this)}>
         <div className="items" dangerouslySetInnerHTML={{__html:goods_body}} />
             </div>
-           </LazyLoad>
+
+            // </LazyLoad>
+
 
         )
     }

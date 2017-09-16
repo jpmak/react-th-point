@@ -1,9 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import {
-    Motion,
-    spring
-} from 'react-motion';
+
 import Loading from './public/Loading';
 import {
     Link

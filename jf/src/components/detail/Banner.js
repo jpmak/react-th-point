@@ -6,10 +6,12 @@ import Slider from 'react-slick';
 class Banner extends React.Component {
     constructor(props) {
         super(props)
+
         this.state = {
-                slides: this.props.imgsrc
-            }
-            // this.click = this.click.bind(this)
+            slides: this.props.imgsrc
+        }
+
+        // this.click = this.click.bind(this)
     }
     componentDidUpdate() {
 

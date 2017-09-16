@@ -31,8 +31,11 @@ class DetBody extends React.Component {
 
         };
         this.detailMsg = '';
-        this.touchRange = 0; // 触控距离;
-        this.moving = 0;
+        this.touchRangeY = 0; // 触控距离;
+        this.movingY = 0;
+        this.touchRangeBannerX = 0; // 触控距离;
+        this.movIngbannerX = 0;
+
     }
     stopPropagation(e) {
         e.stopPropagation();
@@ -52,7 +55,6 @@ class DetBody extends React.Component {
                     this.setState({
                         prop_name: (json.prop_name) ? json.prop_name : '',
                         // saleProp: (json.saleProp) ? json.saleProp : [],
-
                         saleProp: json.saleProp,
                         itemUrl: (json.itemUrl) ? json.itemUrl : '',
                         item_price: json.goods.item_price,
@@ -92,15 +94,11 @@ class DetBody extends React.Component {
                 imgsrc: this.detailMsg.productImg
             });
         }
-        console.log(this.detailMsg.productImg);
-
         this.handleClick();
-
         window.scrollTo(0, 0);
 
     }
     componentDidMount() {
-        console.log(this.detailMsg);
         $("body").unbind("touchmove");
     }
 
@@ -120,35 +118,49 @@ class DetBody extends React.Component {
             iScrollUp: !this.state.iScrollUp
         })
     }
+    startMoveBannerX(e) {
+        this.touchRangeBannerX = e.touches[0].pageX;
+    }
+    movIngBannerX(e) {
+        this.movingbannerX = e.touches[0].pageX;
+    }
 
-    startMove(e) {
-        this.touchRange = e.touches[0].pageY;
+    startMoveY(e) {
+        this.touchRangeY = e.touches[0].pageY;
+        this.movingbannerX = 0;
+
 
     }
-    movIng(e) {
-        this.moving = e.touches[0].pageY
+    movIngY(e) {
+        this.movingY = e.touches[0].pageY
     }
     endMove() {
-        if (this.touchRange - this.moving > 20 && this.state.iScrollUp && this.moving !== 0) {
-            let num = this.touchRange - this.moving;
-            console.log('Range= ' + this.touchRange);
-            console.log('moving= ' + this.moving);
-            console.log(num);
-            this.iScrollUp();
+        if (Math.abs(this.touchRangeBannerX - this.movingbannerX) < 20) {
+            if (this.touchRangeY - this.movingY > 20 && this.state.iScrollUp && this.movingY !== 0) {
+                let num = this.touchRangeY - this.movingY;
+                // console.log('Range= ' + this.touchRangeY);
+                // console.log('movingY= ' + this.movingY);
+                // console.log(num);
+                this.iScrollUp();
+                this.touchRangeBannerX = 0;
+                this.refs.Scrollup.changeBlock()
+            }
+        } else {
+            this.touchRangeBannerX = 0;
 
-            this.refs.Scrollup.changeBlock()
         }
+
     }
     render() {
-        console.log(this.state.iScrollUp);
         var isDisplay = this.state.isDisplay ? 'block' : 'none';
         return (
             <div>
-            <div className="produt-show" style={{position:'relative'}} onTouchStart={this.startMove.bind(this)} onTouchMove={this.movIng.bind(this)}  onTouchEnd={this.endMove.bind(this)}>
+            <div className="produt-show" style={{position:'relative'}} onTouchStart={this.startMoveY.bind(this)} onTouchMove={this.movIngY.bind(this)}  onTouchEnd={this.endMove.bind(this)}>
      
             <div className="w">
+            <div  onTouchStart={this.startMoveBannerX.bind(this)} onTouchMove={this.movIngBannerX.bind(this)} >
         <Banner imgsrc={this.state.imgsrc}/>
-
+          </div>
             <div className="product-main">
     
             <div className="product-tit">

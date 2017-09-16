@@ -23,17 +23,12 @@ class JsCate extends React.Component {
 
         };
     };
-    componentWillUnmount() {
-        let nul = typeof(1)
-        console.log(nul);
-    }
+    // componentWillUnmount() {
+    //         let nul = typeof(1)
+    //         console.log(nul);
+    //     }
     componentDidMount() {
-        if (this.state.liWidth === null) {
-            let nav_w = $('.app-scroller li').first().width();
-            this.setState({
-                liWidth: 1
-            })
-        }
+
     }
     handleClick(index, id) {
         let scrollwrap = document.getElementById('scrollwrap').offsetHeight
@@ -86,6 +81,9 @@ class JsCate extends React.Component {
     cheack(index) {
         return index === this.state.currentIndex ? 'act' : '';
     }
+    firstWidth(w) {
+        this.props.liMove(0, 0, w)
+    }
     startMoveImg(e) {
         this.touchRange = e.touches[0].pageX;
         this.touchLeft = this.state.wrapWidth
@@ -115,12 +113,21 @@ class JsCate extends React.Component {
     detailData(goods_name, item_price, list_image) {
         this.props.detailData(goods_name, item_price, list_image)
     }
+    componentWillReceiveProps(nextProps) {
+
+        if (nextProps.loadingStatus !== this.props.loadingStatus) {
+            console.log('test');
+            let nav_w = $('.app-scroller li').first().width();
+            this.props.liMove(0, 0, nav_w)
+        }
+    }
     render() {
-        console.log(this.state.liWidth);
-        // if (!this.onClick) {
-        //     let nav_w = $('.app-scroller li').first().width();
-        //     $('.choose-items-wp p').width(nav_w);
-        // }
+        // if (this.props.loadingStatus === 1) {
+        if (!this.onClick) {
+            let nav_w = $('.app-scroller li').first().width();
+            $('.choose-items-wp p').width(nav_w);
+
+        }
         let CateLists = this.props.cateList;
         let CateList = CateLists.map(function(Cate, index) {
             return (
