@@ -8,7 +8,9 @@ import CoverMask from './CoverMask';
 import Scrollup from './Scrollup';
 import PayWay from './PayWay';
 
-
+import {
+    Link
+} from 'react-router-dom'
 
 class DetBody extends React.Component {
     constructor(props) {
@@ -20,13 +22,13 @@ class DetBody extends React.Component {
             imgsrc: [],
             item_price: '',
             name: '',
-            stock: false,
+            stock: null,
             goods_id: '',
             goods_body: '',
             item_name: '',
             isDisplay: true,
             isPushUp: 'none',
-            iScrollUp: true
+            iScrollUp: false
 
 
         };
@@ -88,21 +90,20 @@ class DetBody extends React.Component {
     componentWillMount() {
         if (window.localStorage.detailData) {
             this.detailMsg = JSON.parse(window.localStorage.detailData);
-            this.setState({
-                name: this.detailMsg.productName,
-                item_price: this.detailMsg.productPrice,
-                imgsrc: this.detailMsg.productImg
-            });
+            // this.setState({
+            //     name: this.detailMsg.productName,
+            //     item_price: this.detailMsg.productPrice,
+            //     imgsrc: this.detailMsg.productImg
+            // });
         }
-        this.handleClick();
-        window.scrollTo(0, 0);
-
     }
     componentDidMount() {
+
         $("body").unbind("touchmove");
     }
 
     componentDidUpdate() {
+
         const _this = this
         $('.way-wp li').on('click', function() {
             $(this).addClass('cur').siblings().removeClass('cur');
@@ -151,42 +152,63 @@ class DetBody extends React.Component {
         }
 
     }
+       componentWillReceiveProps(nextProps) {
+        if (nextProps.goodStatus !== this.props.goodStatus) {
+      this.setState({
+            iScrollUp: !this.state.iScrollUp,
+            stock:this.props.stock
+        })
+        }
+
+   
+    }
     render() {
-        var isDisplay = this.state.isDisplay ? 'block' : 'none';
+        console.log(this.props.stock)
+
+        let isDisplay = this.state.isDisplay ? 'block' : 'none';
+        let name=this.props.name?this.props.name:this.detailMsg.productName;
+        let item_price=this.props.item_price?this.props.item_price:this.detailMsg.productPrice;
+          // let imgsrc=this.props.imgsrc?this.props.imgsrc:this.detailMsg.productImg;
+    let imgsrc=this.props.imgsrc?this.props.imgsrc:this.detailMsg.productImg;
+    let stock=this.props.stock;
+// imgsrc={this.props.imgsrc[0]}
+      
         return (
             <div>
             <div className="produt-show" style={{position:'relative'}} onTouchStart={this.startMoveY.bind(this)} onTouchMove={this.movIngY.bind(this)}  onTouchEnd={this.endMove.bind(this)}>
      
             <div className="w">
             <div  onTouchStart={this.startMoveBannerX.bind(this)} onTouchMove={this.movIngBannerX.bind(this)} >
-        <Banner imgsrc={this.state.imgsrc}/>
+        <Banner imgsrc={imgsrc}/>
           </div>
             <div className="product-main">
-    
             <div className="product-tit">
-            <h1>{this.state.name}</h1>
+            <h1>{name}</h1>
         <div className='tip'>产品不设退换</div>
                 <div className="product-price">
-            <span className="num"><em>{this.state.item_price}</em></span><span className="unit">积分</span>
+            <span className="num"><em>{item_price}</em></span><span className="unit">积分</span>
             </div>
             </div>
 
             <div className="product-count">
-        <p className="remaining">剩余库存:<em>{this.state.stock? this.state.stock : '缺货'}</em></p>
+        <p className="remaining"><Link to={'/search/1'}>
+        剩余库存:
+        </Link>
+        <em>{this.props.stock? this.props.stock : '0'}</em></p>
             </div>
   
             </div>
             </div>
-               <FixBtn title = "立即兑换" stock={this.state.stock} iScrollUp={this.iScrollUp.bind(this)}/>
-           
+               <FixBtn title = "立即兑换" stock={stock} />
             <BottomTipFloor/>
-                  
-        <Scrollup ref='Scrollup'  goods_body={this.state.goods_body} iScrollUp={this.iScrollUp.bind(this)}/>
+        <Scrollup ref='Scrollup'  goods_body={this.props.goods_body} iScrollUp={this.iScrollUp.bind(this)}/>
             </div>
                 <PayWay/>
             <CoverMask />
+      
 
-        <ProductCover isDisplay={isDisplay}  callClick={this.handleClick} imgsrc={this.state.imgsrc[0]} item_price={this.state.item_price} stock={this.state.stock? this.state.stock : '缺货'} item_name={this.state.item_name} prop_name={this.state.prop_name} saleProp={this.state.saleProp} itemUrl={this.state.itemUrl} />
+
+        <ProductCover isDisplay={isDisplay} imgsrc={this.props.imgsrc}  callClick={this.handleClick} item_price={this.props.item_price} stock={this.props.stock? this.props.stock : '缺货'} item_name={this.props.item_name} prop_name={this.props.prop_name} saleProp={this.props.saleProp} itemUrl={this.props.itemUrl} />
             </div>
         )
 

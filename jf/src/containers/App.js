@@ -18,10 +18,12 @@ import {
 	liMove
 } from '../actions'
 import {
-
 	updateLoadingStatus,
-
 } from '../actions/search'
+
+import {
+	detailInit,
+} from '../actions/detail'
 
 // import {
 // 	bindActionCreators
@@ -71,6 +73,9 @@ class App extends React.Component {
 		this.props.dispatch(pullUpStatus(e))
 	}
 	detailData(goods_name, item_price, list_image) {
+		// this.props.dispatch(LocalDetailData(goods_name, item_price, list_image))
+		this.props.dispatch(detailInit())
+
 		window.localStorage.detailData = JSON.stringify({
 			'productName': goods_name,
 			'productPrice': item_price,

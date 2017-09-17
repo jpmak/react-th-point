@@ -339,6 +339,13 @@ class ResultWrap extends React.Component {
     priceClick(e) {
         this.props.priceClick(e);
     }
+        detailData(goods_name, item_price, list_image) {
+        window.localStorage.detailData = JSON.stringify({
+            'productName': goods_name,
+            'productPrice': item_price,
+            'productImg': [list_image]
+        })
+    }
     renderLoading() {
 
 
@@ -361,7 +368,7 @@ class ResultWrap extends React.Component {
                 return (
 
 
-                    <li key={index}><Link to={'/product/'+goods.item_id+'.html'} className='upItem' data-id={goods.item_id}><div className="info-img">{/*<LazyLoad offset={100} once>*/}<img alt="" className="lazy" src={goods.list_image}/>{/*</LazyLoad>*/}</div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link>      </li>
+                    <li key={index} onClick={this.detailData.bind(this,goods.goods_name,goods.item_price,goods.list_image)}><Link to={'/product/'+goods.item_id} className='upItem' data-id={goods.item_id}><div className="info-img">{/*<LazyLoad offset={100} once>*/}<img alt="" className="lazy" src={goods.list_image}/>{/*</LazyLoad>*/}</div><div className="info-bar"><div className="pro-title">{goods.goods_name}</div><div className="e-numb"><span className="e-price"><em>{goods.item_price}</em>积分</span></div></div></Link>      </li>
 
                 );
             })

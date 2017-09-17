@@ -8,7 +8,7 @@ class ProductCover extends React.Component {
         let salePropHeight = '40%';
         let saleProps = this.props.saleProp ? this.props.saleProp : [];
         let itemUrls = this.props.itemUrl;
-
+let imgsrc=this.props.imgsrc?this.props.imgsrc[0]:'';
         let salePropList = saleProps.map(function(saleProp, index) {
             let propLis = saleProp.props;
             let PropKeys = Object.keys(propLis);
@@ -45,7 +45,7 @@ class ProductCover extends React.Component {
         <a className="close"></a>
                 </div>
         <div className="cover-head wbox">
-        <div className="img-box "><img src={this.props.imgsrc} alt=""/></div>
+        <div className="img-box "><img src={imgsrc} alt=""/></div>
         <div className="product wbox-flex">
         <p className="num">¥<em>{this.props.item_price}</em><span>积分</span></p>
         <p className="remaining">剩余库存: <em id="stock">{this.props.stock}</em></p>

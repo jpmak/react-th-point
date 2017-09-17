@@ -33,8 +33,8 @@ const LIST_NAV_SUCCESS_reducer = (state, action) => {
 const LIST_NAV_FAIL_reducer = (state, action) => {
   return Object.assign({}, state, {
     listLoadingStatus: 3
-
   });
+    return state;
 }
 
 const LIST_GOODS_SUCCESS_reducer = (state, action) => {

@@ -12,7 +12,7 @@ import {
 } from 'react-router-dom'
 
 import App from './containers/App';
-import R_det from './containers/r_det';
+import Detail from './containers/Detail';
 import Searchhead from './containers/Searchhead';
 import List from './containers/List';
 
@@ -46,7 +46,7 @@ const Jf = () => (
 	<Router>
 	<div>
 	<Route exact path="/" component={App} />
-	 <Route path="/product/:id" component={R_det}/>
+	 <Route path="/product/:id" component={Detail}/>
 
 	  <Route path="/search/:keyword" component={Searchhead} />
 	 <Route path="/list" component={List}/>

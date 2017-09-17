@@ -4,6 +4,8 @@ import {
 import * as consts from "../consts/ActionTypes";
 import MsgListPageReducer from "./search.js";
 import MsgListReducer from "./list.js";
+import MsgDetailReducer from "./detail.js";
+
 
 
 
@@ -150,6 +152,8 @@ export const MsgAppReducer = (state = initState, action) => {
 const rootReducer = combineReducers({
   MsgAppReducer,
   MsgListPageReducer,
-  MsgListReducer
+  MsgListReducer,
+  MsgDetailReducer,
+
 })
 export default rootReducer

@@ -205,7 +205,6 @@ class GobackUp extends React.Component {
 
 const mapStateToProps = state => {
     return {
-
         listLoadingStatus: state.MsgListReducer.listLoadingStatus,
         navStatus: state.MsgListReducer.navStatus,
         navItems: state.MsgListReducer.navItems,
@@ -213,8 +212,6 @@ const mapStateToProps = state => {
         goodStatus: state.MsgListReducer.goodStatus,
         goodItems: state.MsgListReducer.goodItems,
         changeLoading: state.MsgListReducer.changeLoading
-
-
     }
 }
 
